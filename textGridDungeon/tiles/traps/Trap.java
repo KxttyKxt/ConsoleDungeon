@@ -1,17 +1,15 @@
-package textGridDungeon.traps;
+package textGridDungeon.tiles.traps;
 
 import textGridDungeon.GameObject;
+import textGridDungeon.tiles.Tile;
 
-public abstract class Trap extends GameObject {
-    protected boolean discovered;
+public abstract class Trap extends Tile {
 
     public Trap() {
-        super("Undefined Trap", "This trap is undefined.", 'X');
-        discovered = true;
+        super("Undefined Trap", "This trap is undefined.", 'X', true);
     }
     public Trap(String name, String description, char symbol, boolean discovered) {
-        super(name, description, symbol);
-        this.discovered = discovered;
+        super(name, description, symbol, discovered);
     }
 
     public boolean isDiscovered() {

@@ -38,11 +38,18 @@ public class Map {
     }
 
     public void printMap() {
-        for (Coordinate[] x : coordinates) {
-            for (Coordinate y : x) {
-                System.out.print(" " + y.getSymbol() + " ");
-            }
-            System.out.println();
+        String horizontalBorder = "==";
+        for (Coordinate checker : coordinates[0]) {
+            horizontalBorder += "=====";
         }
+        System.out.println(horizontalBorder);
+        for (Coordinate[] x : coordinates) {
+            System.out.print("|");
+            for (Coordinate y : x) {
+                System.out.print("  " + y.getSymbol() + "  ");
+            }
+            System.out.println("|");
+        }
+        System.out.println(horizontalBorder + "\n");
     }
 }
