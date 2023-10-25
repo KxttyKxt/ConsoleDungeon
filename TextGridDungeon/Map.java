@@ -1,10 +1,12 @@
+package TextGridDungeon;
+
 public class Map {
 
     private Coordinate[][] coordinates; // a 2D array of coordinates according to the length and width
 
     /**
      * The default constructor for the map class, which creates a map (or "floor") of the dungeon.
-     * @return a Map Object with a range and domain of 5
+     * @return a TextGridDungeon.Map Object with a range and domain of 5
      */
     public Map() {
         coordinates = new Coordinate[5][5];
@@ -16,7 +18,7 @@ public class Map {
      * 
      * @param domain the length of the coordinates plane along the x-axis
      * @param range the length of the coordinates plane along the y-axis
-     * @return a Map Object with the specified range and domain
+     * @return a TextGridDungeon.Map Object with the specified range and domain
      */
     public Map(int domain, int range) {
         coordinates = new Coordinate[range][domain];
