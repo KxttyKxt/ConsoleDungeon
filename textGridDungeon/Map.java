@@ -4,6 +4,7 @@ import textGridDungeon.entities.entities.Player;
 import textGridDungeon.tiles.StairsDown;
 import textGridDungeon.tiles.StairsUp;
 
+import javax.swing.*;
 import java.util.Random;
 
 public class Map {
@@ -64,19 +65,21 @@ public class Map {
     }
 
     public void printMap() {
-        StringBuilder horizontalBorder = new StringBuilder("==");
-        for (Coordinate checker : coordinates[0]) {
-            horizontalBorder.append("=====");
-        }
-        System.out.println(horizontalBorder);
+        StringBuilder mapPrint = new StringBuilder();
+        mapPrint.append("=".repeat(coordinates[0].length * 5 + 2));
+
+        mapPrint.append(String.format("%n"));
+
         for (Coordinate[] x : coordinates) {
-            System.out.print("|");
+            mapPrint.append("|");
             for (Coordinate y : x) {
                 y.updateSymbol();
-                System.out.print("  " + y.getSymbol() + "  ");
+                mapPrint.append("  ").append(y.getSymbol()).append("  ");
             }
-            System.out.println("|");
+            mapPrint.append(String.format("|%n"));
         }
-        System.out.println(horizontalBorder + "\n");
+
+        mapPrint.append("=".repeat(coordinates[0].length * 5 + 2));
+        System.out.println(mapPrint);
     }
 }
