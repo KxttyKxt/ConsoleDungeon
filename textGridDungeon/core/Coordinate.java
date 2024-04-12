@@ -1,4 +1,4 @@
-package textGridDungeon;
+package textGridDungeon.core;
 
 import textGridDungeon.entities.entities.Entity;
 import textGridDungeon.items.Item;

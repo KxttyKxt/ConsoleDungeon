@@ -1,6 +1,6 @@
 package textGridDungeon.tiles;
 
-import textGridDungeon.GameObject;
+import textGridDungeon.core.GameObject;
 
 public abstract class Tile extends GameObject {
     protected boolean discovered;

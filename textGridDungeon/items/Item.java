@@ -1,5 +1,5 @@
 package textGridDungeon.items;
-import textGridDungeon.GameObject;
+import textGridDungeon.core.GameObject;
 
 public abstract class Item extends GameObject {
     protected boolean canStack;

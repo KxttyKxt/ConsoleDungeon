@@ -1,10 +1,9 @@
-package textGridDungeon;
+package textGridDungeon.core;
 
 import textGridDungeon.entities.entities.Player;
 import textGridDungeon.tiles.StairsDown;
 import textGridDungeon.tiles.StairsUp;
 
-import javax.swing.*;
 import java.util.Random;
 
 public class Map {

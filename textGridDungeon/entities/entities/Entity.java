@@ -1,10 +1,12 @@
 package textGridDungeon.entities.entities;
-import textGridDungeon.GameObject;
+import textGridDungeon.core.GameObject;
 
 public abstract class Entity extends GameObject{
     protected int health;
     protected int damage;
     protected int armor;
+
+    protected int isAlive;
 
     public Entity() {
         super("Undefined Entity", "This entity is undefined.", '?');

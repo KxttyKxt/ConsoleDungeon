@@ -1,6 +1,5 @@
 package textGridDungeon.tiles.traps;
 
-import textGridDungeon.GameObject;
 import textGridDungeon.tiles.Tile;
 
 public abstract class Trap extends Tile {

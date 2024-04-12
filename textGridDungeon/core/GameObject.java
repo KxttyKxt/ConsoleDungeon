@@ -1,4 +1,4 @@
-package textGridDungeon;
+package textGridDungeon.core;
 
 public abstract class GameObject {
     protected String name;
