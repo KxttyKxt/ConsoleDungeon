@@ -12,13 +12,5 @@ public abstract class Trap extends Tile {
         super(name, description, symbol, discovered);
     }
 
-    public boolean isDiscovered() {
-        return discovered;
-    }
-
-    public void setDiscovered(boolean discovered) {
-        this.discovered = discovered;
-    }
-
     public abstract void triggerTrap();
 }

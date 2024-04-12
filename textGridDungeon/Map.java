@@ -1,24 +1,29 @@
 package textGridDungeon;
 
+import textGridDungeon.entities.entities.Player;
+import textGridDungeon.tiles.StairsDown;
+import textGridDungeon.tiles.StairsUp;
+
+import java.util.Random;
+
 public class Map {
 
     private Coordinate[][] coordinates; // a 2D array of coordinates according to the length and width
 
     /**
      * The default constructor for the map class, which creates a map (or "floor") of the dungeon.
-     * @return a TextGridDungeon.Map Object with a range and domain of 5
      */
     public Map() {
         coordinates = new Coordinate[5][5];
         initMap();
     }
-    
+
     /**
      * The dynamic constructor for the map class, which creates a map (or "floor") of the dungeon.
-     * 
+     *
      * @param domain the length of the coordinates plane along the x-axis
      * @param range the length of the coordinates plane along the y-axis
-     * @return a TextGridDungeon.Map Object with the specified range and domain
+     *
      */
     public Map(int domain, int range) {
         coordinates = new Coordinate[range][domain];
@@ -26,26 +31,48 @@ public class Map {
     }
 
     /**
-     * Initializes the 2D array of coordinates of a given object.
+     * Initializes the 2D array of coordinates and adds the necessary Tiles.
      * Used only in the constructor.
      */
     private void initMap() {
-        for (int x = 0; x < coordinates.length; x++) {
-            for (int y = 0; y < coordinates[x].length; y++) {
-                coordinates[x][y] = new Coordinate();
+        for (int i = 0; i < coordinates.length; i++) {
+            for (int j = 0; j < coordinates[i].length; j++) {
+                coordinates[i][j] = new Coordinate();
+            }
+        }
+
+        // -=-=- Things here are something every floor needs. -=-=-
+        Random tileRNG = new Random();
+        int row = tileRNG.nextInt(coordinates.length);
+        int column = tileRNG.nextInt(coordinates[0].length);
+
+        // Creates Stairs up to the previous floor and places the player on it.
+        Coordinate entryPoint = coordinates[row][column];
+        entryPoint.setTile(new StairsUp());
+        entryPoint.setEntity(new Player());
+
+        // Continuously try to put StairsDown not on the tile of the StairsUp
+        while(true) {
+            row = tileRNG.nextInt(coordinates.length);
+            column = tileRNG.nextInt(coordinates[0].length);
+
+            if (!coordinates[row][column].equals(entryPoint)) {
+                coordinates[row][column].setTile(new StairsDown());
+                break;
             }
         }
     }
 
     public void printMap() {
-        String horizontalBorder = "==";
+        StringBuilder horizontalBorder = new StringBuilder("==");
         for (Coordinate checker : coordinates[0]) {
-            horizontalBorder += "=====";
+            horizontalBorder.append("=====");
         }
         System.out.println(horizontalBorder);
         for (Coordinate[] x : coordinates) {
             System.out.print("|");
             for (Coordinate y : x) {
+                y.updateSymbol();
                 System.out.print("  " + y.getSymbol() + "  ");
             }
             System.out.println("|");

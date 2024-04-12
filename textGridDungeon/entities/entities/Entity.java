@@ -1,4 +1,4 @@
-package textGridDungeon.entities;
+package textGridDungeon.entities.entities;
 import textGridDungeon.GameObject;
 
 public abstract class Entity extends GameObject{
