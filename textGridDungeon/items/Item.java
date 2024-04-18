@@ -16,4 +16,6 @@ public abstract class Item extends GameObject {
         this.canStack = canStack;
         this.amount = amount;
     }
+
+
 }

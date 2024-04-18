@@ -1,5 +1,7 @@
 package textGridDungeon.core;
 
+import java.util.Objects;
+
 public abstract class GameObject {
     protected String name;
     protected String description;
@@ -38,5 +40,18 @@ public abstract class GameObject {
 
     public void setSymbol(char symbol) {
         this.symbol = symbol;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        GameObject that = (GameObject) object;
+        return symbol == that.symbol && Objects.equals(name, that.name) && Objects.equals(description, that.description);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, description, symbol);
     }
 }

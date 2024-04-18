@@ -1,4 +1,4 @@
 package textGridDungeon.entities.interfaces;
 
-public interface Scared {
+public interface Neutral {
 }

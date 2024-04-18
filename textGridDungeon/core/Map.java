@@ -1,9 +1,13 @@
 package textGridDungeon.core;
 
+import textGridDungeon.entities.entities.Entity;
 import textGridDungeon.entities.entities.Player;
+import textGridDungeon.items.Item;
 import textGridDungeon.tiles.StairsDown;
 import textGridDungeon.tiles.StairsUp;
+import textGridDungeon.tiles.Tile;
 
+import java.util.List;
 import java.util.Random;
 
 public class Map {
@@ -80,5 +84,93 @@ public class Map {
 
         mapPrint.append("=".repeat(coordinates[0].length * 5 + 2));
         System.out.println(mapPrint);
+    }
+
+    public Coordinate[][] getCoordinates() {
+        return coordinates;
+    }
+
+    public boolean insert(int row, int column, Item item) {
+        coordinates[row][column].addItem(item);
+        return true;
+    }
+    public boolean insert(int row, int column, Entity entity) {
+        if (coordinates[row][column].getEntity() == null)
+            return false;
+
+        coordinates[row][column].setEntity(entity);
+        return true;
+    }
+    public boolean moveEntity(int startRow, int startColumn, int endRow, int endColumn) {
+        Coordinate start;
+        Coordinate end;
+        Entity entityToMove;
+        try {
+            start = coordinates[startRow][startColumn];
+            end = coordinates[endRow][endColumn];
+            entityToMove = start.getEntity();
+
+            if (entityToMove == null || end.getEntity() != null)
+                return false;
+
+            start.setEntity(null);
+            end.setEntity(entityToMove);
+            start.updateSymbol();
+            end.updateSymbol();
+            return true;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * Searches linearly through the map for an Entity.
+     * @param entity The Entity being searched for, which may or may not exist
+     * @return the 2D {@code array[i][j]} index for the Entity, or {@code null} if not found.
+     */
+    public int[] find(Entity entity) {
+        for (int i = 0; i < coordinates.length; i++) {
+            for (int j = 0; j < coordinates[i].length; j++) {
+                if (entity.equals(coordinates[i][j].getEntity()))
+                    return new int[]{i, j};
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Searches linearly through the map for a specified Item.
+     * @param item The Item being searched for, which may or may not exist.
+     * @return the 2D {@code array[i][j]} index for the Item, as well as its index {@code k} in the Stack/List, or {@code null} if not found
+     */
+    public int[] find(Item item) {
+        for (int i = 0; i < coordinates.length; i++) {
+            for (int j = 0; j < coordinates[i].length; j++) {
+                List<Item> items = coordinates[i][j].getItems();
+                if (!items.isEmpty()) {
+                    for (int k = 0; k < coordinates[i][j].getItems().size(); k++) {
+                        if (item.equals(items.get(k)))
+                            return new int[]{i, j, k};
+                    }
+                }
+            }
+        }
+        return null;
+    }
+    /**
+     * Searches linearly through the map for a Tile.
+     * @param tile The Tile being searched for, which may or may not exist
+     * @return the 2D {@code array[i][j]} index for the Tile, or {@code null} if not found.
+     */
+    public int[] find(Tile tile) {
+        for (int i = 0; i < coordinates.length; i++) {
+            for (int j = 0; j < coordinates[i].length; j++) {
+                if (coordinates[i][j].getTile().equals(tile))
+                    return new int[]{i, j};
+            }
+        }
+        return null;
     }
 }

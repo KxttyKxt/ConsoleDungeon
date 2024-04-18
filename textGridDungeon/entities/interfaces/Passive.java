@@ -1,4 +1,4 @@
 package textGridDungeon.entities.interfaces;
 
-public interface Controlled {
+public interface Passive {
 }

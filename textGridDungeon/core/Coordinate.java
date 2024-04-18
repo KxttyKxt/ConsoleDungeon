@@ -20,7 +20,6 @@ public class Coordinate {
         updateSymbol();
     }
 
-
     public void updateSymbol() {
         // Entity overrides items
         if (entity != null)
@@ -54,6 +53,15 @@ public class Coordinate {
     }
     public void setItems(Stack<Item> items) {
         this.items = items;
+    }
+    public void addItem(Item item) {
+        items.push(item);
+    }
+    public void removeItem(Item item) {
+        items.remove(item);
+    }
+    public void removeItem(int index) {
+        items.remove(index);
     }
 
     public Tile getTile() {
