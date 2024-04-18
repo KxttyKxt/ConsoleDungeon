@@ -46,24 +46,45 @@ public class Map {
         }
 
         // -=-=- Things here are something every floor needs. -=-=-
+
+        // Creates Stairs up to the previous floor and places the player on it.
         Random tileRNG = new Random();
         int row = tileRNG.nextInt(coordinates.length);
         int column = tileRNG.nextInt(coordinates[0].length);
 
-        // Creates Stairs up to the previous floor and places the player on it.
         Coordinate entryPoint = coordinates[row][column];
+        int stairsUpRow = row;
+        int stairsUpCol = column;
         entryPoint.setTile(new StairsUp());
-        entryPoint.setEntity(new Player());
 
-        // Continuously try to put StairsDown not on the tile of the StairsUp
+        System.out.printf("Stairs Up created at %d, %d%n", row, column);
+
+        // Continuously try to put StairsDown far away from StairsUp
+        int attempt = 1;
         while(true) {
-            row = tileRNG.nextInt(coordinates.length);
-            column = tileRNG.nextInt(coordinates[0].length);
+            if (attempt <= 10) {
+                row = tileRNG.nextInt(coordinates.length);
+                column = tileRNG.nextInt(coordinates[0].length);
 
-            if (!coordinates[row][column].equals(entryPoint)) {
-                coordinates[row][column].setTile(new StairsDown());
-                break;
+                double distance = calculateDistance(stairsUpRow, stairsUpCol, row, column);
+                double minDistance = (((double) coordinates.length / 2) + ((double) coordinates[0].length / 2)) / 1.5;
+
+                if (distance > minDistance) {
+                    coordinates[row][column].setTile(new StairsDown());
+                    System.out.printf("Stairs Down Created with suitable distance %.3f, minimum %.3f%n", distance, minDistance);
+                    break;
+                }
+                System.out.printf("(%d,%d) was too close to stairs up at (%d,%d), actual distance %.3f, minimum distance%.3f.%n",
+                        row, column, stairsUpRow, stairsUpCol, distance, minDistance);
             }
+            else {
+                if (!coordinates[row][column].equals(entryPoint)) {
+                    coordinates[row][column].setTile(new StairsDown());
+                    System.out.println("Stairs down created after giving up.");
+                    break;
+                }
+            }
+            attempt++;
         }
     }
 
@@ -120,7 +141,7 @@ public class Map {
             return true;
 
         } catch (Exception e) {
-            e.printStackTrace();
+            System.err.println("Entity cannot move there.");
             return false;
         }
     }
@@ -172,5 +193,12 @@ public class Map {
             }
         }
         return null;
+    }
+
+    public double calculateDistance(int startRow, int startCol, int endRow, int endCol) {
+        double a, b, c;
+        a = Math.abs(endRow - startRow);
+        b = Math.abs(endCol - startCol);
+        return Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
     }
 }
