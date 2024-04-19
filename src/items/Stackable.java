@@ -1,6 +1,6 @@
 package src.items;
 
-public class Stackable extends Item{
+public abstract class Stackable extends Item{
     protected int amount;
     protected final int MAX_SIZE;
 
