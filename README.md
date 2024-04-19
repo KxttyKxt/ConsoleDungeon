@@ -12,3 +12,16 @@ It's a side project I'm making for fun.
 
 Note to self: the command to check how many lines of code there are with Git Bash is:
 `git ls-files | grep '\.java' | xargs wc -l`
+
+---
+
+## Known Problems:
+### In IntelliJ:
+
+- 
+- 
+
+### In .jar Artifact
+
+- Stairs Symbols appear as `?`
+- inv command throws `IOException` for `FileWriter` not finding the `inventory.txt` file.
