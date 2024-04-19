@@ -1,4 +1,4 @@
-package textGridDungeon.core;
+package src.core;
 
 import java.util.Objects;
 

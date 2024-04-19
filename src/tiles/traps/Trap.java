@@ -1,6 +1,6 @@
-package textGridDungeon.tiles.traps;
+package src.tiles.traps;
 
-import textGridDungeon.tiles.Tile;
+import src.tiles.Tile;
 
 public abstract class Trap extends Tile {
 

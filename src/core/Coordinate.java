@@ -1,9 +1,9 @@
-package textGridDungeon.core;
+package src.core;
 
-import textGridDungeon.entities.entities.Entity;
-import textGridDungeon.items.Item;
-import textGridDungeon.tiles.Floor;
-import textGridDungeon.tiles.Tile;
+import src.entities.entities.Entity;
+import src.items.Item;
+import src.tiles.Floor;
+import src.tiles.Tile;
 
 import java.util.Stack;
 

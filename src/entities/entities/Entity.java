@@ -1,5 +1,5 @@
-package textGridDungeon.entities.entities;
-import textGridDungeon.core.GameObject;
+package src.entities.entities;
+import src.core.GameObject;
 
 import java.util.Objects;
 

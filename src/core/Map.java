@@ -1,11 +1,11 @@
-package textGridDungeon.core;
+package src.core;
 
-import textGridDungeon.entities.entities.Entity;
-import textGridDungeon.entities.entities.Player;
-import textGridDungeon.items.Item;
-import textGridDungeon.tiles.StairsDown;
-import textGridDungeon.tiles.StairsUp;
-import textGridDungeon.tiles.Tile;
+import src.entities.entities.Entity;
+import src.items.Item;
+import src.tiles.StairsDown;
+import src.tiles.StairsUp;
+import src.tiles.Tile;
+import src.util.*;
 
 import java.util.List;
 import java.util.Random;
@@ -57,42 +57,30 @@ public class Map {
         int stairsUpCol = column;
         entryPoint.setTile(new StairsUp());
 
-        System.out.printf("Stairs Up created at %d, %d%n", row, column);
+        Verbose.verboseLog(String.format("Stairs Up created at %d, %d", row, column));
 
         // Continuously try to put StairsDown far away from StairsUp
-        int attempt = 1;
+        int attempt = 0;
         while(true) {
-            if (attempt <= 10) {
-                row = tileRNG.nextInt(coordinates.length);
-                column = tileRNG.nextInt(coordinates[0].length);
+            row = tileRNG.nextInt(coordinates.length);
+            column = tileRNG.nextInt(coordinates[0].length);
 
-                double distance = calculateDistance(stairsUpRow, stairsUpCol, row, column);
-                double minDistance = (((double) coordinates.length / 2) + ((double) coordinates[0].length / 2)) / 1.5;
+            double distance = Math.hypot(stairsUpRow-row, stairsUpCol-column);
+            double minDistance = ((coordinates.length / 3.0) + (coordinates[0].length / 3.0) * (1 - (attempt*0.05)));
 
-                if (distance > minDistance) {
-                    coordinates[row][column].setTile(new StairsDown());
-                    System.out.printf("Stairs Down Created with suitable distance %.3f, minimum %.3f%n", distance, minDistance);
-                    break;
-                }
-                System.out.printf("(%d,%d) was too close to stairs up at (%d,%d), actual distance %.3f, minimum distance%.3f.%n",
-                        row, column, stairsUpRow, stairsUpCol, distance, minDistance);
+            if (distance > minDistance) {
+                coordinates[row][column].setTile(new StairsDown());
+                Verbose.verboseLog(String.format("Stairs Down Created with suitable distance %.3f, minimum %.3f", distance, minDistance));
+                break;
             }
-            else {
-                if (!coordinates[row][column].equals(entryPoint)) {
-                    coordinates[row][column].setTile(new StairsDown());
-                    System.out.println("Stairs down created after giving up.");
-                    break;
-                }
-            }
-            attempt++;
+            Verbose.verboseLog(String.format("attempt %d: (%d,%d) was too close to stairs up at (%d,%d), actual distance %.3f, minimum distance %.3f.",
+                    ++attempt, row, column, stairsUpRow, stairsUpCol, distance, minDistance));
         }
     }
 
     public void printMap() {
         StringBuilder mapPrint = new StringBuilder();
-        mapPrint.append("=".repeat(coordinates[0].length * 5 + 2));
-
-        mapPrint.append(String.format("%n"));
+        mapPrint.append("=".repeat(coordinates[0].length * 5 + 2)).append(String.format("%n"));
 
         for (Coordinate[] x : coordinates) {
             mapPrint.append("|");
@@ -141,7 +129,7 @@ public class Map {
             return true;
 
         } catch (Exception e) {
-            System.err.println("Entity cannot move there.");
+            Verbose.verboseLog("Entity cannot move there.", true);
             return false;
         }
     }
@@ -180,6 +168,7 @@ public class Map {
         }
         return null;
     }
+
     /**
      * Searches linearly through the map for a Tile.
      * @param tile The Tile being searched for, which may or may not exist
@@ -193,12 +182,5 @@ public class Map {
             }
         }
         return null;
-    }
-
-    public double calculateDistance(int startRow, int startCol, int endRow, int endCol) {
-        double a, b, c;
-        a = Math.abs(endRow - startRow);
-        b = Math.abs(endCol - startCol);
-        return Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
     }
 }

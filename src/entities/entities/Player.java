@@ -1,6 +1,6 @@
-package textGridDungeon.entities.entities;
+package src.entities.entities;
 
-import textGridDungeon.entities.interfaces.Neutral;
+import src.entities.interfaces.Neutral;
 
 public class Player extends Entity implements Neutral {
     public Player() {

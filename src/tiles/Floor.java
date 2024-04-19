@@ -1,4 +1,4 @@
-package textGridDungeon.tiles;
+package src.tiles;
 
 public class Floor extends Tile{
     public Floor() {
