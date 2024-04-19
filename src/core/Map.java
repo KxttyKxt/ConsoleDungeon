@@ -25,8 +25,8 @@ public class Map {
     /**
      * The dynamic constructor for the map class, which creates a map (or "floor") of the dungeon.
      *
-     * @param domain the length of the coordinates plane along the x-axis
-     * @param range the length of the coordinates plane along the y-axis
+     * @param domain the length of the coordinate plane along the x-axis
+     * @param range the length of the coordinate plane along the y-axis
      *
      */
     public Map(int domain, int range) {

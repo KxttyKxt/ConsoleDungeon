@@ -52,9 +52,7 @@ public class Manager {
      */
     private static boolean controlPanel() {
 
-        String input = "";
-
-        input = consoleScanner.nextLine().toLowerCase(Locale.ROOT);
+        String input = consoleScanner.nextLine().toLowerCase(Locale.ROOT);
 
         // -=-=- hard control commands -=-=- (i.e., those with no parsing beyond a single word)
         switch (input) {
@@ -68,7 +66,7 @@ public class Manager {
                 System.exit(0);
                 break;
             }
-            // if inv, open inventory dialog
+            // if inv, open the inventory dialog
             case("inv"): {
                 displayInventory();
                 break;
@@ -149,9 +147,9 @@ public class Manager {
     private static StringBuilder turnPrompt() {
         // This is easier for me to tell what's going on without concatenating strings
         StringBuilder controlsPrompt = new StringBuilder();
-        controlsPrompt.append(String.format(">  1 2 3  |  Use Numpad to Move. Moving ends your turn.%n"));
+        controlsPrompt.append(String.format(">  7 8 9  |  Use Numpad to Move. Moving ends your turn.%n"));
         controlsPrompt.append(String.format(">  4 5 6  |  Enter \"help\" for more options.%n"));
-        controlsPrompt.append(String.format(">  7 8 9  |  Enter \"q\" to quit.%n"));
+        controlsPrompt.append(String.format(">  1 2 3  |  Enter \"q\" to quit.%n"));
 
         return controlsPrompt;
     }
@@ -171,11 +169,11 @@ public class Manager {
 //            displayInventory();
 
         // -=-=- JDialog -=-=-  hopefully this works right, something about JOptionPane being modal
-        // I am not about to learn AWT for this shit
+        // I am not about to learn AWT for this aaaa
 
         // Desktop version
         try {
-            File inventoryFile = new File("src/core/texteOutputs/inventory.txt");
+            File inventoryFile = new File("src/core/textOutputs/inventory.txt");
             FileWriter fileWriter = new FileWriter(inventoryFile);
             fileWriter.write(String.format("%s%n", inventory.toString()));
             fileWriter.write(String.format("%n%n[Close this window when you're done. Modifying it does nothing.]"));
