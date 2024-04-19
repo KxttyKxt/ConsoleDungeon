@@ -24,6 +24,21 @@ public class Manager {
     private static Inventory inventory = new Inventory();
     private static int turns = 0;
 
+    public static void runGame() {
+        newMap(12, 8, true);
+        while (true) {
+            activeFloor.printMap();
+            System.out.println("> Turns: " + turns);
+            System.out.print(turnPrompt());
+
+            // CHAT I FINALLY FOUND A USE FOR DO-WHILE!!!
+            do {
+                System.out.print(">> ");
+            } while (!controlPanel());
+            turns++;
+        }
+    }
+
     /**
      * The main controller of game interactions. Parses player input commands and handles executing other methods.
      * @return true when a turn is taken and false when a turn is not taken
@@ -76,7 +91,6 @@ public class Manager {
             else
                 System.out.printf("> Here is a list of commands you can use:%n> (move), inv, %n> Type \"help <command>\" for more info.%n");
         }
-        System.out.print(">> ");
         return true;
     }
 
@@ -138,20 +152,8 @@ public class Manager {
         controlsPrompt.append(String.format(">  1 2 3  |  Use Numpad to Move. Moving ends your turn.%n"));
         controlsPrompt.append(String.format(">  4 5 6  |  Enter \"help\" for more options.%n"));
         controlsPrompt.append(String.format(">  7 8 9  |  Enter \"q\" to quit.%n"));
-        controlsPrompt.append(">> ");
 
         return controlsPrompt;
-    }
-
-    public static void runGame() {
-        newMap(12, 8, true);
-        while (true) {
-            activeFloor.printMap();
-            System.out.println("> Turns: " + turns);
-            System.out.print(turnPrompt());
-            while (!controlPanel()) {}
-            turns++;
-        }
     }
 
     private static void displayInventory() {

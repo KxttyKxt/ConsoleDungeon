@@ -12,6 +12,7 @@ public class Encyclopedia {
                 helpDetails.append(String.format("> usage: >> # (1-9) (e.g., 7)%n"));
                 helpDetails.append(String.format("> Imagine 5 on your Numpad as the center. A key away from 5 moves you in that direction.%n"));
                 helpDetails.append(String.format("> For example, entering 7 moves you northwest (if possible).%n"));
+                helpDetails.append(String.format("> If you try to move to a non-traversable tile, you will be able to move elsewhere without losing a turn.%n"));
             }
             case "inv" -> {
                 helpDetails.append(String.format("> -=-=- inv -=-=-%n"));
