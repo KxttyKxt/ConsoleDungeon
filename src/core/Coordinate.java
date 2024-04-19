@@ -4,6 +4,7 @@ import src.entities.entities.Entity;
 import src.items.Item;
 import src.tiles.Floor;
 import src.tiles.Tile;
+import src.tiles.traps.Trap;
 
 import java.util.Stack;
 
@@ -18,6 +19,15 @@ public class Coordinate {
         items = new Stack<>();
         tile = new Floor();
         updateSymbol();
+    }
+
+    public void updateCoordinate() {
+        // If the tile has an entity and the tile type is a trap
+        if (entity != null && tile instanceof Trap) {
+            // Trigger the trap
+            ((Trap) tile).triggerTrap(entity);
+        }
+
     }
 
     public void updateSymbol() {

@@ -7,4 +7,7 @@ public class Floor extends Tile{
                 '.',
                 true);
     }
+
+    @Override
+    public void updateTile() {}
 }

@@ -24,6 +24,38 @@ public abstract class Entity extends GameObject{
         this.armor = armor;
     }
 
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public int getDamage() {
+        return damage;
+    }
+
+    public void setDamage(int damage) {
+        this.damage = damage;
+    }
+
+    public int getArmor() {
+        return armor;
+    }
+
+    public void setArmor(int armor) {
+        this.armor = armor;
+    }
+
+    public int getIsAlive() {
+        return isAlive;
+    }
+
+    public void setIsAlive(int isAlive) {
+        this.isAlive = isAlive;
+    }
+
     @Override
     public boolean equals(Object object) {
         if (this == object) return true;
