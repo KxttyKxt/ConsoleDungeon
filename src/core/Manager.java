@@ -1,7 +1,9 @@
 package src.core;
 
+import src.entities.Entity;
 import src.entities.entities.Player;
 import src.tiles.StairsUp;
+import src.util.Encyclopedia;
 import src.util.Verbose;
 
 import java.awt.*;
@@ -22,54 +24,53 @@ public class Manager {
     private static Inventory inventory = new Inventory();
     private static int turns = 0;
 
+    /**
+     * The main controller of game interactions. Parses player input commands and handles executing other methods.
+     * @return true when a turn is taken and false when a turn is not taken
+     * <p>
+     * For example, controlPanel() will return true when the player moves successfully,
+     * but if the player moves unsuccessfully, then controlPanel() returns false,
+     * and the player can attempt to move again.
+     * @see Entity
+     * @see Player
+     * @see Verbose
+     */
     private static boolean controlPanel() {
 
         String input = "";
 
         input = consoleScanner.nextLine().toLowerCase(Locale.ROOT);
 
-        // hard control commands (i.e., those with no parsing beyond a single word)
+        // -=-=- hard control commands -=-=- (i.e., those with no parsing beyond a single word)
         switch (input) {
-            // case "q" -> (nothing)
             // if it's a movement number
             case("1"): case("2"): case("3"): case("4"): case("5"): case("6"): case("7"): case("8"): case("9"): {
-                movePlayer(Integer.parseInt(input));
-                return false;
+                return movePlayer(Integer.parseInt(input));
             }
+            // if q, quit
             case("q"): {
                 System.out.printf("Exiting game. You took %d turns.", turns);
                 System.exit(0);
+                break;
             }
+            // if inv, open inventory dialog
             case("inv"): {
                 displayInventory();
+                break;
+            }
+            // verbose, toggle verbose logging
+            case("verbose"): {
+                Verbose.toggleVerbose();
+                System.out.println("> Verbose logging is now " + Verbose.isVerbose() + ".");
             }
         }
 
-        // soft controls
+        // -=-=- soft controls -=-=-
+        // help command
         if (input.startsWith("help")) {
             if (input.length() > 5) {
                 Verbose.verboseLog(String.format("about to parse an extended help command. help is %d in length and starts at %d. Substring begins after %d.", input.length(), input.indexOf("help"), input.indexOf("help") + 5));
-                String helpType = input.substring(input.indexOf("help") + 5);
-                StringBuilder helpDetails = new StringBuilder();
-
-                switch (helpType) {
-                    case "move" -> {
-                        helpDetails.append(String.format("> -=-=- move -=-=-%n"));
-                        helpDetails.append(String.format("> takes turn: yes%n"));
-                        helpDetails.append(String.format("> usage: >> # (1-9) (e.g., 7)%n"));
-                        helpDetails.append(String.format("> Imagine 5 on your Numpad as the center. A key away from 5 moves you in that direction.%n"));
-                        helpDetails.append(String.format("> For example, entering 7 moves you northwest (if possible).%n"));
-                    }
-                    case "inv" -> {
-                        helpDetails.append(String.format("> -=-=- inv -=-=-%n"));
-                        helpDetails.append(String.format("> takes turn: no%n"));
-                        helpDetails.append(String.format("> usage: >> inv%n"));
-                        helpDetails.append(String.format("> Writes your inventory contents to a file at folder src/core/textOutputs.%n"));
-                        helpDetails.append(String.format("> If supported, it will also open the file in your default text editor.%n"));
-                    }
-                    default ->
-                        helpDetails.append("argument command for \"help <command>\" not recognized.");
-                }
+                StringBuilder helpDetails = Encyclopedia.getHelpType(input);
                 System.out.print(helpDetails);
             }
             else
@@ -146,8 +147,9 @@ public class Manager {
         newMap(12, 8, true);
         while (true) {
             activeFloor.printMap();
+            System.out.println("> Turns: " + turns);
             System.out.print(turnPrompt());
-            while (controlPanel()) {}
+            while (!controlPanel()) {}
             turns++;
         }
     }
@@ -171,7 +173,7 @@ public class Manager {
 
         // Desktop version
         try {
-            File inventoryFile = new File("src/core/textOutputs/inventory.txt");
+            File inventoryFile = new File("src/core/texteOutputs/inventory.txt");
             FileWriter fileWriter = new FileWriter(inventoryFile);
             fileWriter.write(String.format("%s%n", inventory.toString()));
             fileWriter.write(String.format("%n%n[Close this window when you're done. Modifying it does nothing.]"));
@@ -186,6 +188,14 @@ public class Manager {
             }
         } catch (IOException e) {
             Verbose.verboseLog("A FileIO error occurred.");
+            Verbose.verboseLog("Print Stacktrace? [y] [n]");
+            if (Verbose.isVerbose()) {
+                System.out.print(">> ");
+                String input = consoleScanner.nextLine();
+                if (input.equals("y"))
+                    e.printStackTrace();
+            } else
+                System.out.println("> There was a problem. Turn on verbose logging to see more.");
         }
     }
 }

@@ -1,4 +1,4 @@
-package src.entities.entities;
+package src.entities;
 import src.core.GameObject;
 
 import java.util.Objects;

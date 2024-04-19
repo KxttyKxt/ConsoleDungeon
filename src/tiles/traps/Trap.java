@@ -1,6 +1,6 @@
 package src.tiles.traps;
 
-import src.entities.entities.Entity;
+import src.entities.Entity;
 import src.tiles.Tile;
 
 public abstract class Trap extends Tile {

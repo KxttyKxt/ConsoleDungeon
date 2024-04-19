@@ -1,6 +1,6 @@
 package src.core;
 
-import src.entities.entities.Entity;
+import src.entities.Entity;
 import src.items.Item;
 import src.tiles.Floor;
 import src.tiles.Tile;

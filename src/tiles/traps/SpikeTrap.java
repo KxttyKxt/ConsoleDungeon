@@ -1,6 +1,6 @@
 package src.tiles.traps;
 
-import src.entities.entities.Entity;
+import src.entities.Entity;
 
 public class SpikeTrap extends Trap{
     public SpikeTrap(boolean discovered) {

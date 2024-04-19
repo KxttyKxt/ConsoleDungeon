@@ -1,6 +1,6 @@
 package src.core;
 
-import src.entities.entities.Entity;
+import src.entities.Entity;
 import src.items.Item;
 import src.tiles.StairsDown;
 import src.tiles.StairsUp;
@@ -110,6 +110,16 @@ public class Map {
         coordinates[row][column].setEntity(entity);
         return true;
     }
+
+    /**
+     * Move an entity from one coordinate to another, then update the coordinate it left and the coordinate it entered.
+     * Coordinates is a 2D array.
+     * @param startRow      The first array index of the starting position
+     * @param startColumn   The second array index of the starting position
+     * @param endRow        The first array index of the ending position
+     * @param endColumn     The second array index of the ending position
+     * @return true if the entity moved successfully, false if movement was unsuccessful.
+     */
     public boolean moveEntity(int startRow, int startColumn, int endRow, int endColumn) {
         Coordinate start;
         Coordinate end;
