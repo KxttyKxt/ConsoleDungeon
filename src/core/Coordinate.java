@@ -2,7 +2,7 @@ package src.core;
 
 import src.entities.Entity;
 import src.items.Item;
-import src.tiles.Floor;
+import src.tiles.tiles.Floor;
 import src.tiles.Tile;
 import src.tiles.traps.Trap;
 

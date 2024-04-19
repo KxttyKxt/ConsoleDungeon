@@ -1,6 +1,8 @@
-package src.tiles;
+package src.tiles.tiles;
 
-public class StairsUp extends Tile{
+import src.tiles.Tile;
+
+public class StairsUp extends Tile {
     public StairsUp() {
         super("Stairs", "The way out.", '↑', true);
     }

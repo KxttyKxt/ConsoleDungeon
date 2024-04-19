@@ -1,6 +1,8 @@
-package src.tiles;
+package src.tiles.tiles;
 
-public class Floor extends Tile{
+import src.tiles.Tile;
+
+public class Floor extends Tile {
     public Floor() {
         super("Floor",
                 "The dark cobblestone tiles extend endlessly through the dungeon.",

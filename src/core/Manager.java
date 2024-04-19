@@ -2,7 +2,8 @@ package src.core;
 
 import src.entities.Entity;
 import src.entities.entities.Player;
-import src.tiles.StairsUp;
+import src.tiles.tiles.StairsUp;
+import src.util.CustomMap;
 import src.util.Encyclopedia;
 import src.util.Verbose;
 
@@ -25,8 +26,21 @@ public class Manager {
     private static int turns = 0;
 
     public static void runGame() {
-        newMap(12, 8, true);
+
+        if (Verbose.isVerbose()) {
+            Verbose.verboseLog(String.format("Use custom map instead? [y] [n]"));
+            System.out.print(">> ");
+            if (consoleScanner.nextLine().equalsIgnoreCase("y"))
+                newMap(new CustomMap(), true);
+            else
+                Verbose.verboseLog("Custom map denied. Moving on...");
+        }
+        else
+            newMap(12, 8, true);
+
+
         while (true) {
+
             activeFloor.printMap();
             System.out.println("> Turns: " + turns);
             System.out.print(turnPrompt());
@@ -89,7 +103,7 @@ public class Manager {
             else
                 System.out.printf("> Here is a list of commands you can use:%n> (move), inv, %n> Type \"help <command>\" for more info.%n");
         }
-        return true;
+        return false;
     }
 
     /**
@@ -136,12 +150,21 @@ public class Manager {
         Map newMap = new Map(domain,range);
         floors.add(newMap);
 
-        if (makeActive) {
-            activeFloor = newMap;
+        if (makeActive)
+            activateMap(newMap);
+    }
+    public static void newMap(Map newMap, boolean makeActive) {
+        floors.add(newMap);
 
-            int[] indexes = activeFloor.find(new StairsUp());
-            activeFloor.getCoordinates()[indexes[0]][indexes[1]].setEntity(player);
-        }
+        if (makeActive)
+            activateMap(newMap);
+    }
+
+    private static void activateMap(Map map) {
+        activeFloor = map;
+
+        int[] indexes = activeFloor.find(new StairsUp());
+        activeFloor.getCoordinates()[indexes[0]][indexes[1]].setEntity(player);
     }
 
     private static StringBuilder turnPrompt() {

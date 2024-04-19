@@ -2,8 +2,8 @@ package src.core;
 
 import src.entities.Entity;
 import src.items.Item;
-import src.tiles.StairsDown;
-import src.tiles.StairsUp;
+import src.tiles.tiles.StairsDown;
+import src.tiles.tiles.StairsUp;
 import src.tiles.Tile;
 import src.util.*;
 
