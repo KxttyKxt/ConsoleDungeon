@@ -24,4 +24,4 @@ Note to self: the command to check how many lines of code there are with Git Bas
 ### In .jar Artifact
 
 - Stairs Symbols appear as `?`
-- inv command throws `IOException` for `FileWriter` not finding the `inventory.txt` file.
+- inv command throws `IOException` for `FileWriter` not finding the `inventory.txt` file. Seems to be that the initialization of the File writer because it can't find the file I'd made.
