@@ -2,6 +2,7 @@ package src.core;
 
 import src.entities.Entity;
 import src.items.Item;
+import src.tiles.tiles.Floor;
 import src.tiles.tiles.StairsDown;
 import src.tiles.tiles.StairsUp;
 import src.tiles.Tile;
@@ -42,6 +43,7 @@ public class Map {
         for (int i = 0; i < coordinates.length; i++) {
             for (int j = 0; j < coordinates[i].length; j++) {
                 coordinates[i][j] = new Coordinate();
+                coordinates[i][j].setTile(new Floor());
             }
         }
 
@@ -57,7 +59,7 @@ public class Map {
         int stairsUpCol = column;
         entryPoint.setTile(new StairsUp());
 
-        Verbose.verboseLog(String.format("Stairs Up created at %d, %d", row, column));
+        Verbose.log(String.format("Stairs Up created at %d, %d", row, column));
 
         // Continuously try to put StairsDown far away from StairsUp
         int attempt = 0;
@@ -70,10 +72,10 @@ public class Map {
 
             if (distance > minDistance) {
                 coordinates[row][column].setTile(new StairsDown());
-                Verbose.verboseLog(String.format("Stairs Down Created with suitable distance %.3f, minimum %.3f", distance, minDistance));
+                Verbose.log(String.format("Stairs Down Created with suitable distance %.3f, minimum %.3f", distance, minDistance));
                 break;
             }
-            Verbose.verboseLog(String.format("attempt %d: (%d,%d) was too close to stairs up at (%d,%d), actual distance %.3f, minimum distance %.3f.",
+            Verbose.log(String.format("attempt %d: (%d,%d) was too close to stairs up at (%d,%d), actual distance %.3f, minimum distance %.3f.",
                     ++attempt, row, column, stairsUpRow, stairsUpCol, distance, minDistance));
         }
     }
@@ -129,8 +131,17 @@ public class Map {
             end = coordinates[endRow][endColumn];
             entityToMove = start.getEntity();
 
-            if (entityToMove == null || end.getEntity() != null)
+            if (entityToMove == null) {
+                Verbose.log("No entity found at start position.");
                 return false;
+            } else if (end.getEntity() != null) {
+                Verbose.log("Entity in the way at end position.");
+                return false;
+            }
+            if (!end.getTile().isTraversable()) {
+                Verbose.log("The end tile is not traversable.");
+                return false;
+            }
 
             start.setEntity(null);
             end.setEntity(entityToMove);
@@ -139,7 +150,7 @@ public class Map {
             return true;
 
         } catch (Exception e) {
-            Verbose.verboseLog("Entity cannot move there.", true);
+            Verbose.showError(e);
             return false;
         }
     }

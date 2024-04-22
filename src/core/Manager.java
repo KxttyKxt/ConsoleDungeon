@@ -28,12 +28,12 @@ public class Manager {
     public static void runGame() {
 
         if (Verbose.isVerbose()) {
-            Verbose.verboseLog(String.format("Use custom map instead? [y] [n]"));
+            Verbose.log(String.format("Use custom map instead? [y] [n]"));
             System.out.print(">> ");
             if (consoleScanner.nextLine().equalsIgnoreCase("y"))
                 newMap(new CustomMap(), true);
             else
-                Verbose.verboseLog("Custom map denied. Moving on...");
+                Verbose.log("Custom map denied. Moving on...");
         }
         else
             newMap(12, 8, true);
@@ -96,7 +96,7 @@ public class Manager {
         // help command
         if (input.startsWith("help")) {
             if (input.length() > 5) {
-                Verbose.verboseLog(String.format("about to parse an extended help command. help is %d in length and starts at %d. Substring begins after %d.", input.length(), input.indexOf("help"), input.indexOf("help") + 5));
+                Verbose.log(String.format("about to parse an extended help command. help is %d in length and starts at %d. Substring begins after %d.", input.length(), input.indexOf("help"), input.indexOf("help") + 5));
                 StringBuilder helpDetails = Encyclopedia.getHelpType(input);
                 System.out.print(helpDetails);
             }
@@ -203,22 +203,14 @@ public class Manager {
             fileWriter.close();
 
             if (Desktop.isDesktopSupported()) {
-                Verbose.verboseLog(String.format("Desktop is supported, opening %s...", inventoryFile.getPath()));
+                Verbose.log(String.format("Desktop is supported, opening %s...", inventoryFile.getPath()));
                 Desktop.getDesktop().open(inventoryFile);
             } else {
-                Verbose.verboseLog(String.format("Desktop is not supported. File at %s must be opened manually.", inventoryFile.getAbsolutePath()), true);
+                Verbose.log(String.format("Desktop is not supported. File at %s must be opened manually.", inventoryFile.getAbsolutePath()), true);
                 System.out.printf("> Desktop framework is not supported on your device.%n> You'll have to open %s yourself in the project files.%n", inventoryFile.getPath());
             }
         } catch (IOException e) {
-            Verbose.verboseLog("A FileIO error occurred.");
-            Verbose.verboseLog("Print Stacktrace? [y] [n]");
-            if (Verbose.isVerbose()) {
-                System.out.print(">> ");
-                String input = consoleScanner.nextLine();
-                if (input.equals("y"))
-                    e.printStackTrace();
-            } else
-                System.out.println("> There was a problem. Turn on verbose logging to see more.");
+            Verbose.showError(e);
         }
     }
 }

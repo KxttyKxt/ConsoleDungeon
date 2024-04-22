@@ -4,7 +4,7 @@ import src.tiles.Tile;
 
 public class StairsDown extends Tile {
     public StairsDown() {
-        super("Stairs Down", "A way deeper.", '↓', true);
+        super("Stairs Down", "A way deeper.", '↓', true, true);
     }
 
     @Override

@@ -4,10 +4,13 @@ import src.tiles.Tile;
 
 public class Floor extends Tile {
     public Floor() {
-        super("Floor",
+        super(
+                "Floor",
                 "The dark cobblestone tiles extend endlessly through the dungeon.",
                 '.',
-                true);
+                true,
+                true
+        );
     }
 
     @Override

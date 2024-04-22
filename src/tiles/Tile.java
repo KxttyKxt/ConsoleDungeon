@@ -11,9 +11,10 @@ public abstract class Tile extends GameObject {
         discovered = true;
         traversable = true;
     }
-    public Tile(String name, String description, char symbol, boolean discovered) {
+    public Tile(String name, String description, char symbol, boolean discovered, boolean traversable) {
         super(name, description, symbol);
         this.discovered = discovered;
+        this.traversable = traversable;
     }
 
     public boolean isDiscovered() {
@@ -22,6 +23,14 @@ public abstract class Tile extends GameObject {
 
     public void setDiscovered(boolean discovered) {
         this.discovered = discovered;
+    }
+
+    public boolean isTraversable() {
+        return traversable;
+    }
+
+    public void setTraversable(boolean traversable) {
+        this.traversable = traversable;
     }
 
     public abstract void updateTile();
