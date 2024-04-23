@@ -80,4 +80,37 @@ public class Coordinate {
     public void setTile(Tile tile) {
         this.tile = tile;
     }
+
+    /**
+     * Checks if the Coordinate lacks an entity and lacks items.
+     * @return true if coordinate has no entity nor items.
+     */
+    public boolean isEmpty() {
+        return entity == null && items.isEmpty();
+    }
+
+    /**
+     * Checks if the Coordinate lacks an entity and lacks items.
+     *
+     * This version also checks if the Tile in the Coordinate mismatches a list of Tile SubClasses
+     * @param tilesToIgnore A list of Tile subclasses to check against.
+     *                      If the tile is in this list, the coordinate is empty.
+     *                      If the tile is NOT in this list, the coordinate is NOT empty.
+     * @return true if the tile has an entity or items or if a tile not listed as one to ignore
+     */
+    public boolean isEmpty(Tile[] tilesToIgnore) {
+        // If there exists an entity or item(s)
+        if (!isEmpty())
+            return false; // coordinate is not empty
+
+        // If this.tile matches any of the ignored ones
+        for (Tile ignoredTile : tilesToIgnore) {
+            if (this.tile.getClass() == tile.getClass()) {
+                return true; // coordinate is empty
+            }
+        }
+
+        // Finally, this means that the tile is NOT ignored, and the coordinate has a "non-empty" tile.
+        return false;
+    }
 }

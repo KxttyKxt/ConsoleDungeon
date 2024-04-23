@@ -2,6 +2,8 @@ package src.tiles;
 
 import src.core.GameObject;
 
+import java.util.Objects;
+
 public abstract class Tile extends GameObject {
     protected boolean discovered;
     protected boolean traversable;
@@ -34,4 +36,19 @@ public abstract class Tile extends GameObject {
     }
 
     public abstract void updateTile();
+
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        if (!super.equals(object)) return false;
+        Tile tile = (Tile) object;
+        return super.equals(object) && discovered == tile.discovered && traversable == tile.traversable;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), discovered, traversable);
+    }
 }

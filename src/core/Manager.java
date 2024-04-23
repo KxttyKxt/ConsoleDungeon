@@ -28,12 +28,14 @@ public class Manager {
     public static void runGame() {
 
         if (Verbose.isVerbose()) {
-            Verbose.log(String.format("Use custom map instead? [y] [n]"));
+            Verbose.log("Use custom map instead? [y] [n]");
             System.out.print(">> ");
             if (consoleScanner.nextLine().equalsIgnoreCase("y"))
                 newMap(new CustomMap(), true);
-            else
+            else {
                 Verbose.log("Custom map denied. Moving on...");
+                newMap(12,8,true);
+            }
         }
         else
             newMap(12, 8, true);
@@ -116,6 +118,7 @@ public class Manager {
         int row = position[0];
         int column = position[1];
 
+        // Based on directional input, moves the player
         switch (direction) {
             // 1: Southwest: one down(+), one left(-)
             case 1 -> moved = activeFloor.moveEntity(row, column, row+1, column-1);
