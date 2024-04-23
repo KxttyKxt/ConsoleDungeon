@@ -36,10 +36,10 @@ public class Verbose {
     }
 
     public static void showError(Exception e) {
-        log(String.format("A %s error occurred.", e.getCause()));
-        log("Print Stacktrace? [y] [n]");
         if (isVerbose()) {
-            System.out.print(">> ");
+            log(String.format("A %s error occurred.", e.getCause()));
+            log("Print Stacktrace? [y] [n]");
+            System.out.print("[v] >> ");
             String input = consoleScanner.nextLine();
             if (input.equals("y"))
                 e.printStackTrace();

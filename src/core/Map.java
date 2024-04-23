@@ -132,14 +132,17 @@ public class Map {
             entityToMove = start.getEntity();
 
             if (entityToMove == null) {
-                Verbose.log("No entity found at start position.");
+                System.out.println("> Somehow, there was nothing to move!");
+                Verbose.log("No entity found at start position.", true);
                 return false;
             } else if (end.getEntity() != null) {
-                Verbose.log("Entity in the way at end position.");
+                System.out.printf("> A %s stands in your way!%n", end.getEntity().getName());
+                Verbose.log("Entity in the way at end position.", true);
                 return false;
             }
             if (!end.getTile().isTraversable()) {
-                Verbose.log("The end tile is not traversable.");
+                System.out.printf("> A %s blocks your path!%n", end.getTile().getName());
+                Verbose.log("The end tile is not traversable.", true);
                 return false;
             }
 
@@ -150,7 +153,10 @@ public class Map {
             return true;
 
         } catch (Exception e) {
-            Verbose.showError(e);
+            if (e.getClass() == ArrayIndexOutOfBoundsException.class)
+                System.out.println("> You cannot move there!");
+            if (Verbose.isVerbose())
+                Verbose.showError(e);
             return false;
         }
     }
