@@ -7,10 +7,19 @@ public class StairsUp extends Tile {
         super(
                 "Stairs",
                 "The way out.",
-                '↑',
+                "↑",
                 true,
                 true,
                 position
+        );
+    }
+    public StairsUp() {
+        super(
+                "Stairs",
+                "The way out.",
+                "↑",
+                true,
+                true
         );
     }
 

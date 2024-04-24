@@ -1,7 +1,7 @@
 package src.core;
 
 import src.entities.Entity;
-import src.entities.entities.Player;
+import src.entities.Player;
 import src.tiles.tiles.StairsUp;
 import src.util.CustomMap;
 import src.util.Encyclopedia;
@@ -18,8 +18,8 @@ import java.util.Scanner;
 public class Manager {
     private static Scanner consoleScanner = new Scanner(System.in);
 
-    private static LinkedList<Map> floors = new LinkedList<>();
-    private static Map activeFloor;
+    private static LinkedList<Map> maps = new LinkedList<>();
+    private static Map activeMap;
 
     private static Player player = new Player();
     private static Inventory inventory = new Inventory();
@@ -42,8 +42,7 @@ public class Manager {
 
 
         while (true) {
-
-            activeFloor.printMap();
+            System.out.println(activeMap.toString());
             System.out.println("> Turns: " + turns);
             System.out.print(turnPrompt());
 
@@ -114,28 +113,28 @@ public class Manager {
      */
     private static boolean movePlayer(int direction) {
         boolean moved = false;
-        int[] position = activeFloor.find(player);
+        int[] position = activeMap.find(player, true);
         int row = position[0];
         int column = position[1];
 
         // Based on directional input, moves the player
         switch (direction) {
             // 1: Southwest: one down(+), one left(-)
-            case 1 -> moved = activeFloor.moveEntity(row, column, row+1, column-1);
+            case 1 -> moved = activeMap.moveEntity(row, column, row+1, column-1);
             // 2: South: one down(+), zero left
-            case 2 -> moved = activeFloor.moveEntity(row, column, row+1, column);
+            case 2 -> moved = activeMap.moveEntity(row, column, row+1, column);
             // 3: Southeast: one down (+), one right (+)
-            case 3 -> moved = activeFloor.moveEntity(row, column, row+1, column+1);
+            case 3 -> moved = activeMap.moveEntity(row, column, row+1, column+1);
             // 4: West: zero down, one left (-)
-            case 4 -> moved = activeFloor.moveEntity(row, column, row, column-1);
+            case 4 -> moved = activeMap.moveEntity(row, column, row, column-1);
             // 6: East: zero down, one right (+)
-            case 6 -> moved = activeFloor.moveEntity(row, column, row, column+1);
+            case 6 -> moved = activeMap.moveEntity(row, column, row, column+1);
             // 7: Northwest: one up (-), one left (-)
-            case 7 -> moved = activeFloor.moveEntity(row, column, row-1, column-1);
+            case 7 -> moved = activeMap.moveEntity(row, column, row-1, column-1);
             // 8: North: one up (-), zero right
-            case 8 -> moved = activeFloor.moveEntity(row, column, row-1, column);
+            case 8 -> moved = activeMap.moveEntity(row, column, row-1, column);
             // 9: Northeast: one up (-), one right (+)
-            case 9 -> moved = activeFloor.moveEntity(row, column, row-1, column+1);
+            case 9 -> moved = activeMap.moveEntity(row, column, row-1, column+1);
 
             case 5 -> System.out.println("Waiting this turn...");
         }
@@ -151,23 +150,35 @@ public class Manager {
      */
     private static void newMap(int domain, int range, boolean makeActive){
         Map newMap = new Map(domain,range);
-        floors.add(newMap);
+        maps.add(newMap);
 
         if (makeActive)
             activateMap(newMap);
     }
     public static void newMap(Map newMap, boolean makeActive) {
-        floors.add(newMap);
+        maps.add(newMap);
 
-        if (makeActive)
+        if (makeActive) {
             activateMap(newMap);
+        }
     }
 
     private static void activateMap(Map map) {
-        activeFloor = map;
-
-        int[] indexes = activeFloor.find(new StairsUp());
-        activeFloor.getCoordinates()[indexes[0]][indexes[1]].setEntity(player);
+        Verbose.log(String.format("Activating map from LinkedList index %d...", maps.indexOf(map)));
+        activeMap = map;
+        if (activeMap.find(player, false) == null) {
+            player.setPosition(activeMap.find(new StairsUp(), false));
+            Verbose.log("Player wasn't found, adding it now...");
+            if (activeMap.addEntity(player)) {
+                activeMap.updateSymbol(player.getRow(), player.getColumn());
+                Verbose.log(String.format("Player added at (%d, %d), updated symbol.", player.getRow(), player.getColumn()));
+            }
+            else {
+                Verbose.log("Couldn't place player.", true);
+            }
+        }
+        else
+            Verbose.log("Player found, moving on...");
     }
 
     private static StringBuilder turnPrompt() {

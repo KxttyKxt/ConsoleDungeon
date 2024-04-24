@@ -7,7 +7,7 @@ public class Wall extends Tile {
         super(
                 "Wall",
                 "It blocks your way.",
-                '▓',
+                "▓",
                 true,
                 false,
                 position

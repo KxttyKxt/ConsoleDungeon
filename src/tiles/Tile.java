@@ -9,9 +9,14 @@ public abstract class Tile extends GameObject {
     protected boolean traversable;
 
     public Tile() {
-        super("Undefined Tile", "This tile is undefined.", '.');
+        super("Undefined Tile", "This tile is undefined.", ".");
         discovered = true;
         traversable = true;
+    }
+    public Tile(String name, String description, String symbol, boolean discovered, boolean traversable) {
+        super(name, description, symbol);
+        this.discovered = discovered;
+        this.traversable = traversable;
     }
     public Tile(String name, String description, String symbol, boolean discovered, boolean traversable, int[] position) {
         super(name, description, symbol);

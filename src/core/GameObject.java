@@ -55,10 +55,14 @@ public abstract class GameObject {
         return position;
     }
     public int getRow() {
-        return position[0];
+        if (position != null)
+            return position[0];
+        return -1;
     }
     public int getColumn() {
-        return position[1];
+        if (position != null)
+            return position[1];
+        return -1;
     }
 
     public void setPosition(int[] position) {
@@ -70,7 +74,19 @@ public abstract class GameObject {
         if (this == object) return true;
         if (object == null || getClass() != object.getClass()) return false;
         GameObject that = (GameObject) object;
-        return symbol == that.symbol
+        return Objects.equals(symbol, that.symbol)
+                && Objects.equals(name, that.name)
+                && Objects.equals(description, that.description);
+    }
+    public boolean equals(Object object, boolean checkPosition) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        GameObject that = (GameObject) object;
+
+        if (!checkPosition)
+            return this.equals(object);
+        else
+            return Objects.equals(symbol, that.symbol)
                 && Objects.equals(name, that.name)
                 && Objects.equals(description, that.description)
                 && Arrays.equals(position, that.position);

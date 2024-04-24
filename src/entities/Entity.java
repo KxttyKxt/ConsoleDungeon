@@ -8,7 +8,7 @@ public abstract class Entity extends GameObject{
     protected int damage;
     protected int armor;
 
-    protected int isAlive;
+    protected boolean alive = true;
 
     public Entity() {
         super("Undefined Entity", "This entity is undefined.", "?");
@@ -16,6 +16,14 @@ public abstract class Entity extends GameObject{
         damage = 1;
         armor = 0;
     }
+
+    public Entity(String name, String description, String symbol, int health, int damage, int armor) {
+        super(name, description, symbol);
+        this.health = health;
+        this.damage = damage;
+        this.armor = armor;
+    }
+
     public Entity(String name, String description, String symbol, int health, int damage, int armor, int[] position) {
         super(name, description, symbol);
         this.health = health;
@@ -47,12 +55,12 @@ public abstract class Entity extends GameObject{
         this.armor = armor;
     }
 
-    public int getIsAlive() {
-        return isAlive;
+    public boolean isAlive() {
+        return alive;
     }
 
-    public void setIsAlive(int isAlive) {
-        this.isAlive = isAlive;
+    public void setAlive(boolean alive) {
+        this.alive = alive;
     }
 
     @Override
@@ -61,11 +69,11 @@ public abstract class Entity extends GameObject{
         if (object == null || getClass() != object.getClass()) return false;
         if (!super.equals(object)) return false;
         Entity entity = (Entity) object;
-        return health == entity.health && damage == entity.damage && armor == entity.armor && isAlive == entity.isAlive;
+        return health == entity.health && damage == entity.damage && armor == entity.armor && alive == entity.alive;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), health, damage, armor, isAlive);
+        return Objects.hash(super.hashCode(), health, damage, armor, alive);
     }
 }

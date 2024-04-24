@@ -7,7 +7,7 @@ public class StairsDown extends Tile {
         super(
                 "Stairs Down",
                 "A way deeper.",
-                '↓',
+                "↓",
                 true,
                 true,
                 position);

@@ -7,7 +7,7 @@ public class Door extends Tile {
         super(
                 "Door",
                 "A new opportunity.",
-                '#',
+                "#",
                 true,
                 true,
                 position

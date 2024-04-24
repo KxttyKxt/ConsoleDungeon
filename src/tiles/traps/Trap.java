@@ -9,7 +9,7 @@ public abstract class Trap extends Tile {
         super(
                 "Undefined Trap",
                 "This trap is undefined.",
-                'X',
+                "X",
                 true,
                 true,
                 position
