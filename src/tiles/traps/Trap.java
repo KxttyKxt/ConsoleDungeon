@@ -5,18 +5,19 @@ import src.tiles.Tile;
 
 public abstract class Trap extends Tile {
 
-    public Trap() {
+    public Trap(int[] position) {
         super(
                 "Undefined Trap",
                 "This trap is undefined.",
-                'X',
+                "X",
                 true,
-                true
+                true,
+                position
         );
     }
 
-    public Trap(String name, String description, char symbol, boolean discovered) {
-        super(name, description, symbol, discovered, true);
+    public Trap(String name, String description, String symbol, boolean discovered, int[] position) {
+        super(name, description, symbol, discovered, true, position);
     }
 
     public abstract void triggerTrap(Entity target);

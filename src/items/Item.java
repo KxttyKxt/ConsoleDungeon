@@ -4,12 +4,14 @@ import src.core.GameObject;
 public abstract class Item extends GameObject {
 
     public Item() {
-        super("Undefined Item", "This item is undefined.", '&');
+        super("Undefined Item", "This item is undefined.", "&");
     }
 
-    public Item(String name, String description, char symbol) {
+    public Item(String name, String description, String symbol) {
         super(name, description, symbol);
     }
 
-
+    public Item(String name, String description, String symbol, int[] position) {
+        super(name, description, symbol, position);
+    }
 }

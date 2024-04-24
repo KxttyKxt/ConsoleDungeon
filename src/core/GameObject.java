@@ -1,21 +1,30 @@
 package src.core;
 
+import java.util.Arrays;
 import java.util.Objects;
 
 public abstract class GameObject {
     protected String name;
     protected String description;
-    protected char symbol;
+    protected String symbol;
+    protected int[] position; // ordered pair coordinates
 
     public GameObject() {
         name = "Undefined Object";
         description = "This object is undefined.";
-        symbol = '_';
+        symbol = "_";
     }
-    public GameObject(String name, String description, char symbol) {
+    public GameObject(String name, String description, String symbol) {
         this.name = name;
         this.description = description;
         this.symbol = symbol;
+    }
+
+    public GameObject(String name, String description, String symbol, int[] position) {
+        this.name = name;
+        this.description = description;
+        this.symbol = symbol;
+        this.position = position;
     }
 
     public String getName() {
@@ -34,12 +43,30 @@ public abstract class GameObject {
         this.description = description;
     }
 
-    public char getSymbol() {
+    public String getSymbol() {
         return symbol;
     }
 
-    public void setSymbol(char symbol) {
+    public void setSymbol(String symbol) {
         this.symbol = symbol;
+    }
+
+    public int[] getPosition() {
+        return position;
+    }
+    public int getRow() {
+        if (position != null)
+            return position[0];
+        return -1;
+    }
+    public int getColumn() {
+        if (position != null)
+            return position[1];
+        return -1;
+    }
+
+    public void setPosition(int[] position) {
+        this.position = position;
     }
 
     @Override
@@ -47,11 +74,26 @@ public abstract class GameObject {
         if (this == object) return true;
         if (object == null || getClass() != object.getClass()) return false;
         GameObject that = (GameObject) object;
-        return symbol == that.symbol && Objects.equals(name, that.name) && Objects.equals(description, that.description);
+        return Objects.equals(symbol, that.symbol)
+                && Objects.equals(name, that.name)
+                && Objects.equals(description, that.description);
+    }
+    public boolean equals(Object object, boolean checkPosition) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        GameObject that = (GameObject) object;
+
+        if (!checkPosition)
+            return this.equals(object);
+        else
+            return Objects.equals(symbol, that.symbol)
+                && Objects.equals(name, that.name)
+                && Objects.equals(description, that.description)
+                && Arrays.equals(position, that.position);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, description, symbol);
+        return Objects.hash(name, description, symbol, Arrays.hashCode(position));
     }
 }
