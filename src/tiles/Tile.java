@@ -13,10 +13,11 @@ public abstract class Tile extends GameObject {
         discovered = true;
         traversable = true;
     }
-    public Tile(String name, String description, char symbol, boolean discovered, boolean traversable) {
+    public Tile(String name, String description, String symbol, boolean discovered, boolean traversable, int[] position) {
         super(name, description, symbol);
         this.discovered = discovered;
         this.traversable = traversable;
+        this.position = position;
     }
 
     public boolean isDiscovered() {

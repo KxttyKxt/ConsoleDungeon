@@ -11,13 +11,12 @@ public abstract class Entity extends GameObject{
     protected int isAlive;
 
     public Entity() {
-        super("Undefined Entity", "This entity is undefined.", '?');
+        super("Undefined Entity", "This entity is undefined.", "?");
         health = 20;
         damage = 1;
         armor = 0;
-        symbol = '?';
     }
-    public Entity(String name, String description, char symbol, int health, int damage, int armor) {
+    public Entity(String name, String description, String symbol, int health, int damage, int armor, int[] position) {
         super(name, description, symbol);
         this.health = health;
         this.damage = damage;
