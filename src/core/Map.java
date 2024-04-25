@@ -148,6 +148,8 @@ public class Map {
             }
 
             entityToMove.setPosition(new int[]{endRow, endColumn});
+            if (endTile != null)
+                endTile.updateTile();
 
             if (!updateSymbol(startRow, startColumn))
                 coordinates[startRow][startColumn].setSymbol(".");
