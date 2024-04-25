@@ -134,16 +134,16 @@ public class Map {
 
             if (entityToMove == null) {
                 System.out.println("> Somehow, there was nothing to move!");
-                Verbose.log("No entity found at start position.", true);
+                Verbose.log("No entity found at start position.");
                 return false;
             } else if (endEntity != null) {
                 System.out.printf("> A %s stands in your way!%n", endEntity.getName());
-                Verbose.log("Entity in the way at end position.", true);
+                Verbose.log("Entity in the way at end position.");
                 return false;
             }
             if (endTile != null && !endTile.isTraversable()) {
                 System.out.printf("> A %s blocks your path!%n", endTile.getName());
-                Verbose.log("The end tile is not traversable.", true);
+                Verbose.log("The end tile is not traversable.");
                 return false;
             }
 
@@ -322,15 +322,16 @@ public class Map {
     /**
      * Adds an entity to the Map's active entities, given there is not already an entity at the new one's position.
      * @param entity The entity to add to the list of active entities.
-     * @return true if entity is added, false otherwise (there was already an entity at the new one's position).
+     * @return true if the entity is added, false otherwise (there was already an entity at the new one's position).
      */
     public boolean addEntity (Entity entity) {
         if (getEntityByPosition(entity.getRow(), entity.getColumn()) != null) {
-            Verbose.log(String.format("Entity is already located at [%d][%d].", entity.getRow(), entity.getColumn()), true);
+            Verbose.log(String.format("Another entity is already located at [%d][%d].", entity.getRow(), entity.getColumn()), true);
             return false;
         }
         else {
             activeEntities.add(entity);
+            Verbose.log(String.format("Placed entity of class %s at[%d][%d].", entity.getClass(), entity.getRow(), entity.getColumn()));
             updateSymbol(entity.getRow(), entity.getColumn());
             return true;
         }

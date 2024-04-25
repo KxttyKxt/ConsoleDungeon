@@ -29,6 +29,7 @@ public abstract class Entity extends GameObject{
         this.health = health;
         this.damage = damage;
         this.armor = armor;
+        this.position = position;
     }
 
     public int getHealth() {

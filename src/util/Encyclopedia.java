@@ -22,7 +22,7 @@ public class Encyclopedia {
                 helpDetails.append(String.format("> If supported, it will also open the file in your default text editor.%n"));
             }
             default ->
-                    helpDetails.append("argument command for \"help <command>\" not recognized.");
+                    helpDetails.append("> Argument command for \"help <command>\" not recognized.%n");
         }
         return helpDetails;
     }

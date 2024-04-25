@@ -7,8 +7,6 @@ public class Debug {
         Verbose.toggleVerbose();
         Manager.runGame();
 
-
-
         System.out.println();
         System.exit(0);
     }

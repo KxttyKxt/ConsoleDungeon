@@ -79,17 +79,18 @@ public class Manager {
             case("q"): {
                 System.out.printf("Exiting game. You took %d turns.", turns);
                 System.exit(0);
-                break;
+                return false;
             }
             // if inv, open the inventory dialog
             case("inv"): {
                 displayInventory();
-                break;
+                return false;
             }
             // verbose, toggle verbose logging
             case("verbose"): {
                 Verbose.toggleVerbose();
                 System.out.println("> Verbose logging is now " + Verbose.isVerbose() + ".");
+                return false;
             }
         }
 
@@ -100,9 +101,12 @@ public class Manager {
                 Verbose.log(String.format("about to parse an extended help command. help is %d in length and starts at %d. Substring begins after %d.", input.length(), input.indexOf("help"), input.indexOf("help") + 5));
                 StringBuilder helpDetails = Encyclopedia.getHelpType(input);
                 System.out.print(helpDetails);
+                return false;
             }
-            else
+            else {
                 System.out.printf("> Here is a list of commands you can use:%n> (move), inv, %n> Type \"help <command>\" for more info.%n");
+                return false;
+            }
         }
         System.out.println("> Command not recognized.");
         return false;
