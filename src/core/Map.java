@@ -90,8 +90,7 @@ public class Map {
         }
     }
 
-    @Override
-    public String toString() {
+    public StringBuilder mapLayout() {
         StringBuilder mapPrint = new StringBuilder();
         mapPrint.append("=".repeat(coordinates[0].length * 5 + 2)).append(String.format("%n"));
 
@@ -104,7 +103,7 @@ public class Map {
         }
 
         mapPrint.append("=".repeat(coordinates[0].length * 5 + 2));
-        return mapPrint.toString();
+        return mapPrint;
     }
 
     public Coordinate[][] getCoordinates() {

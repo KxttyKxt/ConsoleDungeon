@@ -42,7 +42,7 @@ public class Manager {
 
 
         while (true) {
-            System.out.println(activeMap.toString());
+            System.out.println(activeMap.mapLayout());
             System.out.println("> Turns: " + turns);
             System.out.print(turnPrompt());
 
@@ -104,6 +104,7 @@ public class Manager {
             else
                 System.out.printf("> Here is a list of commands you can use:%n> (move), inv, %n> Type \"help <command>\" for more info.%n");
         }
+        System.out.println("> Command not recognized.");
         return false;
     }
 
