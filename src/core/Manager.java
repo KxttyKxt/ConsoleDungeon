@@ -48,6 +48,7 @@ public class Manager {
 
             // CHAT I FINALLY FOUND A USE FOR DO-WHILE!!!
             do {
+                activeMap.checkEntities();
                 System.out.print(">> ");
             } while (!controlPanel());
             turns++;
@@ -113,8 +114,8 @@ public class Manager {
     }
 
     /**
-     * Attempts to move the player based on user input and using the {@code Map.moveEntity()} method.
-     * @return true if the player moved, false if they didn't; pulls from moveEntity() return value
+     * Attempts to move the player based on user input and using the {@code Map.enactEntity()()} method.
+     * @return true if the player moved, false if they didn't; pulls from enactEntity()() return value
      */
     private static boolean movePlayer(int direction) {
         boolean moved = false;
@@ -125,21 +126,21 @@ public class Manager {
         // Based on directional input, moves the player
         switch (direction) {
             // 1: Southwest: one down(+), one left(-)
-            case 1 -> moved = activeMap.moveEntity(row, column, row+1, column-1);
+            case 1 -> moved = activeMap.enactEntity(row, column, row+1, column-1);
             // 2: South: one down(+), zero left
-            case 2 -> moved = activeMap.moveEntity(row, column, row+1, column);
+            case 2 -> moved = activeMap.enactEntity(row, column, row+1, column);
             // 3: Southeast: one down (+), one right (+)
-            case 3 -> moved = activeMap.moveEntity(row, column, row+1, column+1);
+            case 3 -> moved = activeMap.enactEntity(row, column, row+1, column+1);
             // 4: West: zero down, one left (-)
-            case 4 -> moved = activeMap.moveEntity(row, column, row, column-1);
+            case 4 -> moved = activeMap.enactEntity(row, column, row, column-1);
             // 6: East: zero down, one right (+)
-            case 6 -> moved = activeMap.moveEntity(row, column, row, column+1);
+            case 6 -> moved = activeMap.enactEntity(row, column, row, column+1);
             // 7: Northwest: one up (-), one left (-)
-            case 7 -> moved = activeMap.moveEntity(row, column, row-1, column-1);
+            case 7 -> moved = activeMap.enactEntity(row, column, row-1, column-1);
             // 8: North: one up (-), zero right
-            case 8 -> moved = activeMap.moveEntity(row, column, row-1, column);
+            case 8 -> moved = activeMap.enactEntity(row, column, row-1, column);
             // 9: Northeast: one up (-), one right (+)
-            case 9 -> moved = activeMap.moveEntity(row, column, row-1, column+1);
+            case 9 -> moved = activeMap.enactEntity(row, column, row-1, column+1);
 
             case 5 -> System.out.println("Waiting this turn...");
         }

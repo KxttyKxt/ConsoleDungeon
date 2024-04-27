@@ -106,10 +106,37 @@ public class Map {
         return mapPrint;
     }
 
+    public void checkEntities() {
+        for (int i = activeEntities.size() - 1; i >= 0; i--) {
+            Entity currentEntity = activeEntities.get(i);
+            if (!currentEntity.updateEntity()) {
+                activeEntities.remove(currentEntity);
+                updateSymbol(currentEntity.getRow(), currentEntity.getColumn());
+            }
+        }
+    }
+
     public Coordinate[][] getCoordinates() {
         return coordinates;
     }
 
+    /**
+     * Enacts an entity, which chooses whether said entity will move or attack.
+     * @param startRow      The first array index of the starting position
+     * @param startColumn   The second array index of the starting position
+     * @param endRow        The first array index of the ending position
+     * @param endColumn     The second array index of the ending position
+     * @return Passes return from moveEntity() or attackEntity(). [True, because the action took a turn.]
+     */
+    public boolean enactEntity(int startRow, int startColumn, int endRow, int endColumn) {
+        Entity actor = getEntityByPosition(startRow, startColumn);
+        Entity target = getEntityByPosition(endRow, endColumn);
+
+        if (target != null)
+            return attackEntity(actor, target);
+        else
+            return moveEntity(startRow, startColumn, endRow, endColumn);
+    }
     /**
      * Move an entity from one coordinate to another, then update the coordinate it left and the coordinate it entered.
      * Coordinates is a 2D array.
@@ -119,7 +146,7 @@ public class Map {
      * @param endColumn     The second array index of the ending position
      * @return true if the entity moved successfully, false if movement was unsuccessful.
      */
-    public boolean moveEntity(int startRow, int startColumn, int endRow, int endColumn) {
+    private boolean moveEntity(int startRow, int startColumn, int endRow, int endColumn) {
         Coordinate start;
         Coordinate end;
         Entity entityToMove;
@@ -165,6 +192,11 @@ public class Map {
                 Verbose.showError(e);
             return false;
         }
+    }
+    private boolean attackEntity(Entity attacker, Entity target) {
+        target.setHealth(target.getHealth() - attacker.getDamage());
+        System.out.printf("> %s attacked %s.%n", attacker.getName(), target.getName());
+        return true;
     }
 
     /**

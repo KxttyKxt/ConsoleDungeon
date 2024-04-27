@@ -32,6 +32,12 @@ public abstract class Entity extends GameObject{
         this.position = position;
     }
 
+    public boolean updateEntity() {
+        if (health <= 0)
+            alive = false;
+        return alive;
+    }
+
     public int getHealth() {
         return health;
     }
