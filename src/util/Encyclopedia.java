@@ -13,7 +13,8 @@ public class Encyclopedia {
                 helpDetails.append(String.format("> Imagine 5 on your Numpad as the center. A key away from 5 moves you in that direction.%n"));
                 helpDetails.append(String.format("> For example, entering 7 moves you northwest (if possible).%n"));
                 helpDetails.append(String.format("> If you try to move to a non-traversable tile, you will be able to move elsewhere without losing a turn.%n"));
-                helpDetails.append(String.format("> Entering 5 will attempt to interact with the coordinate you're on.%nFor example, if your coordinate contains an item, pressing 5 will pick it up."));
+                helpDetails.append(String.format("> Entering 5 will attempt to interact with the coordinate you're on.%nFor example, if your coordinate contains an item, pressing 5 will pick it up.%n"));
+                helpDetails.append("> If you attempt to move to a tile that already has an entity, you will instead attack or interact with said entity.");
             }
             case "inv" -> {
                 helpDetails.append(String.format("> -=-=- inv -=-=-%n"));
