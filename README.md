@@ -18,10 +18,10 @@ Note to self: the command to check how many lines of code there are with Git Bas
 ## Known Problems:
 ### In IntelliJ:
 
-- 
-- 
+- ANSI colors are swapped (BRIGHT looks regular, regular looks BRIGHT)
+- IntelliJ's console emulator for running batch files cannot use ANSI codes correctly, but the actual Windows Command Prompt can.
 
 ### In .jar Artifact
 
-- Stairs Symbols appear as `?`
-- inv command throws `IOException` for `FileWriter` not finding the `inventory.txt` file. Seems to be that the initialization of the File writer because it can't find the file I'd made.
+- Some symbols appear as `?` because the Command Prompt codemap is considerably small.
+- Text is greatly widened here vs. in IntelliJ.
