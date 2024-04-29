@@ -1,11 +1,11 @@
 package src.util;
 
-import src.core.Map;
+import src.core.Level;
 import src.entities.entities.Dummy;
 import src.entities.entities.Pumpkin;
 
-public class CustomMap extends Map {
-    public CustomMap() {
+public class DebugLevel extends Level {
+    public DebugLevel() {
         super(12, 10);
 
         Dummy dummy = new Dummy(new int[]{8, 9});

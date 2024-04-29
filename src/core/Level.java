@@ -11,40 +11,40 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
-public class Map {
+public class Level {
 
     private Coordinate[][] coordinates; // a 2D array of coordinates according to the length and width
 
-    private ArrayList<Entity> activeEntities;   // Entities stored on the Map...
-    private ArrayList<Item> activeItems;        // Items stored on the Map...
-    private ArrayList<Tile> activeTiles;        // Tiles stored on the Map...
+    private ArrayList<Entity> activeEntities;   // Entities stored on the level...
+    private ArrayList<Item> activeItems;        // Items stored on the level...
+    private ArrayList<Tile> activeTiles;        // Tiles stored on the level...
     // ... to be updated as needed, probably every turn.
 
     /**
-     * The default constructor for the map class, which creates a map (or "floor") of the dungeon.
+     * The default constructor for the level class, which creates a level (or "floor") of the dungeon.
      */
-    public Map() {
+    public Level() {
         coordinates = new Coordinate[5][5];
-        initMap();
+        initlevel();
     }
 
     /**
-     * The dynamic constructor for the map class, which creates a map (or "floor") of the dungeon.
+     * The dynamic constructor for the level class, which creates a level (or "floor") of the dungeon.
      *
      * @param domain the length of the coordinate plane along the x-axis
      * @param range the length of the coordinate plane along the y-axis
      *
      */
-    public Map(int domain, int range) {
+    public Level(int domain, int range) {
         coordinates = new Coordinate[range][domain];
-        initMap();
+        initlevel();
     }
 
     /**
-     * Initializes the data structures contained in the map.
+     * Initializes the data structures contained in the level.
      * Used only in the constructor.
      */
-    private void initMap() {
+    private void initlevel() {
         // Initialize lists
         activeEntities = new ArrayList<>();
         activeItems = new ArrayList<>();
@@ -90,20 +90,20 @@ public class Map {
         }
     }
 
-    public StringBuilder mapLayout() {
-        StringBuilder mapPrint = new StringBuilder();
-        mapPrint.append("=".repeat(coordinates[0].length * 5 + 2)).append(String.format("%n"));
+    public StringBuilder levelLayout() {
+        StringBuilder levelPrint = new StringBuilder();
+        levelPrint.append("=".repeat(coordinates[0].length * 5 + 2)).append(String.format("%n"));
 
         for (Coordinate[] x : coordinates) {
-            mapPrint.append("|");
+            levelPrint.append("|");
             for (Coordinate y : x) {
-                mapPrint.append("  ").append(y.getSymbol()).append("  ");
+                levelPrint.append("  ").append(y.getSymbol()).append("  ");
             }
-            mapPrint.append(String.format("|%n"));
+            levelPrint.append(String.format("|%n"));
         }
 
-        mapPrint.append("=".repeat(coordinates[0].length * 5 + 2));
-        return mapPrint;
+        levelPrint.append("=".repeat(coordinates[0].length * 5 + 2));
+        return levelPrint;
     }
 
     public void checkEntities() {
@@ -203,7 +203,7 @@ public class Map {
      * Searches linearly through the list of active entities to find a match, then gives its position.
      * @param target The Entity being searched for, which may or may not exist
      * @param checkPosition Whether the position of the target and potential match must have the same position.
-     * @return the ordered pair {@code int[row][column]} indexes for the Entity as it shall appear on the map,
+     * @return the ordered pair {@code int[row][column]} indexes for the Entity as it shall appear on the level,
      * or {@code null} if not found.
      */
     public int[] find(Entity target, boolean checkPosition) {
@@ -217,7 +217,7 @@ public class Map {
      * Searches linearly through the list of active items to find a match, then gives its position.
      * @param target The Item being searched for, which may or may not exist
      * @param checkPosition Whether the position of the target and potential match must have the same position.
-     * @return the ordered pair {@code int[row][column]} indexes for the Item as it shall appear on the map,
+     * @return the ordered pair {@code int[row][column]} indexes for the Item as it shall appear on the level,
      * or {@code null} if not found.
      */
     public int[] find(Item target, boolean checkPosition) {
@@ -231,7 +231,7 @@ public class Map {
      * Searches linearly through the list of active tiles to find a match, then gives its position.
      * @param target The Tile being searched for, which may or may not exist.
      * @param checkPosition Whether the position of the target and potential match must have the same position.
-     * @return the ordered pair {@code int[row][column]} indexes for the Tile as it shall appear on the map,
+     * @return the ordered pair {@code int[row][column]} indexes for the Tile as it shall appear on the level,
      * or {@code null} if not found.
      */
     public int[] find(Tile target, boolean checkPosition) {
@@ -246,7 +246,7 @@ public class Map {
      * The most generic search and return algorithm I could muster.
      * <p>
      * Using generics, simply checks if the runtime class of the input parameter
-     * matches an active object ({@code entity}, {@code item}, {@code tile}) on the map.
+     * matches an active object ({@code entity}, {@code item}, {@code tile}) on the level.
      * <p>
      * Makes use of subclasses of those three abstract classes. Not intended for casting to an abstract class type.
      * @param type The object which you want to find a class match for.
@@ -352,7 +352,7 @@ public class Map {
     }
 
     /**
-     * Adds an entity to the Map's active entities, given there is not already an entity at the new one's position.
+     * Adds an entity to the level's active entities, given there is not already an entity at the new one's position.
      * @param entity The entity to add to the list of active entities.
      * @return true if the entity is added, false otherwise (there was already an entity at the new one's position).
      */

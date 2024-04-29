@@ -1,5 +1,6 @@
 package src.entities.entities;
 
+import javaconsolecolors.ConsoleColors;
 import src.entities.Entity;
 
 public class Pumpkin extends Entity {
@@ -7,7 +8,7 @@ public class Pumpkin extends Entity {
         super(
                 "Pumpkin",
                 "A pumpkin. Looks punchable.",
-                "o",
+                new ConsoleColors(ConsoleColors.TEXT_YELLOW, null, "o").getColoredString(),
                 10,
                 0,
                 0,

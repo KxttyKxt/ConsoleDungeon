@@ -3,7 +3,7 @@ package src.core;
 import src.entities.Entity;
 import src.entities.Player;
 import src.tiles.tiles.StairsUp;
-import src.util.CustomMap;
+import src.util.DebugLevel;
 import src.util.Encyclopedia;
 import src.util.Verbose;
 
@@ -18,8 +18,8 @@ import java.util.Scanner;
 public class Manager {
     private static Scanner consoleScanner = new Scanner(System.in);
 
-    private static LinkedList<Map> maps = new LinkedList<>();
-    private static Map activeMap;
+    private static LinkedList<Level> levels = new LinkedList<>();
+    private static Level activeLevel;
 
     private static Player player = new Player();
     private static Inventory inventory = new Inventory();
@@ -28,27 +28,27 @@ public class Manager {
     public static void runGame() {
 
         if (Verbose.isVerbose()) {
-            Verbose.log("Use custom map instead? [y] [n]");
+            Verbose.log("Use custom level instead? [y] [n]");
             System.out.print(">> ");
             if (consoleScanner.nextLine().equalsIgnoreCase("y"))
-                newMap(new CustomMap(), true);
+                newLevel(new DebugLevel(), true);
             else {
-                Verbose.log("Custom map denied. Moving on...");
-                newMap(12,8,true);
+                Verbose.log("Custom level denied. Moving on...");
+                newLevel(12,8,true);
             }
         }
         else
-            newMap(12, 8, true);
+            newLevel(12, 8, true);
 
 
         while (true) {
-            System.out.println(activeMap.mapLayout());
+            System.out.println(activeLevel.levelLayout());
             System.out.println("> Turns: " + turns);
             System.out.print(turnPrompt());
 
             // CHAT I FINALLY FOUND A USE FOR DO-WHILE!!!
             do {
-                activeMap.checkEntities();
+                activeLevel.checkEntities();
                 System.out.print(">> ");
             } while (!controlPanel());
             turns++;
@@ -114,33 +114,33 @@ public class Manager {
     }
 
     /**
-     * Attempts to move the player based on user input and using the {@code Map.enactEntity()()} method.
+     * Attempts to move the player based on user input and using the {@code Level.enactEntity()()} method.
      * @return true if the player moved, false if they didn't; pulls from enactEntity()() return value
      */
     private static boolean movePlayer(int direction) {
         boolean moved = false;
-        int[] position = activeMap.find(player, true);
+        int[] position = activeLevel.find(player, true);
         int row = position[0];
         int column = position[1];
 
         // Based on directional input, moves the player
         switch (direction) {
             // 1: Southwest: one down(+), one left(-)
-            case 1 -> moved = activeMap.enactEntity(row, column, row+1, column-1);
+            case 1 -> moved = activeLevel.enactEntity(row, column, row+1, column-1);
             // 2: South: one down(+), zero left
-            case 2 -> moved = activeMap.enactEntity(row, column, row+1, column);
+            case 2 -> moved = activeLevel.enactEntity(row, column, row+1, column);
             // 3: Southeast: one down (+), one right (+)
-            case 3 -> moved = activeMap.enactEntity(row, column, row+1, column+1);
+            case 3 -> moved = activeLevel.enactEntity(row, column, row+1, column+1);
             // 4: West: zero down, one left (-)
-            case 4 -> moved = activeMap.enactEntity(row, column, row, column-1);
+            case 4 -> moved = activeLevel.enactEntity(row, column, row, column-1);
             // 6: East: zero down, one right (+)
-            case 6 -> moved = activeMap.enactEntity(row, column, row, column+1);
+            case 6 -> moved = activeLevel.enactEntity(row, column, row, column+1);
             // 7: Northwest: one up (-), one left (-)
-            case 7 -> moved = activeMap.enactEntity(row, column, row-1, column-1);
+            case 7 -> moved = activeLevel.enactEntity(row, column, row-1, column-1);
             // 8: North: one up (-), zero right
-            case 8 -> moved = activeMap.enactEntity(row, column, row-1, column);
+            case 8 -> moved = activeLevel.enactEntity(row, column, row-1, column);
             // 9: Northeast: one up (-), one right (+)
-            case 9 -> moved = activeMap.enactEntity(row, column, row-1, column+1);
+            case 9 -> moved = activeLevel.enactEntity(row, column, row-1, column+1);
 
             case 5 -> System.out.println("Waiting this turn...");
         }
@@ -149,34 +149,34 @@ public class Manager {
     }
 
     /**
-     * Constructs a new map and automatically adds to the LinkedList of floors.
+     * Constructs a new level and automatically adds to the LinkedList of levels.
      * @param domain the length of the coordinate plane along the x-axis
      * @param range the length of the coordinate plane along the y-axis
-     * @param makeActive if true, also sets the new floor as the active floor
+     * @param makeActive if true, also sets the new floor as the active level
      */
-    private static void newMap(int domain, int range, boolean makeActive){
-        Map newMap = new Map(domain,range);
-        maps.add(newMap);
+    private static void newLevel(int domain, int range, boolean makeActive){
+        Level newLevel = new Level(domain,range);
+        levels.add(newLevel);
 
         if (makeActive)
-            activateMap(newMap);
+            activateLevel(newLevel);
     }
-    public static void newMap(Map newMap, boolean makeActive) {
-        maps.add(newMap);
+    public static void newLevel(Level newLevel, boolean makeActive) {
+        levels.add(newLevel);
 
         if (makeActive) {
-            activateMap(newMap);
+            activateLevel(newLevel);
         }
     }
 
-    private static void activateMap(Map map) {
-        Verbose.log(String.format("Activating map from LinkedList index %d...", maps.indexOf(map)));
-        activeMap = map;
-        if (activeMap.find(player, false) == null) {
-            player.setPosition(activeMap.find(new StairsUp(), false));
+    private static void activateLevel(Level level) {
+        Verbose.log(String.format("Activating level from LinkedList index %d...", levels.indexOf(level)));
+        activeLevel = level;
+        if (activeLevel.find(player, false) == null) {
+            player.setPosition(activeLevel.find(new StairsUp(), false));
             Verbose.log("Player wasn't found, adding it now...");
-            if (activeMap.addEntity(player)) {
-                activeMap.updateSymbol(player.getRow(), player.getColumn());
+            if (activeLevel.addEntity(player)) {
+                activeLevel.updateSymbol(player.getRow(), player.getColumn());
                 Verbose.log(String.format("Player added at (%d, %d), updated symbol.", player.getRow(), player.getColumn()));
             }
             else {
