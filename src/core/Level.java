@@ -25,9 +25,8 @@ public class Level {
      */
     public Level() {
         coordinates = new Coordinate[5][5];
-        initlevel();
+        initLevel(true);
     }
-
     /**
      * The dynamic constructor for the level class, which creates a level (or "floor") of the dungeon.
      *
@@ -37,14 +36,21 @@ public class Level {
      */
     public Level(int domain, int range) {
         coordinates = new Coordinate[range][domain];
-        initlevel();
+        initLevel(false);
+    }
+    public Level(int domain, int range, int[] downStairsPosition, int[] upStairsPosition) {
+        coordinates = new Coordinate[range][domain];
+        initLevel(true);
+
+        addTile(new StairsUp(upStairsPosition));
+        addTile(new StairsDown(downStairsPosition));
     }
 
     /**
      * Initializes the data structures contained in the level.
      * Used only in the constructor.
      */
-    private void initlevel() {
+    private void initLevel(boolean hardCoded) {
         // Initialize lists
         activeEntities = new ArrayList<>();
         activeItems = new ArrayList<>();
@@ -55,39 +61,46 @@ public class Level {
             for (int j = 0; j < coordinates[i].length; j++)
                 coordinates[i][j] = new Coordinate();
 
-        // -=-=- Things here are something every floor needs. -=-=-
+        // -=-=- Things here are something every floor needs.-=-=-
+        // -=-=- However, if the level needs to be hardcoded, skip adding these randomly. -=-=-
+        if (!hardCoded) {
+            // Creates Stairs up to the previous floor and places the player on it.
+            Random tileRNG = new Random();
+            int row, column;
+            do {
+                row = tileRNG.nextInt(coordinates.length);
+                column = tileRNG.nextInt(coordinates[0].length);
+            } while (getEntityByPosition(row, column) == null);
 
-        // Creates Stairs up to the previous floor and places the player on it.
-        Random tileRNG = new Random();
-        int row = tileRNG.nextInt(coordinates.length);
-        int column = tileRNG.nextInt(coordinates[0].length);
+            StairsUp stairsUp = new StairsUp(new int[]{row, column});
+            activeTiles.add(stairsUp);
+            updateSymbol(row, column);
 
-        StairsUp stairsUp = new StairsUp(new int[]{row, column});
-        activeTiles.add(stairsUp);
-        updateSymbol(row, column);
+            Verbose.log(String.format("Stairs Up created at %d, %d", row, column));
 
-        Verbose.log(String.format("Stairs Up created at %d, %d", row, column));
+            // Continuously try to put StairsDown far away from StairsUp
+            int attempt = 0;
+            while (true) {
+                StairsDown stairsDown;
+                row = tileRNG.nextInt(coordinates.length);
+                column = tileRNG.nextInt(coordinates[0].length);
 
-        // Continuously try to put StairsDown far away from StairsUp
-        int attempt = 0;
-        while(true) {
-            StairsDown stairsDown;
-            row = tileRNG.nextInt(coordinates.length);
-            column = tileRNG.nextInt(coordinates[0].length);
+                double distance = Math.hypot(stairsUp.getRow() - row, stairsUp.getColumn() - column);
+                double minDistance = ((coordinates.length / 3.0) + (coordinates[0].length / 3.0) * (1 - (attempt * 0.05)));
 
-            double distance = Math.hypot(stairsUp.getRow()-row, stairsUp.getColumn()-column);
-            double minDistance = ((coordinates.length / 3.0) + (coordinates[0].length / 3.0) * (1 - (attempt*0.05)));
-
-            if (distance > minDistance) {
-                stairsDown = new StairsDown(new int[]{row, column});
-                activeTiles.add(stairsDown);
-                updateSymbol(stairsDown.getRow(), stairsDown.getColumn());
-                Verbose.log(String.format("Stairs Down Created with suitable distance %.3f, minimum %.3f", distance, minDistance));
-                break;
+                if (distance > minDistance) {
+                    stairsDown = new StairsDown(new int[]{row, column});
+                    activeTiles.add(stairsDown);
+                    updateSymbol(stairsDown.getRow(), stairsDown.getColumn());
+                    Verbose.log(String.format("Stairs Down Created with suitable distance %.3f, minimum %.3f", distance, minDistance));
+                    break;
+                }
+                Verbose.log(String.format("attempt %d: (%d,%d) was too close to stairs up at (%d,%d), actual distance %.3f, minimum distance %.3f.",
+                        ++attempt, row, column, stairsUp.getRow(), stairsUp.getColumn(), distance, minDistance));
             }
-            Verbose.log(String.format("attempt %d: (%d,%d) was too close to stairs up at (%d,%d), actual distance %.3f, minimum distance %.3f.",
-                    ++attempt, row, column, stairsUp.getRow(), stairsUp.getColumn(), distance, minDistance));
         }
+        else
+            Verbose.log("Dynamic generation skipped, level is hardcoded.");
     }
 
     public StringBuilder levelLayout() {
@@ -178,10 +191,8 @@ public class Level {
             if (endTile != null)
                 endTile.updateTile();
 
-            if (!updateSymbol(startRow, startColumn))
-                coordinates[startRow][startColumn].setSymbol(".");
-            if (!updateSymbol(endRow, endColumn))
-                coordinates[endRow][endColumn].setSymbol(".");
+            updateSymbol(startRow, startColumn);
+            updateSymbol(endRow, endColumn);
 
             return true;
 
@@ -329,7 +340,7 @@ public class Level {
      * coordinate based on its Entity, Item(s), Tile, or not at all.
      * @param row the row in which to find the coordinate in the 2D array.
      * @param column the column in which to find the coordinate in the 2D array.
-     * @return true if the symbol was updated, false if it wasn't.
+     * @return true if the symbol was updated based on contents, false if it went back to default.
      */
     public boolean updateSymbol(int row, int column) {
         // If there's an entity at the coordinate, use that symbol
@@ -347,8 +358,10 @@ public class Level {
             coordinates[row][column].setSymbol(getTileByPosition(row, column).getSymbol());
             return true;
         }
-        else
+        else {
+            coordinates[row][column].setSymbol(Coordinate.DEFAULT_SYMBOL);
             return false;
+        }
     }
 
     /**
@@ -365,6 +378,18 @@ public class Level {
             activeEntities.add(entity);
             Verbose.log(String.format("Placed entity of class %s at[%d][%d].", entity.getClass(), entity.getRow(), entity.getColumn()));
             updateSymbol(entity.getRow(), entity.getColumn());
+            return true;
+        }
+    }
+    public boolean addTile (Tile tile) {
+        if (getTileByPosition(tile.getRow(), tile.getColumn()) != null) {
+            Verbose.log(String.format("Another tile is already located at [%d][%d].", tile.getRow(), tile.getColumn()), true);
+            return false;
+        }
+        else {
+            activeTiles.add(tile);
+            Verbose.log(String.format("Placed tile of class %s at[%d][%d].", tile.getClass(), tile.getRow(), tile.getColumn()));
+            updateSymbol(tile.getRow(), tile.getColumn());
             return true;
         }
     }

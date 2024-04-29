@@ -6,7 +6,7 @@ import src.entities.entities.Pumpkin;
 
 public class DebugLevel extends Level {
     public DebugLevel() {
-        super(12, 10);
+        super(12, 10, new int[]{0,0}, new int[]{0,9});
 
         Dummy dummy = new Dummy(new int[]{8, 9});
         this.addEntity(dummy);

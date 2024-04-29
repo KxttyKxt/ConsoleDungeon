@@ -21,7 +21,7 @@ public class Verbose {
      * @param error   if true, prints in the System.err PrintStream instead of System.out.
      */
     public static void log(String message, boolean error) {
-        message = "[v] " + message;
+        message = buildMessage(message);
         if (verbose) {
             if (error)
                 System.err.println(message);
@@ -31,7 +31,7 @@ public class Verbose {
     }
 
     public static void log(String message) {
-        message = "[v] " + message;
+        message = buildMessage(message);
         if (verbose) System.out.println(message);
     }
 
@@ -46,5 +46,13 @@ public class Verbose {
         }
         else
             System.out.println("> There was a problem. Turn on verbose logging to see more.");
+    }
+
+    private static String buildMessage(String baseMessage) {
+        StringBuilder messageBuilder = new StringBuilder(baseMessage);
+        messageBuilder.insert(0, "[v] ");
+        messageBuilder.insert(0, ConsoleColors.TEXT_BG_BLACK);
+        messageBuilder.append(ConsoleColors.TEXT_RESET);
+        return messageBuilder.toString();
     }
 }

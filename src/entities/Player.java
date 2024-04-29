@@ -1,13 +1,13 @@
 package src.entities;
 
-import javaconsolecolors.ConsoleColors;
+import src.util.ConsoleColors;
 
 public class Player extends Entity {
     public Player() {
         super(
                 "Player",
                 "It's you!",
-                new javaconsolecolors.ConsoleColors(ConsoleColors.TEXT_CYAN, null, "@").getColoredString(),
+                ConsoleColors.buildColoredString(ConsoleColors.TEXT_BLUE, null, "@"),
                 20,
                 5,
                 0);

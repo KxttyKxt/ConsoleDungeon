@@ -1,13 +1,19 @@
 /*
  * This software is licensed under the LPGLv3.
  */
-package javaconsolecolors;
+package src.util;
 
 /**
  * This is a class to help printing colored text in the console
  * 2021.04.18
  * This software is licensed under the LGPLv3
  * @author Christian van Langendonck
+ * <p>
+ * @TGDRNote I (kxttykxt) have made this class Static so that I need not create a new object inside every class of my own. I have also removed the majority of methods, as many were strictly object-related and therefore redundant.
+ * <p>
+ * [{@code See Also:} is things I have added as well.]
+ * @see src.entities.Player
+ * @see src.entities.entities.Pumpkin
  */
 public class ConsoleColors {
 
@@ -60,95 +66,6 @@ public class ConsoleColors {
         TEXT_BRIGHT_BG_GREEN, TEXT_BRIGHT_BG_YELLOW, TEXT_BRIGHT_BG_BLUE,
         TEXT_BRIGHT_BG_PURPLE, TEXT_BRIGHT_BG_CYAN, TEXT_BRIGHT_BG_WHITE};
 
-    //Private set of strings used to create class objects
-    private String textColor;
-    private String bgColor;
-    private String textString;
-    private String coloredString;
-
-    /**
-     * Class constructor
-     * @param textColor ANSI code String for the text color
-     * @param bgColor   ANSI code String for the background color
-     * @param textString       Text String to apply color styles
-     */
-    public ConsoleColors(String textColor, String bgColor, String textString){
-        setTextColor(textColor);
-        setBgColor(bgColor);
-        setTextString(textString);
-        this.coloredString = buildColoredString(bgColor, textColor, textString);
-    }
-
-    /** Returns the object built colored string, with color codes and an
-     * appended reset color code at the end
-     * @return String
-     */
-    public String getColoredString(){
-        return coloredString;
-    }
-
-    /**
-     * Sets a new text color style, or remove the style if an invalid code is used
-     * @param textColor ANSI code String for the text color
-     */
-    public void setTextColor(String textColor){
-        this.textColor = isValidColor(textColor) ? textColor : "";
-        setColoredString(this.textColor, this.bgColor, this.textString);
-    }
-
-    /**
-     * Sets a new text background color style, or remove the style if an invalid code is used
-     * @param bgColor ANSI code String for the background color
-     */
-    public void setBgColor(String bgColor){
-        this.bgColor = isValidColor(bgColor) ? bgColor : "";
-        setColoredString(this.textColor, this.bgColor, this.textString);
-    }
-
-    /**
-     * Sets a new text String to apply the styles
-     * @param textString Text String to apply color codes
-     */
-    public void setTextString(String textString){
-        this.textString = textString;
-        setColoredString(this.textColor, this.bgColor, this.textString);
-    }
-
-    /**
-     * Sets all the properties of this object and builds a new String with the
-     * color codes (a reset color code is appended to the end of the String)
-     * @param textColor ANSI code String for the text color
-     * @param bgColor   ANSI code String for the background color
-     * @param textString Text String to apply color styles
-     */
-    public void setColoredString(String textColor, String bgColor, String textString) {
-        coloredString = buildColoredString(bgColor, textColor, textString);
-    }
-
-    /** Returns this object's ANSI text color code String in use (empty String if there's no style in use)
-     * @return String
-     */
-    public String getTextColor(){
-        return textColor;
-    }
-
-    /**
-     * Returns this object's ANSI background color code String in use (empty String if there's no
-     * style in use)
-     * @return String
-     */
-    public String getBgColor(){
-        return bgColor;
-    }
-
-    /**
-     * Returns this object's text String in use, without any color code
-     * @return String
-     */
-    public String getTextString(){
-        return textString;
-    }
-
     /**
      * This method checks if the color String has a valid ANSI color code
      * @param color (ANSI string color code)
@@ -172,7 +89,7 @@ public class ConsoleColors {
      * @param str Text String to apply color styles
      * @return String
      */
-    private static String buildColoredString(String bgColor, String textColor, String str){
+    public static String buildColoredString(String bgColor, String textColor, String str){
         String toReturn = "";
         if (bgColor != null && isValidColor(bgColor)) toReturn += bgColor;
         if (textColor != null && isValidColor(textColor)) toReturn += textColor;
