@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="TextGridDungeonRedux:ColorTest">
+    <output-path>$PROJECT_DIR$/out/artifacts/TextGridDungeonRedux_ColorTest</output-path>
+    <root id="archive" name="ColorTest.jar">
+      <element id="module-output" name="TextGridDungeonRedux" />
+    </root>
+  </artifact>
+</component>

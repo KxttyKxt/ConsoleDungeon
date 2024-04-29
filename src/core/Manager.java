@@ -28,12 +28,12 @@ public class Manager {
     public static void runGame() {
 
         if (Verbose.isVerbose()) {
-            Verbose.log("Use custom level instead? [y] [n]");
+            Verbose.log("Use custom level instead? [y] [n]", false);
             System.out.print(">> ");
             if (consoleScanner.nextLine().equalsIgnoreCase("y"))
                 newLevel(new DebugLevel(), true);
             else {
-                Verbose.log("Custom level denied. Moving on...");
+                Verbose.log("Custom level denied. Moving on...", false);
                 newLevel(12,8,true);
             }
         }
@@ -99,7 +99,7 @@ public class Manager {
         // help command
         if (input.startsWith("help")) {
             if (input.length() > 5) {
-                Verbose.log(String.format("about to parse an extended help command. help is %d in length and starts at %d. Substring begins after %d.", input.length(), input.indexOf("help"), input.indexOf("help") + 5));
+                Verbose.log(String.format("about to parse an extended help command. help is %d in length and starts at %d. Substring begins after %d.", input.length(), input.indexOf("help"), input.indexOf("help") + 5), false);
                 StringBuilder helpDetails = Encyclopedia.getHelpType(input);
                 System.out.print(helpDetails);
                 return false;
@@ -170,21 +170,21 @@ public class Manager {
     }
 
     private static void activateLevel(Level level) {
-        Verbose.log(String.format("Activating level from LinkedList index %d...", levels.indexOf(level)));
+        Verbose.log(String.format("Activating level from LinkedList index %d...", levels.indexOf(level)), false);
         activeLevel = level;
         if (activeLevel.find(player, false) == null) {
             player.setPosition(activeLevel.find(new StairsUp(new int[]{}), false));
-            Verbose.log("Player wasn't found, adding it now...");
+            Verbose.log("Player wasn't found, adding it now...", false);
             if (activeLevel.addEntity(player)) {
                 activeLevel.updateSymbol(player.getRow(), player.getColumn());
-                Verbose.log(String.format("Player added at (%d, %d), updated symbol.", player.getRow(), player.getColumn()));
+                Verbose.log(String.format("Player added at (%d, %d), updated symbol.", player.getRow(), player.getColumn()), false);
             }
             else {
                 Verbose.log("Couldn't place player.", true);
             }
         }
         else
-            Verbose.log("Player found, moving on...");
+            Verbose.log("Player found, moving on...", false);
     }
 
     private static StringBuilder turnPrompt() {
@@ -223,7 +223,7 @@ public class Manager {
             fileWriter.close();
 
             if (Desktop.isDesktopSupported()) {
-                Verbose.log(String.format("Desktop is supported, opening %s...", inventoryFile.getPath()));
+                Verbose.log(String.format("Desktop is supported, opening %s...", inventoryFile.getPath()), false);
                 Desktop.getDesktop().open(inventoryFile);
             } else {
                 Verbose.log(String.format("Desktop is not supported. File at %s must be opened manually.", inventoryFile.getAbsolutePath()), true);

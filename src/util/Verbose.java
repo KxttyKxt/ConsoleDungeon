@@ -21,37 +21,35 @@ public class Verbose {
      * @param error   if true, prints in the System.err PrintStream instead of System.out.
      */
     public static void log(String message, boolean error) {
-        message = buildMessage(message);
+        message = buildMessage(message, error);
         if (verbose) {
-            if (error)
-                System.err.println(message);
-            else
-                System.out.println(message);
+            System.out.println(message);
         }
-    }
-
-    public static void log(String message) {
-        message = buildMessage(message);
-        if (verbose) System.out.println(message);
     }
 
     public static void showError(Exception e) {
         if (isVerbose()) {
-            log(String.format("A %s error occurred.", e.getCause()));
-            log("Print Stacktrace? [y] [n]");
+            log(String.format("A %s error occurred.", e.getCause()), false);
+            log("Print Stacktrace? [y] [n]", false);
             System.out.print(ConsoleColors.TEXT_YELLOW + "[v] >> " + ConsoleColors.TEXT_RESET);
             String input = consoleScanner.nextLine();
-            if (input.equals("y"))
-                e.printStackTrace();
+            if (input.equals("y")) {
+                System.out.print(ConsoleColors.TEXT_BRIGHT_RED);
+                e.printStackTrace(System.out);
+                System.out.println(ConsoleColors.TEXT_RESET);
+            }
         }
         else
             System.out.println("> There was a problem. Turn on verbose logging to see more.");
     }
 
-    private static String buildMessage(String baseMessage) {
+    private static String buildMessage(String baseMessage, boolean error) {
         StringBuilder messageBuilder = new StringBuilder(baseMessage);
         messageBuilder.insert(0, "[v] ");
-        messageBuilder.insert(0, ConsoleColors.TEXT_YELLOW);
+        if (error)
+            messageBuilder.insert(0, ConsoleColors.TEXT_BRIGHT_RED);
+        else
+            messageBuilder.insert(0, ConsoleColors.TEXT_YELLOW);
         messageBuilder.append(ConsoleColors.TEXT_RESET);
         return messageBuilder.toString();
     }

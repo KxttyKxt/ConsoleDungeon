@@ -76,7 +76,7 @@ public class Level {
             activeTiles.add(stairsUp);
             updateSymbol(row, column);
 
-            Verbose.log(String.format("Stairs Up created at %d, %d", row, column));
+            Verbose.log(String.format("Stairs Up created at %d, %d", row, column), false);
 
             // Continuously try to put StairsDown far away from StairsUp
             int attempt = 0;
@@ -92,30 +92,30 @@ public class Level {
                     stairsDown = new StairsDown(new int[]{row, column});
                     activeTiles.add(stairsDown);
                     updateSymbol(stairsDown.getRow(), stairsDown.getColumn());
-                    Verbose.log(String.format("Stairs Down Created with suitable distance %.3f, minimum %.3f", distance, minDistance));
+                    Verbose.log(String.format("Stairs Down Created with suitable distance %.3f, minimum %.3f", distance, minDistance), false);
                     break;
                 }
                 Verbose.log(String.format("attempt %d: (%d,%d) was too close to stairs up at (%d,%d), actual distance %.3f, minimum distance %.3f.",
-                        ++attempt, row, column, stairsUp.getRow(), stairsUp.getColumn(), distance, minDistance));
+                        ++attempt, row, column, stairsUp.getRow(), stairsUp.getColumn(), distance, minDistance), false);
             }
         }
         else
-            Verbose.log("Dynamic generation skipped, level is hardcoded.");
+            Verbose.log("Dynamic generation skipped, level is hardcoded.", false);
     }
 
     public StringBuilder levelLayout() {
         StringBuilder levelPrint = new StringBuilder();
-        levelPrint.append("=".repeat(coordinates[0].length * 5 + 2)).append(String.format("%n"));
+        levelPrint.append("=".repeat(coordinates[0].length * 3 + 2)).append(String.format("%n"));
 
         for (Coordinate[] x : coordinates) {
             levelPrint.append("|");
             for (Coordinate y : x) {
-                levelPrint.append(" ").append(y.getSymbol()).append(" ");
+                levelPrint.append(y.getSymbol());
             }
             levelPrint.append(String.format("|%n"));
         }
 
-        levelPrint.append("=".repeat(coordinates[0].length * 5 + 2));
+        levelPrint.append("=".repeat(coordinates[0].length * 3 + 2));
         return levelPrint;
     }
 
@@ -174,16 +174,16 @@ public class Level {
 
             if (entityToMove == null) {
                 System.out.println("> Somehow, there was nothing to move!");
-                Verbose.log("No entity found at start position.");
+                Verbose.log("No entity found at start position.", false);
                 return false;
             } else if (endEntity != null) {
                 System.out.printf("> A %s stands in your way!%n", endEntity.getName());
-                Verbose.log("Entity in the way at end position.");
+                Verbose.log("Entity in the way at end position.", false);
                 return false;
             }
             if (endTile != null && !endTile.isTraversable()) {
                 System.out.printf("> A %s blocks your path!%n", endTile.getName());
-                Verbose.log("The end tile is not traversable.");
+                Verbose.log("The end tile is not traversable.", false);
                 return false;
             }
 
@@ -446,7 +446,7 @@ public class Level {
         }
         else {
             activeEntities.add(entity);
-            Verbose.log(String.format("Placed entity of class %s at[%d][%d].", entity.getClass(), entity.getRow(), entity.getColumn()));
+            Verbose.log(String.format("Placed entity of class %s at[%d][%d].", entity.getClass(), entity.getRow(), entity.getColumn()), false);
             updateSymbol(entity.getRow(), entity.getColumn());
             return true;
         }
@@ -458,7 +458,7 @@ public class Level {
         }
         else {
             activeTiles.add(tile);
-            Verbose.log(String.format("Placed tile of class %s at[%d][%d].", tile.getClass(), tile.getRow(), tile.getColumn()));
+            Verbose.log(String.format("Placed tile of class %s at[%d][%d].", tile.getClass(), tile.getRow(), tile.getColumn()), false);
             updateSymbol(tile.getRow(), tile.getColumn());
             return true;
         }
