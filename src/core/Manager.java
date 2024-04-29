@@ -78,7 +78,7 @@ public class Manager {
             }
             // if q, quit
             case("q"): {
-                System.out.printf("Exiting game. You took %d turns.", turns);
+                System.out.printf("Exiting game. You took %d turns.%n%n", turns);
                 System.exit(0);
                 return false;
             }
