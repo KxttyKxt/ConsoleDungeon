@@ -3,12 +3,12 @@ package src.tiles.tiles;
 import src.tiles.Tile;
 import src.util.ConsoleColors;
 
-public class Wall extends Tile {
-    public Wall(int[] position) {
+public class Statue extends Tile {
+    public Statue(int[] position) {
         super(
-                "Wall",
-                "It blocks your way.",
-                "===",
+                "Statue",
+                "Someone tried to adorn this place, but failed, obviously.",
+                "{*}",
                 true,
                 false,
                 position,
@@ -18,7 +18,7 @@ public class Wall extends Tile {
     }
 
     @Override
-    public void updateTile() {}
+    public void updateTile() {
 
-
+    }
 }

@@ -125,6 +125,7 @@ public class Level {
             if (!currentEntity.updateEntity()) {
                 activeEntities.remove(currentEntity);
                 updateSymbol(currentEntity.getRow(), currentEntity.getColumn());
+                System.out.printf("%s was defeated!%n", currentEntity.getName());
             }
         }
     }
@@ -145,7 +146,7 @@ public class Level {
         Entity actor = getEntityByPosition(startRow, startColumn);
         Entity target = getEntityByPosition(endRow, endColumn);
 
-        if (!moveEntity(startRow, startColumn, endRow, endColumn))
+        if (!moveEntity(startRow, startColumn, endRow, endColumn) && target != null)
             return attackEntity(actor, target);
         else return true;
     }

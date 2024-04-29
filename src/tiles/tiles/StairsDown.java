@@ -8,12 +8,12 @@ public class StairsDown extends Tile {
         super(
                 "Stairs Down",
                 "A way deeper.",
-                "\\v/",
+                "[v]",
                 true,
                 true,
                 position,
-                ConsoleColors.TEXT_WHITE,
-                ConsoleColors.TEXT_BG_BLACK
+                ConsoleColors.TEXT_BRIGHT_WHITE,
+                ""
         );
     }
 

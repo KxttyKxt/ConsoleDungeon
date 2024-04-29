@@ -8,12 +8,12 @@ public class StairsUp extends Tile {
         super(
                 "Stairs",
                 "The way out.",
-                "/^\\",
+                "[^]",
                 true,
                 true,
                 position,
-                ConsoleColors.TEXT_WHITE,
-                ConsoleColors.TEXT_BG_BLACK
+                ConsoleColors.TEXT_BRIGHT_WHITE,
+                ""
         );
     }
 
