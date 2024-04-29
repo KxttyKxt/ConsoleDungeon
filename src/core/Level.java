@@ -105,17 +105,17 @@ public class Level {
 
     public StringBuilder levelLayout() {
         StringBuilder levelPrint = new StringBuilder();
-        levelPrint.append("=".repeat(coordinates[0].length * 3 + 2)).append(String.format("%n"));
+        levelPrint.append("=".repeat(coordinates[0].length * 5 + 2)).append(String.format("%n"));
 
         for (Coordinate[] x : coordinates) {
             levelPrint.append("|");
             for (Coordinate y : x) {
-                levelPrint.append(y.getSymbol());
+                levelPrint.append(" ").append(y.getSymbol()).append(" ");
             }
             levelPrint.append(String.format("|%n"));
         }
 
-        levelPrint.append("=".repeat(coordinates[0].length * 3 + 2));
+        levelPrint.append("=".repeat(coordinates[0].length * 5 + 2));
         return levelPrint;
     }
 
@@ -146,7 +146,7 @@ public class Level {
         Entity actor = getEntityByPosition(startRow, startColumn);
         Entity target = getEntityByPosition(endRow, endColumn);
 
-        if (!moveEntity(startRow, startColumn, endRow, endColumn) && target != null)
+        if (!moveEntity(startRow, startColumn, endRow, endColumn))
             return attackEntity(actor, target);
         else return true;
     }
@@ -205,9 +205,13 @@ public class Level {
         }
     }
     private boolean attackEntity(Entity attacker, Entity target) {
-        target.setHealth(target.getHealth() - attacker.getDamage());
-        System.out.printf("> %s attacked %s.%n", attacker.getName(), target.getName());
-        return true;
+        if (target != null) {
+            target.setHealth(target.getHealth() - attacker.getDamage());
+            System.out.printf("> %s attacked %s.%n", attacker.getName(), target.getName());
+            return true;
+        }
+        else
+            return false;
     }
 
     /**
