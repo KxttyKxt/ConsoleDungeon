@@ -1,5 +1,7 @@
 package src.core;
 
+import src.util.ConsoleColors;
+
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -8,6 +10,8 @@ public abstract class GameObject {
     protected String description;
     protected String symbol;
     protected int[] position; // ordered pair coordinates
+    protected String color;
+    protected String bgColor;
 
     public GameObject() {
         name = "Undefined Object";
@@ -25,6 +29,19 @@ public abstract class GameObject {
         this.description = description;
         this.symbol = symbol;
         this.position = position;
+    }
+
+    public GameObject(String name, String description, String symbol, int[] position, String color, String bgColor) {
+        this.name = name;
+        this.description = description;
+        this.position = position;
+        this.color = color;
+        this.bgColor = bgColor;
+        this.symbol = symbol;
+    }
+
+    public String getColoredSymbol() {
+        return ConsoleColors.buildColoredString(bgColor, color, symbol);
     }
 
     public String getName() {
@@ -49,6 +66,22 @@ public abstract class GameObject {
 
     public void setSymbol(String symbol) {
         this.symbol = symbol;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public String getBgColor() {
+        return bgColor;
+    }
+
+    public void setBgColor(String bgColor) {
+        this.bgColor = bgColor;
     }
 
     public int[] getPosition() {

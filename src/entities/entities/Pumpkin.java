@@ -8,11 +8,13 @@ public class Pumpkin extends Entity {
         super(
                 "Pumpkin",
                 "A pumpkin. Looks punchable.",
-                ConsoleColors.buildColoredString(ConsoleColors.TEXT_YELLOW, null, "o"),
+                "o",
                 10,
                 0,
                 0,
-                position
+                position,
+                ConsoleColors.TEXT_YELLOW,
+                ""
         );
     }
 }

@@ -32,6 +32,13 @@ public abstract class Entity extends GameObject{
         this.position = position;
     }
 
+    public Entity(String name, String description, String symbol, int health, int damage, int armor, int[] position, String color, String bgColor) {
+        super(name, description, symbol, position, color, bgColor);
+        this.health = health;
+        this.damage = damage;
+        this.armor = armor;
+    }
+
     public boolean updateEntity() {
         if (health <= 0)
             alive = false;

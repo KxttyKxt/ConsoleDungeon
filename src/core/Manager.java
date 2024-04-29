@@ -42,13 +42,13 @@ public class Manager {
 
 
         while (true) {
+            activeLevel.checkEntities();
             System.out.println(activeLevel.levelLayout());
             System.out.println("> Turns: " + turns);
             System.out.print(turnPrompt());
 
             // CHAT I FINALLY FOUND A USE FOR DO-WHILE!!!
             do {
-                activeLevel.checkEntities();
                 System.out.print(">> ");
             } while (!controlPanel());
             turns++;
@@ -173,7 +173,7 @@ public class Manager {
         Verbose.log(String.format("Activating level from LinkedList index %d...", levels.indexOf(level)));
         activeLevel = level;
         if (activeLevel.find(player, false) == null) {
-            player.setPosition(activeLevel.find(new StairsUp(), false));
+            player.setPosition(activeLevel.find(new StairsUp(new int[]{}), false));
             Verbose.log("Player wasn't found, adding it now...");
             if (activeLevel.addEntity(player)) {
                 activeLevel.updateSymbol(player.getRow(), player.getColumn());

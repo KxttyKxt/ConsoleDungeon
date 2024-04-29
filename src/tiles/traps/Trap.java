@@ -9,15 +9,15 @@ public abstract class Trap extends Tile {
         super(
                 "Undefined Trap",
                 "This trap is undefined.",
-                "X",
+                "XXX",
                 true,
                 true,
                 position
         );
     }
 
-    public Trap(String name, String description, String symbol, boolean discovered, int[] position) {
-        super(name, description, symbol, discovered, true, position);
+    public Trap(String name, String description, String symbol, boolean discovered, int[] position, String color, String bgColor) {
+        super(name, description, symbol, discovered, true, position, color, bgColor);
     }
 
     public abstract void triggerTrap(Entity target);

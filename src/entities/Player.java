@@ -7,9 +7,13 @@ public class Player extends Entity {
         super(
                 "Player",
                 "It's you!",
-                ConsoleColors.buildColoredString(ConsoleColors.TEXT_BLUE, null, "@"),
+                "@",
                 20,
                 5,
-                0);
+                0,
+                new int[]{},
+                ConsoleColors.TEXT_BRIGHT_BLUE,
+                ""
+        );
     }
 }

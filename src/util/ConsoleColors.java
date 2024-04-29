@@ -9,7 +9,8 @@ package src.util;
  * This software is licensed under the LGPLv3
  * @author Christian van Langendonck
  * <p>
- * @TGDRNote I (kxttykxt) have made this class Static so that I need not create a new object inside every class of my own. I have also removed the majority of methods, as many were strictly object-related and therefore redundant.
+ * @TGDRNote I (kxttykxt) have made this class Static so that I need not create a new object inside every class of my own.
+ * I have also removed the majority of methods, as many were strictly object-related and therefore redundant.
  * <p>
  * [{@code See Also:} is things I have added as well.]
  * @see src.entities.Player
@@ -94,5 +95,74 @@ public class ConsoleColors {
         if (bgColor != null && isValidColor(bgColor)) toReturn += bgColor;
         if (textColor != null && isValidColor(textColor)) toReturn += textColor;
         return toReturn + str + TEXT_RESET;
+    }
+
+    /**
+     * Prints a key for what all the color (background) codes look like.
+     * @TGDRNote I made this myself smile
+     */
+    public static void main(String[] args) {
+        StringBuilder toPrint = new StringBuilder();
+        toPrint.append(TEXT_RESET).append(String.format("%-27s", "[Reset Text]"));
+
+        toPrint.append("\n\n");
+
+        toPrint.append(TEXT_BLACK).append(String.format("%-27s", "[Black Text] "));
+        toPrint.append(TEXT_RED).append(String.format("%-27s", "[Red Text] "));
+        toPrint.append(TEXT_GREEN).append(String.format("%-27s", "[Green Text] "));
+        toPrint.append(TEXT_YELLOW).append(String.format("%-27s", "[Yellow Text] "));
+        toPrint.append(TEXT_RESET).append("\n");
+        toPrint.append(TEXT_BLUE).append(String.format("%-27s", "[Blue Text] "));
+        toPrint.append(TEXT_PURPLE).append(String.format("%-27s", "[Purple Text] "));
+        toPrint.append(TEXT_CYAN).append(String.format("%-27s", "[Cyan Text] "));
+        toPrint.append(TEXT_WHITE).append(String.format("%-27s", "[White Text]"));
+
+        toPrint.append(TEXT_RESET).append("\n\n");
+
+        toPrint.append(TEXT_BRIGHT_BLACK).append(String.format("%-27s", "[Bright Black Text] "));
+        toPrint.append(TEXT_BRIGHT_RED).append(String.format("%-27s", "[Bright Red Text] "));
+        toPrint.append(TEXT_BRIGHT_GREEN).append(String.format("%-27s", "[Bright Green Text] "));
+        toPrint.append(TEXT_BRIGHT_YELLOW).append(String.format("%-27s", "[Bright Yellow Text] "));
+        toPrint.append(TEXT_RESET).append("\n");
+        toPrint.append(TEXT_BRIGHT_BLUE).append(String.format("%-27s", "[Bright Blue Text] "));
+        toPrint.append(TEXT_BRIGHT_PURPLE).append(String.format("%-27s", "[Bright Purple Text] "));
+        toPrint.append(TEXT_BRIGHT_CYAN).append(String.format("%-27s", "[Bright Cyan Text] "));
+        toPrint.append(TEXT_BRIGHT_WHITE).append(String.format("%-27s", "[Bright White Text]"));
+
+        toPrint.append(TEXT_RESET).append("\n\n");
+
+        toPrint.append(TEXT_BG_BLACK).append(String.format("%-27s", "[Black Background] "));
+        toPrint.append(TEXT_BG_RED).append(String.format("%-27s", "[Red Background] "));
+        toPrint.append(TEXT_BG_GREEN).append(String.format("%-27s", "[Green Background] "));
+        toPrint.append(TEXT_BG_YELLOW).append(String.format("%-27s", "[Yellow Background] "));
+        toPrint.append(TEXT_RESET).append("\n");
+        toPrint.append(TEXT_BG_BLUE).append(String.format("%-27s", "[Blue Background] "));
+        toPrint.append(TEXT_BG_PURPLE).append(String.format("%-27s", "[Purple Background] "));
+        toPrint.append(TEXT_BG_CYAN).append(String.format("%-27s", "[Cyan Background] "));
+        toPrint.append(TEXT_BG_WHITE).append(String.format("%-27s", "[White Background]"));
+
+        toPrint.append(TEXT_RESET).append("\n\n");
+
+        toPrint.append(TEXT_BRIGHT_BG_BLACK).append(String.format("%-27s", "[Bright Black Background] "));
+        toPrint.append(TEXT_BRIGHT_BG_RED).append(String.format("%-27s", "[Bright Red Background] "));
+        toPrint.append(TEXT_BRIGHT_BG_GREEN).append(String.format("%-27s", "[Bright Green Background] "));
+        toPrint.append(TEXT_BRIGHT_BG_YELLOW).append(String.format("%-27s", "[Bright Yellow Background] "));
+        toPrint.append(TEXT_RESET).append("\n");
+        toPrint.append(TEXT_BRIGHT_BG_BLUE).append(String.format("%-27s", "[Bright Blue Background] "));
+        toPrint.append(TEXT_BRIGHT_BG_PURPLE).append(String.format("%-27s", "[Bright Purple Background] "));
+        toPrint.append(TEXT_BRIGHT_BG_CYAN).append(String.format("%-27s", "[Bright Cyan Background] "));
+        toPrint.append(TEXT_BRIGHT_BG_WHITE).append(TEXT_BLACK).append(String.format("%-27s", "[Bright White Background]"));
+
+        toPrint.append(TEXT_RESET).append(String.format("%n%nANSI codes (as strings) in each section are %s | %s | %s | %s | %s characters long respectively.",
+                        TEXT_RESET.length(),
+                        TEXT_WHITE.length(),
+                        TEXT_BRIGHT_WHITE.length(),
+                        TEXT_BG_WHITE.length(),
+                        TEXT_BRIGHT_BG_WHITE.length()
+                ));
+        // Interesting...that must mean the escaped "\u001B" is a special character.
+        // Copy-pasting it gives me "".
+
+        System.out.println(toPrint);
     }
 }

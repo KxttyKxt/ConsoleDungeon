@@ -110,7 +110,7 @@ public class Level {
         for (Coordinate[] x : coordinates) {
             levelPrint.append("|");
             for (Coordinate y : x) {
-                levelPrint.append("  ").append(y.getSymbol()).append("  ");
+                levelPrint.append(" ").append(y.getSymbol()).append(" ");
             }
             levelPrint.append(String.format("|%n"));
         }
@@ -145,10 +145,9 @@ public class Level {
         Entity actor = getEntityByPosition(startRow, startColumn);
         Entity target = getEntityByPosition(endRow, endColumn);
 
-        if (target != null)
+        if (!moveEntity(startRow, startColumn, endRow, endColumn))
             return attackEntity(actor, target);
-        else
-            return moveEntity(startRow, startColumn, endRow, endColumn);
+        else return true;
     }
     /**
      * Move an entity from one coordinate to another, then update the coordinate it left and the coordinate it entered.
@@ -343,25 +342,95 @@ public class Level {
      * @return true if the symbol was updated based on contents, false if it went back to default.
      */
     public boolean updateSymbol(int row, int column) {
-        // If there's an entity at the coordinate, use that symbol
-        if (getEntityByPosition(row, column) != null) {
-            coordinates[row][column].setSymbol(getEntityByPosition(row, column).getSymbol());
-            return true;
+        StringBuilder symbolBuilder = new StringBuilder();
+        boolean toReturn = true;
+
+        Coordinate coordinate = coordinates[row][column];
+        Item item = getItemByPosition(row, column);
+        Entity entity = getEntityByPosition(row, column);
+        Tile tile = getTileByPosition(row, column);
+
+        boolean existsItem = item != null;
+        boolean existsEntity = entity != null;
+        boolean existsTile = tile != null;
+
+        // top-level - exists ONLY ONE by priority
+        if (existsTile) {
+            // A tile is present.
+
+            // if there's also an entity
+            if (existsEntity) {
+                symbolBuilder
+                        .append(tile.getBgColor())
+                        .append(tile.getColor())
+                        .append(tile.getSymbol().charAt(0))
+                        .append(entity.getBgColor())
+                        .append(entity.getColor())
+                        .append(entity.getSymbol())
+                        .append(tile.getBgColor())
+                        .append(tile.getColor())
+                        .append(tile.getSymbol().charAt(2))
+
+                        .append(ConsoleColors.TEXT_RESET);
+            }
+            // if no entity and yes item
+            else if (existsItem) {
+
+                symbolBuilder
+                        .append(tile.getBgColor())
+                        .append(tile.getColor())
+                        .append(tile.getSymbol().charAt(0))
+                        .append(item.getBgColor())
+                        .append(item.getColor())
+                        .append(item.getSymbol())
+                        .append(tile.getBgColor())
+                        .append(tile.getColor())
+                        .append(tile.getSymbol().charAt(2))
+
+                        .append(ConsoleColors.TEXT_RESET);
+            }
+            // Else, just a tile
+            else
+                symbolBuilder.append(tile.getColoredSymbol());
         }
-        // Else, if there's at least one item, use that item's symbol
-        else if (getItemByPosition(row, column) != null) {
-            coordinates[row][column].setSymbol(getItemByPosition(row, column).getSymbol());
-            return true;
+        else if (existsEntity) {
+            // An entity is present.
+            symbolBuilder.append(" ").append(entity.getColoredSymbol()).append(" ");
+            // Is there also an item?
+            // Actually, that doesn't matter; the entity guards it.
+        } else if (existsItem) {
+            // There's ONLY an item.
+            symbolBuilder.append("  ").append(item.getColoredSymbol()).append("  ");
+        } else {
+            // None were present.
+            toReturn = false;
+            symbolBuilder.append(Coordinate.DEFAULT_SYMBOL_COLORED);
         }
-        // Else if there's a special tile
-        else if (getTileByPosition(row, column) != null) {
-            coordinates[row][column].setSymbol(getTileByPosition(row, column).getSymbol());
-            return true;
-        }
-        else {
-            coordinates[row][column].setSymbol(Coordinate.DEFAULT_SYMBOL);
-            return false;
-        }
+
+        coordinates[row][column].setSymbol(symbolBuilder.toString());
+
+        return true;
+
+//        // If there's an item, it becomes the symbol.
+//        if (getItemByPosition(row, column) != null) {
+//            coordinates[row][column].setSymbol(getItemByPosition(row, column).getSymbol());
+//            return true;
+//        }
+//        // If there's an entity on the item, use that instead; the entity guards said item.
+//        if (getEntityByPosition(row, column) != null) {
+//            coordinates[row][column].setSymbol(getEntityByPosition(row, column).getSymbol());
+//            return true;
+//        }
+//        // Else if there's a special tile
+//        else if (getTileByPosition(row, column) != null) {
+//            coordinates[row][column].setSymbol(getTileByPosition(row, column).getSymbol());
+//            return true;
+//        }
+//        else {
+//            coordinates[row][column].setSymbol(Coordinate.DEFAULT_SYMBOL);
+//            return false;
+//        }
+//        return "bwaaa";
     }
 
     /**

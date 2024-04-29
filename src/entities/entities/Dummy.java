@@ -8,11 +8,13 @@ public class Dummy extends Entity {
         super(
                 "Dummy",
                 "A simple practice dummy.",
-                ConsoleColors.buildColoredString(ConsoleColors.TEXT_BRIGHT_YELLOW, null, "T"),
+                "T",
                 Integer.MAX_VALUE,
                 0,
                 0,
-                position
+                position,
+                ConsoleColors.TEXT_BLUE,
+                ""
         );
     }
 }
