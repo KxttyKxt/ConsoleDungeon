@@ -39,7 +39,7 @@ public class Verbose {
         if (isVerbose()) {
             log(String.format("A %s error occurred.", e.getCause()));
             log("Print Stacktrace? [y] [n]");
-            System.out.print("[v] >> ");
+            System.out.print(ConsoleColors.TEXT_YELLOW + "[v] >> " + ConsoleColors.TEXT_RESET);
             String input = consoleScanner.nextLine();
             if (input.equals("y"))
                 e.printStackTrace();
@@ -51,7 +51,7 @@ public class Verbose {
     private static String buildMessage(String baseMessage) {
         StringBuilder messageBuilder = new StringBuilder(baseMessage);
         messageBuilder.insert(0, "[v] ");
-        messageBuilder.insert(0, ConsoleColors.TEXT_BG_BLACK);
+        messageBuilder.insert(0, ConsoleColors.TEXT_YELLOW);
         messageBuilder.append(ConsoleColors.TEXT_RESET);
         return messageBuilder.toString();
     }

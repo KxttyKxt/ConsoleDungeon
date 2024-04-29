@@ -70,7 +70,7 @@ public class Level {
             do {
                 row = tileRNG.nextInt(coordinates.length);
                 column = tileRNG.nextInt(coordinates[0].length);
-            } while (getEntityByPosition(row, column) == null);
+            } while (getEntityByPosition(row, column) != null);
 
             StairsUp stairsUp = new StairsUp(new int[]{row, column});
             activeTiles.add(stairsUp);
