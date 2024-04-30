@@ -22,8 +22,8 @@ public class Level {
     private ArrayList<Tile> activeTiles;        // Tiles stored on the level...
     // ... to be updated as needed, probably every turn.
 
-    private static ArrayList<Action> actionLog = new ArrayList<>(); // Stores information from user actions.
-    private static int actionLogMaxSize = 10; // Placeholder for now; may end up being final.
+    private static final int ACTION_LOG_MAX_SIZE = 20; // The maximum number of actions that the actionLog will track.
+    private static ArrayList<Action> actionLog = new ArrayList<>(ACTION_LOG_MAX_SIZE); // Stores information from user actions.
 
     /**
      * The default constructor for the level class, which creates a level (or "floor") of the dungeon.
@@ -250,13 +250,14 @@ public class Level {
     }
 
     private String logAction(String action) {
+        String toReturn = "";
+        if (actionLog.size() == ACTION_LOG_MAX_SIZE)
+            toReturn = actionLog.removeLast().getAction(this);
+
         Action actionObject = new Action(action, this);
         actionLog.addFirst(actionObject);
 
-        if (actionLog.size() > actionLogMaxSize)
-            return actionLog.removeLast().getAction(this);
-
-        return "";
+        return toReturn;
     }
 
     /**
