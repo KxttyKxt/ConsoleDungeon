@@ -2,6 +2,7 @@ package src.core;
 
 import src.entities.Entity;
 import src.entities.Player;
+import src.levels.Level;
 import src.tiles.tiles.StairsUp;
 import src.util.DebugLevel;
 import src.util.Encyclopedia;

@@ -1,4 +1,4 @@
-package src.core;
+package src.levels;
 
 import src.util.ConsoleColors;
 

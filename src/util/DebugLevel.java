@@ -1,6 +1,6 @@
 package src.util;
 
-import src.core.Level;
+import src.levels.Level;
 import src.entities.entities.Dummy;
 import src.entities.entities.Pumpkin;
 import src.tiles.tiles.Door;

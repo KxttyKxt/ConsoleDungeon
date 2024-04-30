@@ -1,4 +1,4 @@
-package src.core;
+package src.levels;
 
 import src.entities.Entity;
 import src.items.Item;
@@ -20,7 +20,8 @@ public class Level {
     private ArrayList<Tile> activeTiles;        // Tiles stored on the level...
     // ... to be updated as needed, probably every turn.
 
-    private static ArrayList<String> actionLog = new ArrayList<>();
+    private static ArrayList<Action> actionLog = new ArrayList<>(); // Stores information from user actions.
+    private static int actionLogMaxSize = 10; // Placeholder for now; may end up being final.
 
     /**
      * The default constructor for the level class, which creates a level (or "floor") of the dungeon.
@@ -107,17 +108,38 @@ public class Level {
 
     public StringBuilder levelLayout() {
         StringBuilder levelPrint = new StringBuilder();
-        levelPrint.append("=".repeat(coordinates[0].length * 5 + 2)).append(String.format("%n"));
+        int counter = this.coordinates.length + 1;
 
+        // First line
+        levelPrint.append("=".repeat(coordinates[0].length * 5 + 2)).append("   ");
+
+        if (counter < actionLog.size())
+            levelPrint.append(actionLog.get(counter).getAction(this));
+        counter--;
+
+        levelPrint.append(String.format("%n"));
+
+        // Actual Map Lines
         for (Coordinate[] x : coordinates) {
             levelPrint.append("|");
             for (Coordinate y : x) {
                 levelPrint.append(" ").append(y.getSymbol()).append(" ");
             }
-            levelPrint.append(String.format("|%n"));
+            levelPrint.append("|   ");
+
+            if (counter < actionLog.size())
+                levelPrint.append(actionLog.get(counter).getAction(this));
+            counter--;
+
+            levelPrint.append(String.format("%n"));
         }
 
-        levelPrint.append("=".repeat(coordinates[0].length * 5 + 2));
+        // Last Line
+        levelPrint.append("=".repeat(coordinates[0].length * 5 + 2)).append("   ");
+
+        if (counter < actionLog.size())
+            levelPrint.append(actionLog.get(counter).getAction(this));
+
         return levelPrint;
     }
 
@@ -127,7 +149,7 @@ public class Level {
             if (!currentEntity.updateEntity()) {
                 activeEntities.remove(currentEntity);
                 updateSymbol(currentEntity.getRow(), currentEntity.getColumn());
-                System.out.printf("%s was defeated!%n", currentEntity.getName());
+                logAction(String.format("%s was defeated!", currentEntity.getName()));
             }
         }
     }
@@ -208,12 +230,25 @@ public class Level {
     }
     private boolean attackEntity(Entity attacker, Entity target) {
         if (target != null) {
+            int priorHP = target.getHealth();
             target.setHealth(target.getHealth() - attacker.getDamage());
-            System.out.printf("> %s attacked %s.%n", attacker.getName(), target.getName());
+            int afterHP = target.getHealth();
+
+            logAction(String.format("%s attacked %s for %d damage.", attacker.getName(), target.getName(), priorHP-afterHP));
             return true;
         }
         else
             return false;
+    }
+
+    private String logAction(String action) {
+        Action actionObject = new Action(action, this);
+        actionLog.addFirst(actionObject);
+
+        if (actionLog.size() > actionLogMaxSize)
+            return actionLog.removeLast().getAction(this);
+
+        return "";
     }
 
     /**
@@ -468,5 +503,25 @@ public class Level {
             updateSymbol(tile.getRow(), tile.getColumn());
             return true;
         }
+    }
+}
+
+class Action {
+    private String action;
+    private Level loggedFrom;
+
+    public Action(String action, Level loggedFrom) {
+        this.action = action;
+        this.loggedFrom = loggedFrom;
+    }
+
+    public void setAction(String action) {
+        this.action = action;
+    }
+    public String getAction(Level pulledTo) {
+        if (pulledTo != loggedFrom)
+            action = ConsoleColors.TEXT_BRIGHT_BLACK + action + ConsoleColors.TEXT_RESET;
+
+        return action;
     }
 }
