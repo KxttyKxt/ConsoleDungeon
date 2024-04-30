@@ -21,4 +21,12 @@ public abstract class Stackable extends Item{
         this.MAX_SIZE = MAX_SIZE;
         this.amount = 1;
     }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
 }

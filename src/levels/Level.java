@@ -1,7 +1,9 @@
 package src.levels;
 
 import src.entities.Entity;
+import src.entities.Player;
 import src.items.Item;
+import src.items.Stackable;
 import src.tiles.tiles.StairsDown;
 import src.tiles.tiles.StairsUp;
 import src.tiles.Tile;
@@ -234,7 +236,13 @@ public class Level {
             target.setHealth(target.getHealth() - attacker.getDamage());
             int afterHP = target.getHealth();
 
-            logAction(String.format("%s attacked %s for %d damage.", attacker.getName(), target.getName(), priorHP-afterHP));
+            StringBuilder action = new StringBuilder(String.format("%s attacked %s for %d damage.", attacker.getName(), target.getName(), priorHP-afterHP));
+            if (afterHP <= 0) {
+                activeEntities.remove(target);
+                action.append(String.format(" %s is defeated!", target.getName()));
+                updateSymbol(target.getRow(), target.getColumn());
+            }
+            logAction(action.toString());
             return true;
         }
         else
@@ -437,12 +445,17 @@ public class Level {
         }
         else if (existsEntity) {
             // An entity is present.
-            symbolBuilder.append(" ").append(entity.getColoredSymbol()).append(" ");
+            symbolBuilder.append(" ").append(entity.getColoredSymbol());
+
             // Is there also an item?
-            // Actually, that doesn't matter; the entity guards it.
+            if (existsItem) {
+                symbolBuilder.append(ConsoleColors.buildColoredString("", item.getColor(), "*"));
+            }
+            else
+                symbolBuilder.append(" ");
         } else if (existsItem) {
             // There's ONLY an item.
-            symbolBuilder.append("  ").append(item.getColoredSymbol()).append("  ");
+            symbolBuilder.append(" ").append(item.getColoredSymbol()).append(" ");
         } else {
             // None were present.
             toReturn = false;
@@ -480,29 +493,52 @@ public class Level {
      * @param entity The entity to add to the list of active entities.
      * @return true if the entity is added, false otherwise (there was already an entity at the new one's position).
      */
-    public boolean addEntity (Entity entity) {
+    public boolean addEntity(Entity entity) {
         if (getEntityByPosition(entity.getRow(), entity.getColumn()) != null) {
             Verbose.log(String.format("Another entity is already located at [%d][%d].", entity.getRow(), entity.getColumn()), true);
             return false;
         }
         else {
             activeEntities.add(entity);
-            Verbose.log(String.format("Placed entity of class %s at[%d][%d].", entity.getClass(), entity.getRow(), entity.getColumn()), false);
+            Verbose.log(String.format("Placed entity of %s at[%d][%d].", entity.getClass(), entity.getRow(), entity.getColumn()), false);
             updateSymbol(entity.getRow(), entity.getColumn());
             return true;
         }
     }
-    public boolean addTile (Tile tile) {
+    public boolean addTile(Tile tile) {
         if (getTileByPosition(tile.getRow(), tile.getColumn()) != null) {
             Verbose.log(String.format("Another tile is already located at [%d][%d].", tile.getRow(), tile.getColumn()), true);
             return false;
         }
         else {
             activeTiles.add(tile);
-            Verbose.log(String.format("Placed tile of class %s at[%d][%d].", tile.getClass(), tile.getRow(), tile.getColumn()), false);
+            Verbose.log(String.format("Placed tile of %s at[%d][%d].", tile.getClass(), tile.getRow(), tile.getColumn()), false);
             updateSymbol(tile.getRow(), tile.getColumn());
             return true;
         }
+    }
+    public boolean addItem(Item item) {
+        activeItems.add(item);
+        Verbose.log(String.format("Placed item of %s at [%d][%d]", item.getClass(), item.getRow(), item.getColumn()), false);
+        updateSymbol(item.getRow(), item.getColumn());
+        return true;
+    }
+
+    public Item interact(Entity entity, int row, int column) {
+        Item item = getItemByPosition(row, column);
+        if (item != null) {
+            activeItems.remove(item);
+            updateSymbol(item.getRow(), item.getColumn());
+
+            StringBuilder actionBuilder = new StringBuilder();
+            actionBuilder.append(String.format("%s picked up %s.", entity.getName(), item.getName()));
+            if (item instanceof Stackable)
+                actionBuilder.append(String.format(" [Amount: %d]", ((Stackable) item).getAmount()));
+            logAction(actionBuilder.toString());
+
+            return item;
+        }
+        return null;
     }
 }
 

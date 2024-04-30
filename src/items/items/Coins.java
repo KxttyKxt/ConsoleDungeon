@@ -3,17 +3,18 @@ package src.items.items;
 import src.items.Stackable;
 import src.util.ConsoleColors;
 
-public class Gold extends Stackable {
+public class Coins extends Stackable {
 
-    public Gold(String name, String description, String symbol, int MAX_SIZE, int[] position, String color, String bgColor) {
+    public Coins(int[] position, int amount) {
         super(
                 "Gold Coins",
                 "A dungeoneer's favorite treasure.",
-                "©",
+                "°",
                 Integer.MAX_VALUE,
-                new int[]{-1, -1},
+                position,
                 ConsoleColors.TEXT_BRIGHT_YELLOW,
                 ""
         );
+        this.amount = amount;
     }
 }

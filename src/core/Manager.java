@@ -2,6 +2,7 @@ package src.core;
 
 import src.entities.Entity;
 import src.entities.Player;
+import src.items.Item;
 import src.levels.Level;
 import src.tiles.tiles.StairsUp;
 import src.util.DebugLevel;
@@ -43,7 +44,6 @@ public class Manager {
 
 
         while (true) {
-            activeLevel.checkEntities();
             System.out.println(activeLevel.levelLayout());
             System.out.println("> Turns: " + turns);
             System.out.print(turnPrompt());
@@ -75,7 +75,7 @@ public class Manager {
         switch (input) {
             // if it's a movement number
             case("1"): case("2"): case("3"): case("4"): case("5"): case("6"): case("7"): case("8"): case("9"): {
-                return movePlayer(Integer.parseInt(input));
+                return enactPlayer(Integer.parseInt(input));
             }
             // if q, quit
             case("q"): {
@@ -118,8 +118,8 @@ public class Manager {
      * Attempts to move the player based on user input and using the {@code Level.enactEntity()()} method.
      * @return true if the player moved, false if they didn't; pulls from enactEntity()() return value
      */
-    private static boolean movePlayer(int direction) {
-        boolean moved = false;
+    private static boolean enactPlayer(int direction) {
+        boolean turnTaken = false;
         int[] position = activeLevel.find(player, true);
         int row = position[0];
         int column = position[1];
@@ -127,26 +127,32 @@ public class Manager {
         // Based on directional input, moves the player
         switch (direction) {
             // 1: Southwest: one down(+), one left(-)
-            case 1 -> moved = activeLevel.enactEntity(row, column, row+1, column-1);
+            case 1 -> turnTaken = activeLevel.enactEntity(row, column, row+1, column-1);
             // 2: South: one down(+), zero left
-            case 2 -> moved = activeLevel.enactEntity(row, column, row+1, column);
+            case 2 -> turnTaken = activeLevel.enactEntity(row, column, row+1, column);
             // 3: Southeast: one down (+), one right (+)
-            case 3 -> moved = activeLevel.enactEntity(row, column, row+1, column+1);
+            case 3 -> turnTaken = activeLevel.enactEntity(row, column, row+1, column+1);
             // 4: West: zero down, one left (-)
-            case 4 -> moved = activeLevel.enactEntity(row, column, row, column-1);
+            case 4 -> turnTaken = activeLevel.enactEntity(row, column, row, column-1);
             // 6: East: zero down, one right (+)
-            case 6 -> moved = activeLevel.enactEntity(row, column, row, column+1);
+            case 6 -> turnTaken = activeLevel.enactEntity(row, column, row, column+1);
             // 7: Northwest: one up (-), one left (-)
-            case 7 -> moved = activeLevel.enactEntity(row, column, row-1, column-1);
+            case 7 -> turnTaken = activeLevel.enactEntity(row, column, row-1, column-1);
             // 8: North: one up (-), zero right
-            case 8 -> moved = activeLevel.enactEntity(row, column, row-1, column);
+            case 8 -> turnTaken = activeLevel.enactEntity(row, column, row-1, column);
             // 9: Northeast: one up (-), one right (+)
-            case 9 -> moved = activeLevel.enactEntity(row, column, row-1, column+1);
+            case 9 -> turnTaken = activeLevel.enactEntity(row, column, row-1, column+1);
 
-            case 5 -> System.out.println("Waiting this turn...");
+            case 5 -> {
+                Item item = activeLevel.interact(player, player.getRow(), player.getColumn());
+                if (item != null) {
+                    inventory.addItem(item);
+                    turnTaken = true;
+                }
+            }
         }
 
-        return moved;
+        return turnTaken;
     }
 
     /**
