@@ -7,6 +7,7 @@ import src.entities.entities.Dummy;
 import src.entities.entities.Pumpkin;
 import src.tiles.tiles.Door;
 import src.tiles.tiles.Statue;
+import src.tiles.tiles.Tallgrass;
 import src.tiles.tiles.Wall;
 
 public class DebugLevel extends Level {
@@ -37,5 +38,13 @@ public class DebugLevel extends Level {
 
         this.addItem(new Sword(new int[]{9,0}));
         this.addItem(new Sword(new int[]{9,2}));
+
+        this.addTile(new Tallgrass(new int[]{0,7}, false));
+        this.addTile(new Tallgrass(new int[]{0,6}, false));
+        this.addTile(new Tallgrass(new int[]{0,5}, false));
+        this.addTile(new Tallgrass(new int[]{1,7}, false));
+        this.addTile(new Tallgrass(new int[]{1,6}, false));
+
+        this.addItem(new Coins(new int[]{1,6}, 69));
     }
 }

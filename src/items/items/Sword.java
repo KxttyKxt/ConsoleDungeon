@@ -10,7 +10,7 @@ public class Sword extends Item {
                 "This blade has seen better days.",
                 "/",
                 position,
-                ConsoleColors.TEXT_WHITE,
+                ConsoleColors.TEXT_YELLOW,
                 ""
         );
     }

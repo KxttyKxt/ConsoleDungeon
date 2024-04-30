@@ -12,7 +12,7 @@ public class Coins extends Stackable {
                 "¢",
                 Integer.MAX_VALUE,
                 position,
-                ConsoleColors.TEXT_YELLOW,
+                ConsoleColors.TEXT_BRIGHT_YELLOW,
                 ""
         );
         this.amount = amount;

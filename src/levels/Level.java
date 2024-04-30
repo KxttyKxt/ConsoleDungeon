@@ -408,34 +408,26 @@ public class Level {
 
             // if there's also an entity
             if (existsEntity) {
-                symbolBuilder
-                        .append(tile.getBgColor())
-                        .append(tile.getColor())
-                        .append(tile.getSymbol().charAt(0))
-                        .append(entity.getBgColor())
-                        .append(entity.getColor())
-                        .append(entity.getSymbol())
-                        .append(tile.getBgColor())
-                        .append(tile.getColor())
-                        .append(tile.getSymbol().charAt(2))
+                // if there's also an item
+                if (existsItem)
+                    symbolBuilder.append(ConsoleColors.buildColoredString(tile.getBgColor(), tile.getColor(), String.valueOf(tile.getSymbol().charAt(0))))
+                            .append(ConsoleColors.buildColoredString(entity.getBgColor(), entity.getColor(), entity.getSymbol()))
+                            .append(ConsoleColors.buildColoredString(item.getBgColor(), item.getColor(), "*"));
 
-                        .append(ConsoleColors.TEXT_RESET);
+                // Entity and tile
+                else
+                    symbolBuilder
+                            .append(tile.getColoredSymbol())
+                            .replace(tile.getColor().length() + tile.getBgColor().length() + 1, tile.getColor().length() + tile.getBgColor().length() + 2, entity.getColoredSymbol())
+                            .insert(tile.getBgColor().length() + tile.getColor().length() + entity.getColoredSymbol().length() + 1, tile.getColor() + tile.getBgColor());
             }
             // if no entity and yes item
             else if (existsItem) {
 
                 symbolBuilder
-                        .append(tile.getBgColor())
-                        .append(tile.getColor())
-                        .append(tile.getSymbol().charAt(0))
-                        .append(item.getBgColor())
-                        .append(item.getColor())
-                        .append(item.getSymbol())
-                        .append(tile.getBgColor())
-                        .append(tile.getColor())
-                        .append(tile.getSymbol().charAt(2))
-
-                        .append(ConsoleColors.TEXT_RESET);
+                        .append(tile.getColoredSymbol())
+                        .replace(tile.getColor().length() + tile.getBgColor().length() + 1, tile.getColor().length() + tile.getBgColor().length() + 2, item.getColoredSymbol())
+                        .insert(tile.getBgColor().length() + tile.getColor().length() + item.getColoredSymbol().length() + 1, tile.getColor() + tile.getBgColor());
             }
             // Else, just a tile
             else
