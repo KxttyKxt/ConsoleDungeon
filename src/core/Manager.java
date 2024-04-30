@@ -216,7 +216,7 @@ public class Manager {
 
         // Desktop version
         try {
-            File inventoryFile = new File("src/core/textOutputs/inventory.txt");
+            File inventoryFile = new File("inventory.txt");
             FileWriter fileWriter = new FileWriter(inventoryFile);
             fileWriter.write(String.format("%s%n", inventory.toString()));
             fileWriter.write(String.format("%n%n[Close this window when you're done. Modifying it does nothing.]"));
