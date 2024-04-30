@@ -20,6 +20,8 @@ public class Level {
     private ArrayList<Tile> activeTiles;        // Tiles stored on the level...
     // ... to be updated as needed, probably every turn.
 
+    private static ArrayList<String> actionLog = new ArrayList<>();
+
     /**
      * The default constructor for the level class, which creates a level (or "floor") of the dungeon.
      */

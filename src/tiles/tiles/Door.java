@@ -12,7 +12,7 @@ public class Door extends Tile {
                 true,
                 true,
                 position,
-                ConsoleColors.TEXT_BRIGHT_YELLOW,
+                ConsoleColors.TEXT_BRIGHT_WHITE,
                 ""
         );
     }
