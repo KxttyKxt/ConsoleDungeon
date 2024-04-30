@@ -9,10 +9,10 @@ public class Coins extends Stackable {
         super(
                 "Gold Coins",
                 "A dungeoneer's favorite treasure.",
-                "°",
+                "¢",
                 Integer.MAX_VALUE,
                 position,
-                ConsoleColors.TEXT_BRIGHT_YELLOW,
+                ConsoleColors.TEXT_YELLOW,
                 ""
         );
         this.amount = amount;

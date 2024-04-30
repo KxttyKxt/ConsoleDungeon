@@ -1,6 +1,7 @@
 package src.util;
 
 import src.items.items.Coins;
+import src.items.items.Sword;
 import src.levels.Level;
 import src.entities.entities.Dummy;
 import src.entities.entities.Pumpkin;
@@ -15,10 +16,11 @@ public class DebugLevel extends Level {
         Dummy dummy = new Dummy(new int[]{8, 9});
         this.addEntity(dummy);
 
-        Pumpkin pumpkin = new Pumpkin(new int[]{1, 10});
-        this.addEntity(pumpkin);
+        Pumpkin firstPumpkin = new Pumpkin(new int[]{1, 10});
+        this.addEntity(firstPumpkin);
 
-
+        Pumpkin secondPumpkin = new Pumpkin(new int[]{1,11});
+        this.addEntity(secondPumpkin);
 
         this.addTile(new Wall(new int[]{0,8}));
         this.addTile(new Wall(new int[]{1,8}));
@@ -32,5 +34,8 @@ public class DebugLevel extends Level {
         this.addTile(new Statue(new int[]{9,11}));
 
         this.addItem(new Coins(new int[]{7, 4},200));
+
+        this.addItem(new Sword(new int[]{9,0}));
+        this.addItem(new Sword(new int[]{9,2}));
     }
 }

@@ -109,18 +109,6 @@ public abstract class GameObject {
         GameObject that = (GameObject) object;
         return Objects.equals(symbol, that.symbol)
                 && Objects.equals(name, that.name)
-                && Objects.equals(description, that.description);
-    }
-    public boolean equals(Object object, boolean checkPosition) {
-        if (this == object) return true;
-        if (object == null || getClass() != object.getClass()) return false;
-        GameObject that = (GameObject) object;
-
-        if (!checkPosition)
-            return this.equals(object);
-        else
-            return Objects.equals(symbol, that.symbol)
-                && Objects.equals(name, that.name)
                 && Objects.equals(description, that.description)
                 && Arrays.equals(position, that.position);
     }

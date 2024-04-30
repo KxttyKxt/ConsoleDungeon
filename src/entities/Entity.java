@@ -1,5 +1,6 @@
 package src.entities;
 import src.core.GameObject;
+import src.items.Item;
 
 import java.util.Objects;
 
@@ -39,16 +40,15 @@ public abstract class Entity extends GameObject{
         this.armor = armor;
     }
 
-    public boolean updateEntity() {
-        if (health <= 0)
-            alive = false;
-        return alive;
-    }
+
+
+    public abstract Item dropOnDeath();
+
+
 
     public int getHealth() {
         return health;
     }
-
     public void setHealth(int health) {
         this.health = health;
     }
@@ -56,7 +56,6 @@ public abstract class Entity extends GameObject{
     public int getDamage() {
         return damage;
     }
-
     public void setDamage(int damage) {
         this.damage = damage;
     }
@@ -64,7 +63,6 @@ public abstract class Entity extends GameObject{
     public int getArmor() {
         return armor;
     }
-
     public void setArmor(int armor) {
         this.armor = armor;
     }
@@ -72,10 +70,10 @@ public abstract class Entity extends GameObject{
     public boolean isAlive() {
         return alive;
     }
-
     public void setAlive(boolean alive) {
         this.alive = alive;
     }
+
 
     @Override
     public boolean equals(Object object) {
@@ -85,7 +83,6 @@ public abstract class Entity extends GameObject{
         Entity entity = (Entity) object;
         return health == entity.health && damage == entity.damage && armor == entity.armor && alive == entity.alive;
     }
-
     @Override
     public int hashCode() {
         return Objects.hash(super.hashCode(), health, damage, armor, alive);

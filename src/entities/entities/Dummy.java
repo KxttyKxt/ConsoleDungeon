@@ -1,6 +1,7 @@
 package src.entities.entities;
 
 import src.entities.Entity;
+import src.items.Item;
 import src.util.ConsoleColors;
 
 public class Dummy extends Entity {
@@ -16,5 +17,10 @@ public class Dummy extends Entity {
                 ConsoleColors.TEXT_BLUE,
                 ""
         );
+    }
+
+    @Override
+    public Item dropOnDeath() {
+        return null;
     }
 }

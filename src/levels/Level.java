@@ -1,7 +1,6 @@
 package src.levels;
 
 import src.entities.Entity;
-import src.entities.Player;
 import src.items.Item;
 import src.items.Stackable;
 import src.tiles.tiles.StairsDown;
@@ -145,17 +144,6 @@ public class Level {
         return levelPrint;
     }
 
-    public void checkEntities() {
-        for (int i = activeEntities.size() - 1; i >= 0; i--) {
-            Entity currentEntity = activeEntities.get(i);
-            if (!currentEntity.updateEntity()) {
-                activeEntities.remove(currentEntity);
-                updateSymbol(currentEntity.getRow(), currentEntity.getColumn());
-                logAction(String.format("%s was defeated!", currentEntity.getName()));
-            }
-        }
-    }
-
     public Coordinate[][] getCoordinates() {
         return coordinates;
     }
@@ -240,6 +228,7 @@ public class Level {
             if (afterHP <= 0) {
                 activeEntities.remove(target);
                 action.append(String.format(" %s is defeated!", target.getName()));
+                addItem(target.dropOnDeath());
                 updateSymbol(target.getRow(), target.getColumn());
             }
             logAction(action.toString());
@@ -269,7 +258,7 @@ public class Level {
      */
     public int[] find(Entity target, boolean checkPosition) {
         for (Entity entity : activeEntities)
-            if (entity.equals(target, checkPosition))
+            if (entity.equals(target))
                 return entity.getPosition();
 
         return null;
@@ -283,7 +272,7 @@ public class Level {
      */
     public int[] find(Item target, boolean checkPosition) {
         for (Item item : activeItems)
-            if (item.equals(target, checkPosition))
+            if (item.equals(target))
                 return item.getPosition();
 
         return null;
@@ -297,7 +286,7 @@ public class Level {
      */
     public int[] find(Tile target, boolean checkPosition) {
         for (Tile tile : activeTiles)
-            if (tile.equals(target, checkPosition))
+            if (tile.equals(target))
                 return tile.getPosition();
 
         return null;
@@ -310,29 +299,35 @@ public class Level {
      * matches an active object ({@code entity}, {@code item}, {@code tile}) on the level.
      * <p>
      * Makes use of subclasses of those three abstract classes. Not intended for casting to an abstract class type.
-     * @param type The object which you want to find a class match for.
+     * @param clazz The class of the object you're looking for
      * @return The position of the object with the matching class.
      * @param <T> The generalized class type of your object
      */
-    public <T> int[] classMatch(T type) {
-        if (type instanceof Item) {
+    public <T> int[] classMatch(Class<T> clazz) {
+        Verbose.log(String.format("Starting classMatch with class type of [%s]", clazz), false);
+
+        if (clazz.getSuperclass() == Item.class || clazz.getDeclaringClass() == Stackable.class) {
+            Verbose.log(String.format("clazz [%s] has a superclass of Item or Stackable.", clazz), false);
             for (Item item : activeItems)
-                if (item.getClass() == type.getClass())
+                if (item.getClass() == clazz)
                     return item.getPosition();
         }
-        else if (type instanceof Entity) {
+        else if (clazz.getSuperclass() == Entity.class) {
+            Verbose.log(String.format("clazz [%s] has a superclass of Entity.", clazz), false);
             for (Entity entity : activeEntities)
-                if (entity.getClass() == type.getClass())
+                if (entity.getClass() == clazz)
                     return entity.getPosition();
         }
-        else if (type instanceof Tile) {
+        else if (clazz.getSuperclass() == Tile.class) {
+            Verbose.log(String.format("clazz [%s] has a superclass of Tile.", clazz), false);
             for (Tile tile : activeTiles)
-                if (tile.getClass() == type.getClass())
+                if (tile.getClass() == clazz)
                     return tile.getPosition();
         }
         else
-            Verbose.log(String.format("%s is not applicable to classMatch()", type.getClass()), true);
+            Verbose.log(String.format("%s is not applicable to classMatch()", clazz), true);
 
+        Verbose.log(String.format("ClassMatch for clazz [%s] failed to return an object.", clazz), false);
         return new int[]{-1, -1};
     }
 
@@ -361,12 +356,14 @@ public class Level {
      */
     public Item getItemByPosition(int row, int column) {
         int[] position = new int[]{row, column};
+        Item toReturn = null;
 
         for (Item item : activeItems)
             if (Arrays.equals(item.getPosition(), position))
-                return item;
+                toReturn = item;
 
-        return null;
+
+        return toReturn;
     }
     /**
      * Searches linearly through the list of active tiles to find a match by position,
@@ -520,19 +517,27 @@ public class Level {
     }
     public boolean addItem(Item item) {
         activeItems.add(item);
-        Verbose.log(String.format("Placed item of %s at [%d][%d]", item.getClass(), item.getRow(), item.getColumn()), false);
+        Verbose.log(String.format("Placed item of %s at [%d][%d]. Memory address: %s", item.getClass(), item.getRow(), item.getColumn(), item), false);
         updateSymbol(item.getRow(), item.getColumn());
         return true;
     }
 
     public Item interact(Entity entity, int row, int column) {
         Item item = getItemByPosition(row, column);
+
+        if (find(item, false) == find(item, true))
+            Verbose.log("The interacted item is an exact match by position.", false);
+        else
+            Verbose.log("The interacted item is NOT an exact match by position.", false);
+
         if (item != null) {
             activeItems.remove(item);
+            Verbose.log(String.format("Through interaction, %s was removed at [%d][%d]. Memory Address: %s", item.getName(), item.getRow(), item.getColumn(), item), false);
             updateSymbol(item.getRow(), item.getColumn());
 
             StringBuilder actionBuilder = new StringBuilder();
             actionBuilder.append(String.format("%s picked up %s.", entity.getName(), item.getName()));
+            Verbose.log(String.format("Player picked up %s at [%d][%d]. Memory Address: %s.", item.getName(), row, column, item), false);
             if (item instanceof Stackable)
                 actionBuilder.append(String.format(" [Amount: %d]", ((Stackable) item).getAmount()));
             logAction(actionBuilder.toString());

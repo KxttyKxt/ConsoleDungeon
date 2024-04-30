@@ -1,6 +1,8 @@
 package src.entities.entities;
 
 import src.entities.Entity;
+import src.items.Item;
+import src.items.items.Coins;
 import src.util.ConsoleColors;
 
 public class Pumpkin extends Entity {
@@ -13,8 +15,13 @@ public class Pumpkin extends Entity {
                 0,
                 0,
                 position,
-                ConsoleColors.TEXT_YELLOW,
+                ConsoleColors.TEXT_BRIGHT_GREEN,
                 ""
         );
+    }
+
+    @Override
+    public Item dropOnDeath() {
+        return new Coins(new int[]{getRow(), getColumn()}, 50);
     }
 }

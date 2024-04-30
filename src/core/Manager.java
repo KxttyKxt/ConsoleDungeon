@@ -147,8 +147,10 @@ public class Manager {
                 Item item = activeLevel.interact(player, player.getRow(), player.getColumn());
                 if (item != null) {
                     inventory.addItem(item);
-                    turnTaken = true;
                 }
+                else
+                    System.out.println("> Waiting this turn...");
+                turnTaken = true;
             }
         }
 
@@ -180,7 +182,7 @@ public class Manager {
         Verbose.log(String.format("Activating level from LinkedList index %d...", levels.indexOf(level)), false);
         activeLevel = level;
         if (activeLevel.find(player, false) == null) {
-            player.setPosition(activeLevel.find(new StairsUp(new int[]{}), false));
+            player.setPosition(activeLevel.classMatch(StairsUp.class));
             Verbose.log("Player wasn't found, adding it now...", false);
             if (activeLevel.addEntity(player)) {
                 activeLevel.updateSymbol(player.getRow(), player.getColumn());
