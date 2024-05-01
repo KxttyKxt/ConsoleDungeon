@@ -10,7 +10,7 @@ public class Tallgrass extends Tile {
         super(
                 "Tall Grass",
                 "This surprisingly tall grass patch looks a little wilted. Stepping on it would surely make it crumble.",
-                "lIi",
+                "i]l",
                 true,
                 true,
                 position,

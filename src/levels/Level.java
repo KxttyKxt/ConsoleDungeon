@@ -349,7 +349,7 @@ public class Level {
     }
     /**
      * Searches linearly through the list of active items to find a match by position,
-     * then returns the entire Item.
+     * then returns the first Item it matches.
      * @param row The row of the coordinates plane in which the Item would be.
      * @param column The column of the coordinates plane in which the Item would be.
      * @return The entire Item, if a matching one is found.
@@ -380,6 +380,24 @@ public class Level {
                 return tile;
 
         return null;
+    }
+
+    /**
+     * Searches linearly through the list of active items to find ALL matches by position,
+     * then returns an ArrayList of all matching item(s).
+     * @param row The row of the coordinate plane in which the Item(s) would be.
+     * @param column The column of the coordinate plane in which the Item(s) would be.
+     * @return An ArrayList<Item> of all items that matched the given position.
+     */
+    public ArrayList<Item> getAllItemsByPosition(int row, int column) {
+        int[] position = new int[]{row, column};
+        ArrayList<Item> toReturn = new ArrayList<>();
+
+        for (Item item : activeItems)
+            if (Arrays.equals(item.getPosition(), position))
+                toReturn.add(item);
+
+        return toReturn;
     }
 
     /**
@@ -418,16 +436,22 @@ public class Level {
                 else
                     symbolBuilder
                             .append(tile.getColoredSymbol())
-                            .replace(tile.getColor().length() + tile.getBgColor().length() + 1, tile.getColor().length() + tile.getBgColor().length() + 2, entity.getColoredSymbol())
-                            .insert(tile.getBgColor().length() + tile.getColor().length() + entity.getColoredSymbol().length() + 1, tile.getColor() + tile.getBgColor());
+                            .replace(tile.getColor().length() + tile.getBgColor().length() + 1,
+                                    tile.getColor().length() + tile.getBgColor().length() + 2,
+                                    entity.getColoredSymbol())
+                            .insert(tile.getBgColor().length() + tile.getColor().length() + entity.getColoredSymbol().length() + 1,
+                                    tile.getColor() + tile.getBgColor());
             }
-            // if no entity and yes item
+            // if no entity and yes item (with tile)
             else if (existsItem) {
 
                 symbolBuilder
                         .append(tile.getColoredSymbol())
-                        .replace(tile.getColor().length() + tile.getBgColor().length() + 1, tile.getColor().length() + tile.getBgColor().length() + 2, item.getColoredSymbol())
-                        .insert(tile.getBgColor().length() + tile.getColor().length() + item.getColoredSymbol().length() + 1, tile.getColor() + tile.getBgColor());
+                        .replace(tile.getColor().length() + tile.getBgColor().length() + 1,
+                                tile.getColor().length() + tile.getBgColor().length() + 2,
+                                item.getColoredSymbol())
+                        .insert(tile.getBgColor().length() + tile.getColor().length() + item.getColoredSymbol().length() + 1,
+                                tile.getColor() + tile.getBgColor());
             }
             // Else, just a tile
             else
@@ -435,7 +459,9 @@ public class Level {
         }
         else if (existsEntity) {
             // An entity is present.
-            symbolBuilder.append(" ").append(entity.getColoredSymbol());
+            symbolBuilder
+                    .append(" ")
+                    .append(entity.getColoredSymbol());
 
             // Is there also an item?
             if (existsItem) {

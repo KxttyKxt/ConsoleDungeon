@@ -98,6 +98,29 @@ public class ConsoleColors {
     }
 
     /**
+     * Builds a String concatenated with the ANSI color code. The ANSI code to
+     * reset the formatting is appended to the end of the new String. If String
+     * color is NULL, or if it contains an invalid ANSI code, no formatting will
+     * be applied.
+     * @TGDRNote I overloaded the above method to apply more text formatting after instead of the reset code.
+     * @param bgColor ANSI String with the background color
+     * @param textColor ANSI String with the text color
+     * @param str Text String to apply color styles
+     * @param afterBgColor Instead of the TEXT_RESET, this is applied at the end.
+     * @param afterTextColor Instead of the TEXT_RESET, this is applied at the end.
+     * @return String
+     */
+    public static String buildColoredString(String bgColor, String textColor, String str, String afterBgColor, String afterTextColor) {
+        String toReturn = "";
+        if (bgColor != null && isValidColor(bgColor)) toReturn += bgColor;
+        if (textColor != null && isValidColor(textColor)) toReturn += textColor;
+        toReturn += str;
+        if (afterBgColor != null && isValidColor(afterBgColor)) toReturn += afterBgColor;
+        if (afterTextColor != null && isValidColor(afterTextColor)) toReturn += afterTextColor;
+        return toReturn;
+    }
+
+    /**
      * Prints a key for what all the color (background) codes look like.
      * @TGDRNote I made this myself smile
      */
