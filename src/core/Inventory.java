@@ -53,6 +53,16 @@ public class Inventory {
         return items.remove(item);
     }
 
+    public Item getItem(int index) {
+        return items.get(index);
+    }
+    public int getStackAmount(Stackable stackable) {
+        int index = checkForStackable(stackable);
+        if (index != -1)
+            return ((Stackable) items.get(index)).getAmount();
+        else return 0;
+    }
+
     /**
      * Checks if the inventory contains a stackable item of the same type or not. If it does, add to the existing stack.
      * @param stackable The Stackable item attempting to be added to the inventory
@@ -89,7 +99,7 @@ public class Inventory {
 
         stringBuilder.append(String.format("[Gold: %d]%n%n", currency.getAmount()));
 
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < MAX_SIZE; i++) {
             String itemName = "";
 
             // If there is indeed an item

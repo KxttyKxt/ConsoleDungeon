@@ -3,6 +3,7 @@ package src.core;
 import src.entities.Entity;
 import src.entities.Player;
 import src.items.Item;
+import src.items.Stackable;
 import src.levels.Level;
 import src.tiles.tiles.StairsUp;
 import src.util.DebugLevel;
@@ -45,7 +46,7 @@ public class Manager {
 
         while (true) {
             System.out.println(activeLevel.levelLayout());
-            System.out.println("> Turns: " + turns);
+            System.out.printf("> Turns: %s%n",turns);
             System.out.print(turnPrompt());
 
             // CHAT I FINALLY FOUND A USE FOR DO-WHILE!!!
@@ -144,9 +145,21 @@ public class Manager {
             case 9 -> turnTaken = activeLevel.enactEntity(row, column, row-1, column+1);
 
             case 5 -> {
-                Item item = activeLevel.interact(player, player.getRow(), player.getColumn());
+                Item item = activeLevel.getItemByPosition(player.getRow(), player.getColumn());
+
                 if (item != null) {
-                    inventory.addItem(item);
+                    if (!inventory.addItem(item))
+                        activeLevel.logAction(String.format("Not enough space for %s.", item.getName()));
+                    else {
+                        StringBuilder actionBuilder = new StringBuilder(String.format("Picked up %s", item.getName()));
+                        if (item instanceof Stackable) {
+                            int existingStackAmount = inventory.getStackAmount((Stackable) item);
+                            actionBuilder.append(String.format(" [Amount: %d (%d)]", ((Stackable) item).getAmount(), existingStackAmount));
+                        }
+                        activeLevel.getActiveItems().remove(item);
+                        activeLevel.logAction(actionBuilder.toString());
+                        activeLevel.updateSymbol(item.getRow(), item.getColumn());
+                    }
                 }
                 else
                     System.out.println("> Waiting this turn...");

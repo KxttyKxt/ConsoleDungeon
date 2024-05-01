@@ -238,7 +238,7 @@ public class Level {
             return false;
     }
 
-    private String logAction(String action) {
+    public String logAction(String action) {
         String toReturn = "";
         if (actionLog.size() == ACTION_LOG_MAX_SIZE)
             toReturn = actionLog.removeLast().getAction(this);
@@ -541,33 +541,25 @@ public class Level {
         return true;
     }
 
-    public Item interact(Entity entity, int row, int column) {
-        Item item = getItemByPosition(row, column);
+    public ArrayList<Tile> getActiveTiles() {
+        return activeTiles;
+    }
+    public void setActiveTiles(ArrayList<Tile> activeTiles) {
+        this.activeTiles = activeTiles;
+    }
 
-        if (find(item, false) == find(item, true))
-            Verbose.log("The interacted item is an exact match by position.", false);
-        else
-            Verbose.log("The interacted item is NOT an exact match by position.", false);
+    public ArrayList<Item> getActiveItems() {
+        return activeItems;
+    }
+    public void setActiveItems(ArrayList<Item> activeItems) {
+        this.activeItems = activeItems;
+    }
 
-        if (item != null) {
-            activeItems.remove(item);
-            Verbose.log(String.format("Through interaction, %s was removed at [%d][%d]. Memory Address: %s", item.getName(), item.getRow(), item.getColumn(), item), false);
-            updateSymbol(item.getRow(), item.getColumn());
-
-            StringBuilder actionBuilder = new StringBuilder();
-            actionBuilder.append(String.format("%s picked up %s.", entity.getName(), item.getName()));
-
-            Verbose.log(String.format("Player picked up %s at [%d][%d]. Memory Address: %s.", item.getName(), row, column, item), false);
-
-            if (item instanceof Stackable)
-                actionBuilder.append(String.format(" [Amount: %d]", ((Stackable) item).getAmount()));
-            if (getItemByPosition(row, column) != null)
-                actionBuilder.append(" There is something else here.");
-            logAction(actionBuilder.toString());
-
-            return item;
-        }
-        return null;
+    public ArrayList<Entity> getActiveEntities() {
+        return activeEntities;
+    }
+    public void setActiveEntities(ArrayList<Entity> activeEntities) {
+        this.activeEntities = activeEntities;
     }
 }
 
