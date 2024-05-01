@@ -4,6 +4,7 @@ import src.entities.Entity;
 import src.entities.Player;
 import src.items.Item;
 import src.items.Stackable;
+import src.items.items.Coins;
 import src.levels.Level;
 import src.tiles.tiles.StairsUp;
 import src.util.DebugLevel;
@@ -146,8 +147,14 @@ public class Manager {
 
             case 5 -> {
                 Item item = activeLevel.getItemByPosition(player.getRow(), player.getColumn());
-
-                if (item != null) {
+                if (item instanceof Coins) {
+                    if (inventory.addItem(item)) {
+                        activeLevel.getActiveItems().remove(item);
+                        activeLevel.logAction(String.format("Picked up %dg. [Total: %d]", ((Coins) item).getAmount(), inventory.getCurrency()));
+                        activeLevel.updateSymbol(item.getRow(), item.getColumn());
+                    }
+                }
+                else if (item != null) {
                     if (!inventory.addItem(item))
                         activeLevel.logAction(String.format("Not enough space for %s.", item.getName()));
                     else {

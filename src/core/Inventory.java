@@ -8,16 +8,18 @@ import src.util.Verbose;
 import java.util.ArrayList;
 
 public class Inventory {
-    private ArrayList<Item> items = new ArrayList<>();
-    private Coins currency = new Coins(null,0);
     private final int MAX_SIZE = 20;
+    private ArrayList<Item> items = new ArrayList<>(MAX_SIZE);
+    private Coins currency = new Coins(null,0);
 
     private int lengthOfLongestItemName = 1;
 
     public boolean addItem(Item item) {
         // Special Items
-        if (item instanceof Coins)
+        if (item instanceof Coins) {
             currency.setAmount(currency.getAmount() + ((Coins) item).getAmount());
+            return true;
+        }
 
         // Everything else
         else if (items.size() < MAX_SIZE) {
@@ -25,25 +27,20 @@ public class Inventory {
                 if (!addStackable((Stackable) item)) {
                     items.add(item);
                     Verbose.log(String.format("Item %s was added as new stack.", item), false);
+                    if (lengthOfLongestItemName < item.getName().length() + String.valueOf(((Stackable) items.get(checkForStackable((Stackable) item))).getAmount()).length() + 3) {
+                        lengthOfLongestItemName = item.getName().length() + String.valueOf(((Stackable) items.get(checkForStackable((Stackable) item))).getAmount()).length() + 3;
+                        Verbose.log(String.format("Length of longest item name set to %d. [%d stack adjustment]", lengthOfLongestItemName, String.valueOf(((Stackable) item).getAmount()).length() + 3), false);
+                    }
                 }
             }
             else {
                 items.add(item);
                 Verbose.log(String.format("Non-stackable item %s was added to inventory.", item), false);
-            }
-
-            if (item instanceof Stackable) {
-                if (lengthOfLongestItemName < item.getName().length() + String.valueOf(((Stackable) items.get(checkForStackable((Stackable) item))).getAmount()).length() + 3) {
-                    lengthOfLongestItemName = item.getName().length() + String.valueOf(((Stackable) items.get(checkForStackable((Stackable) item))).getAmount()).length() + 3;
-                    Verbose.log(String.format("Length of longest item name set to %d. [%d stack adjustment]", lengthOfLongestItemName, String.valueOf(((Stackable) item).getAmount()).length() + 3), false);
-                }
-            }
-            else // item instanceof Item
                 if (lengthOfLongestItemName < item.getName().length()) {
                     lengthOfLongestItemName = item.getName().length();
                     Verbose.log(String.format("Length of longest item name set to %d.", lengthOfLongestItemName), false);
                 }
-
+            }
             return true;
         }
         return false;
@@ -91,6 +88,10 @@ public class Inventory {
         }
         Verbose.log(String.format("Object of stackable subclass %s not found in inventory.", stackable.getClass().getName()), true);
         return -1;
+    }
+
+    public int getCurrency() {
+        return currency.getAmount();
     }
 
     @Override
