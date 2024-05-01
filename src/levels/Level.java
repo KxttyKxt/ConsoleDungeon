@@ -334,8 +334,8 @@ public class Level {
     /**
      * Searches linearly through the list of active entities to find a match by position,
      * then returns the entire Entity.
-     * @param row The row of the coordinates plane in which the Entity would be.
-     * @param column The column of the coordinates plane in which the Entity would be.
+     * @param row The row of the coordinate plane in which the Entity would be.
+     * @param column The column of the coordinate plane in which the Entity would be.
      * @return The entire Entity, if a matching one is found.
      */
     public Entity getEntityByPosition(int row, int column) {
@@ -350,26 +350,27 @@ public class Level {
     /**
      * Searches linearly through the list of active items to find a match by position,
      * then returns the first Item it matches.
-     * @param row The row of the coordinates plane in which the Item would be.
-     * @param column The column of the coordinates plane in which the Item would be.
+     * @param row The row of the coordinate plane in which the Item would be.
+     * @param column The column of the coordinate plane in which the Item would be.
      * @return The entire Item, if a matching one is found.
      */
     public Item getItemByPosition(int row, int column) {
         int[] position = new int[]{row, column};
-        Item toReturn = null;
 
-        for (Item item : activeItems)
+        // Goes backwards to get the most recently added item
+        for (int i = activeItems.size() - 1; i >= 0; i--) {
+            Item item = activeItems.get(i);
             if (Arrays.equals(item.getPosition(), position))
-                toReturn = item;
+                return item;
+        }
 
-
-        return toReturn;
+        return null;
     }
     /**
      * Searches linearly through the list of active tiles to find a match by position,
      * then returns the entire Tile.
-     * @param row The row of the coordinates plane in which the Tile would be.
-     * @param column The column of the coordinates plane in which the Tile would be.
+     * @param row The row of the coordinate plane in which the Tile would be.
+     * @param column The column of the coordinate plane in which the Tile would be.
      * @return The entire Tile, if a matching one is found.
      */
     public Tile getTileByPosition(int row, int column) {
@@ -555,9 +556,13 @@ public class Level {
 
             StringBuilder actionBuilder = new StringBuilder();
             actionBuilder.append(String.format("%s picked up %s.", entity.getName(), item.getName()));
+
             Verbose.log(String.format("Player picked up %s at [%d][%d]. Memory Address: %s.", item.getName(), row, column, item), false);
+
             if (item instanceof Stackable)
                 actionBuilder.append(String.format(" [Amount: %d]", ((Stackable) item).getAmount()));
+            if (getItemByPosition(row, column) != null)
+                actionBuilder.append(" There is something else here.");
             logAction(actionBuilder.toString());
 
             return item;

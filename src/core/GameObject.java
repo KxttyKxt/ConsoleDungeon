@@ -110,7 +110,9 @@ public abstract class GameObject {
         return Objects.equals(symbol, that.symbol)
                 && Objects.equals(name, that.name)
                 && Objects.equals(description, that.description)
-                && Arrays.equals(position, that.position);
+                && Arrays.equals(position, that.position)
+                && Objects.equals(color, that.color)
+                && Objects.equals(bgColor, that.bgColor);
     }
 
     @Override

@@ -5,12 +5,14 @@ import src.util.ConsoleColors;
 
 public class Tallgrass extends Tile {
     private boolean isTrampled;
+    private String defaultSymbol = "i]l";
+    private String trampledSymbol = "...";
 
     public Tallgrass(int[] position, boolean isTrampled) {
         super(
                 "Tall Grass",
                 "This surprisingly tall grass patch looks a little wilted. Stepping on it would surely make it crumble.",
-                "i]l",
+                "---",
                 true,
                 true,
                 position,
@@ -18,9 +20,10 @@ public class Tallgrass extends Tile {
                 ""
         );
         this.isTrampled = isTrampled;
-        if (isTrampled) {
-            symbol = "...";
-        }
+        if (isTrampled)
+            symbol = trampledSymbol;
+        else
+            symbol = defaultSymbol;
     }
 
     @Override

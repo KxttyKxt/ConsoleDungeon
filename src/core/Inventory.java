@@ -34,8 +34,8 @@ public class Inventory {
         stringBuilder.append(String.format("[Gold: %d]%n%n", currency.getAmount()));
 
         for (int i = 0; i < items.size(); i++) {
-            stringBuilder.append(String.format("[%d: %s]", i+1, items.get(i).getName()));
-            if (i % 5 == 0)
+            stringBuilder.append(String.format("[%d: %s] ", i+1, items.get(i).getName()));
+            if ((i+1) % 5 == 0)
                 stringBuilder.append(String.format("%n"));
         }
         return stringBuilder.toString();
