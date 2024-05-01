@@ -10,6 +10,8 @@ public class Inventory {
     private Coins currency = new Coins(null,0);
     private final int MAX_SIZE = 20;
 
+    private int lengthOfLongestItemName = 0;
+
     public boolean addItem(Item item) {
         // Special Items
         if (item instanceof Coins)
@@ -18,6 +20,8 @@ public class Inventory {
         // Everything else
         else if (items.size() < MAX_SIZE) {
             items.add(item);
+            if (item.getName().length() > lengthOfLongestItemName)
+                lengthOfLongestItemName = item.getName().length();
             return true;
         }
         return false;
@@ -34,7 +38,7 @@ public class Inventory {
         stringBuilder.append(String.format("[Gold: %d]%n%n", currency.getAmount()));
 
         for (int i = 0; i < items.size(); i++) {
-            stringBuilder.append(String.format("[%d: %s] ", i+1, items.get(i).getName()));
+            stringBuilder.append(String.format("[%-3s %s] ", String.format("%d:", i+1), String.format(("%" + lengthOfLongestItemName + "s"), items.get(i).getName())));
             if ((i+1) % 5 == 0)
                 stringBuilder.append(String.format("%n"));
         }

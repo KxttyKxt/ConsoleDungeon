@@ -53,5 +53,8 @@ public class DebugLevel extends Level {
 
         this.addItem(new Trinket(new int[]{9, 8}));
         this.addItem(new Trinket(new int[]{9, 8}));
+
+        for (int i = 0; i < 11; i++)
+            this.addItem(new Trinket(new int[]{1, 1}));
     }
 }
