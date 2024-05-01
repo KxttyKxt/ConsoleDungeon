@@ -16,7 +16,7 @@ public class Tallgrass extends Tile {
                 true,
                 true,
                 position,
-                ConsoleColors.TEXT_BRIGHT_GREEN,
+                ConsoleColors.TEXT_GREEN,
                 ""
         );
         this.isTrampled = isTrampled;

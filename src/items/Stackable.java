@@ -16,10 +16,10 @@ public abstract class Stackable extends Item{
         this.amount = 1;
     }
 
-    public Stackable(String name, String description, String symbol, int MAX_SIZE, int[] position, String color, String bgColor) {
+    public Stackable(String name, String description, String symbol, int MAX_SIZE, int amount, int[] position, String color, String bgColor) {
         super(name, description, symbol, position, color, bgColor);
         this.MAX_SIZE = MAX_SIZE;
-        this.amount = 1;
+        this.amount = amount;
     }
 
     public int getAmount() {

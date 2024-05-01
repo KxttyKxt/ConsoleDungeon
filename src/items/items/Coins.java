@@ -11,6 +11,7 @@ public class Coins extends Stackable {
                 "A dungeoneer's favorite treasure.",
                 "¢",
                 Integer.MAX_VALUE,
+                amount,
                 position,
                 ConsoleColors.TEXT_BRIGHT_YELLOW,
                 ""
