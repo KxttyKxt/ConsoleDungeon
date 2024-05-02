@@ -1,5 +1,6 @@
 @echo off
-cd assets
+cd..
+cd TGDRoutput
 java -jar Debug/Debug.jar
 pause
 exit
