@@ -28,22 +28,24 @@ public class Manager {
     private static Random seededRandom;
     public static void setSeededRandom() {
         long seed;
-        File seedFile = new File("texts/seed.txt");
-        if (seedFile.exists()) {
-            try {
-                Scanner seedScanner = new Scanner(seedFile);
-                seed = seedScanner.nextLong();
-                Verbose.log(ConsoleColors.buildColoredString("", ConsoleColors.TEXT_BRIGHT_GREEN, String.format("Seed pulled from 'seed.txt', set to %d.", seed)), false);
 
+        // try to pull seed from seed.txt file
+        try {
+            File seedFile = new File("texts/seed.txt");
+            Scanner seedScanner = new Scanner(seedFile);
+            if (seedFile.exists() && seedScanner.hasNextLong()) {
+                seed = seedScanner.nextLong();
+                seedScanner.close();
+                Verbose.log(ConsoleColors.buildColoredString("", ConsoleColors.TEXT_BRIGHT_GREEN, String.format("Seed [%d] pulled from 'seed.txt'", seed)), false);
             }
-            catch (FileNotFoundException e) {
-                Verbose.log("seedScanner failed to find file 'seed.txt'", true);
+            else {
                 seed = new Random().nextLong();
+                Verbose.log(ConsoleColors.buildColoredString("", ConsoleColors.TEXT_BRIGHT_RED, String.format("Seed file '%s' missing or empty; setting seed randomly...", seedFile.getAbsolutePath())), true);
             }
         }
-        else {
+        catch (FileNotFoundException e) {
+            Verbose.log("seedScanner failed to find file 'seed.txt'", true);
             seed = new Random().nextLong();
-            Verbose.log(ConsoleColors.buildColoredString("", ConsoleColors.TEXT_BRIGHT_CYAN, String.format("Seed file [%s] doesn't exist; seed was set randomly to %d.", seedFile.getAbsolutePath(), seed)), false);
         }
 
         seededRandom = new Random(seed);
