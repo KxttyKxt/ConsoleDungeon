@@ -58,21 +58,6 @@ public class Manager {
     private static int turns = 0;
 
     public static void runGame(boolean debug) {
-//        if (Verbose.isVerbose()) {
-//            Verbose.log("Use custom level instead? [y] [n]", false);
-//            System.out.print(">> ");
-//            if (consoleScanner.nextLine().equalsIgnoreCase("y"))
-//                newLevel(new DebugLevel(), true);
-//            else {
-//                setSeededRandom();
-//                Verbose.log("Custom level denied. Moving on...", false);
-//                newLevel(12,8,true);
-//            }
-//        }
-//        else {
-//            setSeededRandom();
-//            newLevel(12, 8, true);
-//        }
         setSeededRandom();
 
         if (debug) {
