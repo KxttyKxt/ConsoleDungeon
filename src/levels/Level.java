@@ -547,6 +547,7 @@ public class Level {
     }
 
     public boolean addFeature(Feature feature) {
+        Verbose.log(String.format("Adding a(n) %s with %d entities, %d items, and %d tiles.", feature.getClass().getName(), feature.getEntities().size(), feature.getItems().size(), feature.getTiles().size()), false);
         for (Item item : feature.getItems())
             addItem(item);
         for (Entity entity : feature.getEntities())
