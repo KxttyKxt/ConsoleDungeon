@@ -13,13 +13,14 @@ public class IDEDebug {
         Verbose.toggleVerbose();
         System.out.println(Desktop.isDesktopSupported());
 
-        if (Desktop.isDesktopSupported() && new File("src/main/java/util/debug/runCLIdebug.bat").exists()) {
+        System.out.printf("Run in command line? [y] [n]%n>> ");
+        if (Desktop.isDesktopSupported() && new File("src/main/java/util/debug/runCLIdebug.bat").exists() && consoleScanner.nextLine().equals("y")) {
             Desktop.getDesktop().open(new File("src/main/java/util/debug/runCLIdebug.bat"));
             Verbose.log("Desktop opened Debug.jar in cmd.exe", false);
             System.exit(0);
         }
 
-        Verbose.log("Running debug in IDE. This will be unstable!", true);
+        Verbose.log(String.format("Running debug in IDE. This will be unstable!%n    - File calls will not work.%n    - System.out print commands will visibly lag."), true);
 
         boolean debug = false;
         System.out.printf("Would you like to use the debug level? [y] [n]%n>> ");
