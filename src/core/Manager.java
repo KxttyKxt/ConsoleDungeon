@@ -7,16 +7,16 @@ import src.items.Stackable;
 import src.items.items.Coins;
 import src.levels.Level;
 import src.tiles.tiles.StairsUp;
-import src.util.DebugLevel;
+import src.util.ConsoleColors;
+import src.util.debug.DebugLevel;
 import src.util.Encyclopedia;
-import src.util.Verbose;
+import src.util.debug.Verbose;
 
 import java.awt.*;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.LinkedList;
 import java.util.Locale;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Manager {
@@ -25,24 +25,59 @@ public class Manager {
     private static LinkedList<Level> levels = new LinkedList<>();
     private static Level activeLevel;
 
+    private static Random seededRandom;
+    public static void setSeededRandom() {
+        long seed;
+        File seedFile = new File("texts/seed.txt");
+        if (seedFile.exists()) {
+            try {
+                Scanner seedScanner = new Scanner(seedFile);
+                seed = seedScanner.nextLong();
+                Verbose.log(ConsoleColors.buildColoredString("", ConsoleColors.TEXT_BRIGHT_GREEN, String.format("Seed pulled from 'seed.txt', set to %d.", seed)), false);
+
+            }
+            catch (FileNotFoundException e) {
+                Verbose.log("seedScanner failed to find file 'seed.txt'", true);
+                seed = new Random().nextLong();
+            }
+        }
+        else {
+            seed = new Random().nextLong();
+            Verbose.log(ConsoleColors.buildColoredString("", ConsoleColors.TEXT_BRIGHT_CYAN, String.format("Seed file [%s] doesn't exist; seed was set randomly to %d.", seedFile.getAbsolutePath(), seed)), false);
+        }
+
+        seededRandom = new Random(seed);
+        Level.setRandom(seededRandom);
+        Verbose.log(ConsoleColors.buildColoredString("", ConsoleColors.TEXT_CYAN, String.format("Seed for random generation is now set to %d.", seed)), false);
+    }
+
     private static Player player = new Player();
     private static Inventory inventory = new Inventory();
     private static int turns = 0;
 
-    public static void runGame() {
+    public static void runGame(boolean debug) {
+//        if (Verbose.isVerbose()) {
+//            Verbose.log("Use custom level instead? [y] [n]", false);
+//            System.out.print(">> ");
+//            if (consoleScanner.nextLine().equalsIgnoreCase("y"))
+//                newLevel(new DebugLevel(), true);
+//            else {
+//                setSeededRandom();
+//                Verbose.log("Custom level denied. Moving on...", false);
+//                newLevel(12,8,true);
+//            }
+//        }
+//        else {
+//            setSeededRandom();
+//            newLevel(12, 8, true);
+//        }
+        setSeededRandom();
 
-        if (Verbose.isVerbose()) {
-            Verbose.log("Use custom level instead? [y] [n]", false);
-            System.out.print(">> ");
-            if (consoleScanner.nextLine().equalsIgnoreCase("y"))
-                newLevel(new DebugLevel(), true);
-            else {
-                Verbose.log("Custom level denied. Moving on...", false);
-                newLevel(12,8,true);
-            }
+        if (debug) {
+            newLevel(new DebugLevel(), true);
         }
         else
-            newLevel(12, 8, true);
+            newLevel(seededRandom.nextInt(3,21), seededRandom.nextInt(3,13), true);
 
 
         while (true) {
@@ -245,14 +280,14 @@ public class Manager {
 
         // Desktop version
         try {
-            File inventoryFile = new File("inventory.txt");
+            File inventoryFile = new File("texts/inventory.txt");
             FileWriter fileWriter = new FileWriter(inventoryFile);
             fileWriter.write(String.format("%s%n", inventory.toString()));
             fileWriter.write(String.format("%n%n[Close this window when you're done. Modifying it does nothing.]"));
             fileWriter.close();
 
             if (Desktop.isDesktopSupported()) {
-                Verbose.log(String.format("Desktop is supported, opening %s...", inventoryFile.getPath()), false);
+                Verbose.log(String.format("Desktop is supported, opening %s...", inventoryFile.getAbsolutePath()), false);
                 Desktop.getDesktop().open(inventoryFile);
             } else {
                 Verbose.log(String.format("Desktop is not supported. File at %s must be opened manually.", inventoryFile.getAbsolutePath()), true);

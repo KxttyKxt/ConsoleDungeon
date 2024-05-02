@@ -7,6 +7,7 @@ import src.tiles.tiles.StairsDown;
 import src.tiles.tiles.StairsUp;
 import src.tiles.Tile;
 import src.util.*;
+import src.util.debug.Verbose;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,7 +23,12 @@ public class Level {
     // ... to be updated as needed, probably every turn.
 
     private static final int ACTION_LOG_MAX_SIZE = 20; // The maximum number of actions that the actionLog will track.
-    private static ArrayList<Action> actionLog = new ArrayList<>(ACTION_LOG_MAX_SIZE); // Stores information from user actions.
+    private static ArrayList<LevelAction> levelActionLog = new ArrayList<>(ACTION_LOG_MAX_SIZE); // Stores information from user actions.
+
+    private static Random random;
+    public static void setRandom(Random newRandom) {
+        random = newRandom;
+    }
 
     /**
      * The default constructor for the level class, which creates a level (or "floor") of the dungeon.
@@ -69,11 +75,10 @@ public class Level {
         // -=-=- However, if the level needs to be hardcoded, skip adding these randomly. -=-=-
         if (!hardCoded) {
             // Creates Stairs up to the previous floor and places the player on it.
-            Random tileRNG = new Random();
             int row, column;
             do {
-                row = tileRNG.nextInt(coordinates.length);
-                column = tileRNG.nextInt(coordinates[0].length);
+                row = random.nextInt(0, coordinates.length);
+                column = random.nextInt(0, coordinates[0].length);
             } while (getEntityByPosition(row, column) != null);
 
             StairsUp stairsUp = new StairsUp(new int[]{row, column});
@@ -86,8 +91,8 @@ public class Level {
             int attempt = 0;
             while (true) {
                 StairsDown stairsDown;
-                row = tileRNG.nextInt(coordinates.length);
-                column = tileRNG.nextInt(coordinates[0].length);
+                row = random.nextInt(1, coordinates.length);
+                column = random.nextInt(1, coordinates[0].length);
 
                 double distance = Math.hypot(stairsUp.getRow() - row, stairsUp.getColumn() - column);
                 double minDistance = ((coordinates.length / 3.0) + (coordinates[0].length / 3.0) * (1 - (attempt * 0.05)));
@@ -114,8 +119,8 @@ public class Level {
         // First line
         levelPrint.append("=".repeat(coordinates[0].length * 5 + 2)).append("   ");
 
-        if (counter < actionLog.size())
-            levelPrint.append(actionLog.get(counter).getAction(this));
+        if (counter < levelActionLog.size())
+            levelPrint.append(levelActionLog.get(counter).getAction(this));
         counter--;
 
         levelPrint.append(String.format("%n"));
@@ -128,8 +133,8 @@ public class Level {
             }
             levelPrint.append("|   ");
 
-            if (counter < actionLog.size())
-                levelPrint.append(actionLog.get(counter).getAction(this));
+            if (counter < levelActionLog.size())
+                levelPrint.append(levelActionLog.get(counter).getAction(this));
             counter--;
 
             levelPrint.append(String.format("%n"));
@@ -138,8 +143,8 @@ public class Level {
         // Last Line
         levelPrint.append("=".repeat(coordinates[0].length * 5 + 2)).append("   ");
 
-        if (counter < actionLog.size())
-            levelPrint.append(actionLog.get(counter).getAction(this));
+        if (counter < levelActionLog.size())
+            levelPrint.append(levelActionLog.get(counter).getAction(this));
 
         return levelPrint;
     }
@@ -240,11 +245,11 @@ public class Level {
 
     public String logAction(String action) {
         String toReturn = "";
-        if (actionLog.size() == ACTION_LOG_MAX_SIZE)
-            toReturn = actionLog.removeLast().getAction(this);
+        if (levelActionLog.size() == ACTION_LOG_MAX_SIZE)
+            toReturn = levelActionLog.removeLast().getAction(this);
 
-        Action actionObject = new Action(action, this);
-        actionLog.addFirst(actionObject);
+        LevelAction levelActionObject = new LevelAction(action, this);
+        levelActionLog.addFirst(levelActionObject);
 
         return toReturn;
     }
@@ -563,11 +568,11 @@ public class Level {
     }
 }
 
-class Action {
+class LevelAction {
     private String action;
     private Level loggedFrom;
 
-    public Action(String action, Level loggedFrom) {
+    public LevelAction(String action, Level loggedFrom) {
         this.action = action;
         this.loggedFrom = loggedFrom;
     }

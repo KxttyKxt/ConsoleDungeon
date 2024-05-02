@@ -3,12 +3,12 @@ package src.core;
 import src.items.Item;
 import src.items.Stackable;
 import src.items.items.*;
-import src.util.Verbose;
+import src.util.debug.Verbose;
 
 import java.util.ArrayList;
 
 public class Inventory {
-    private final int MAX_SIZE = 20;
+    private final int MAX_SIZE = 30;
     private ArrayList<Item> items = new ArrayList<>(MAX_SIZE);
     private Coins currency = new Coins(null,0);
 
@@ -27,10 +27,10 @@ public class Inventory {
                 if (!addStackable((Stackable) item)) {
                     items.add(item);
                     Verbose.log(String.format("Item %s was added as new stack.", item), false);
-                    if (lengthOfLongestItemName < item.getName().length() + String.valueOf(((Stackable) items.get(checkForStackable((Stackable) item))).getAmount()).length() + 3) {
-                        lengthOfLongestItemName = item.getName().length() + String.valueOf(((Stackable) items.get(checkForStackable((Stackable) item))).getAmount()).length() + 3;
-                        Verbose.log(String.format("Length of longest item name set to %d. [%d stack adjustment]", lengthOfLongestItemName, String.valueOf(((Stackable) item).getAmount()).length() + 3), false);
-                    }
+                }
+                if (lengthOfLongestItemName < item.getName().length() + String.valueOf(getStackAmount((Stackable) item)).length() + 3) {
+                    lengthOfLongestItemName = item.getName().length() + String.valueOf(getStackAmount((Stackable) item)).length() + 3;
+                    Verbose.log(String.format("Length of longest item name set to %d. [%d stack adjustment]", lengthOfLongestItemName, String.valueOf(((Stackable) item).getAmount()).length() + 3), false);
                 }
             }
             else {
@@ -53,11 +53,16 @@ public class Inventory {
     public Item getItem(int index) {
         return items.get(index);
     }
+
     public int getStackAmount(Stackable stackable) {
         int index = checkForStackable(stackable);
-        if (index != -1)
+        if (index != -1) {
             return ((Stackable) items.get(index)).getAmount();
-        else return 0;
+        }
+        else {
+            Verbose.log(String.format("Attempted to get stack amount for stackable %s, but no stack was found.", stackable.getClass().getName()), true);
+            return 0;
+        }
     }
 
     /**

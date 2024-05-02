@@ -1,4 +1,4 @@
-package src.util;
+package src.util.debug;
 
 import src.items.items.Coins;
 import src.items.items.Seeds;

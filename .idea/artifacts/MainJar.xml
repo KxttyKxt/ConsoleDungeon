@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="MainJar">
+    <output-path>$PROJECT_DIR$/assets/Main</output-path>
+    <root id="archive" name="Main.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/META-INF/MainJar/MANIFEST.MF" />
+      </element>
+      <element id="module-output" name="TextGridDungeonRedux" />
+    </root>
+  </artifact>
+</component>
