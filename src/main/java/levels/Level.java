@@ -246,10 +246,10 @@ public class Level {
     public String logAction(String action) {
         String toReturn = "";
         if (levelActionLog.size() == ACTION_LOG_MAX_SIZE)
-            toReturn = levelActionLog.remove(levelActionLog.size() - 1).getAction(this);
+            toReturn = levelActionLog.removeLast().getAction(this);
 
         LevelAction levelActionObject = new LevelAction(action, this);
-        levelActionLog.add(0, levelActionObject);
+        levelActionLog.addFirst(levelActionObject);
 
         return toReturn;
     }
