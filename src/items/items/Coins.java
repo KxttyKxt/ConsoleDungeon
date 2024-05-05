@@ -1,7 +1,7 @@
-package src.items.items;
+package items.items;
 
-import src.items.Stackable;
-import src.util.ConsoleColors;
+import items.Stackable;
+import util.ConsoleColors;
 
 public class Coins extends Stackable {
 

@@ -1,7 +1,7 @@
-package src.entities;
+package entities;
 
-import src.items.Item;
-import src.util.ConsoleColors;
+import items.Item;
+import util.ConsoleColors;
 
 public class Player extends Entity {
     public Player() {

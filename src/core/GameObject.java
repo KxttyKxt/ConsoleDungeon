@@ -1,6 +1,6 @@
-package src.core;
+package core;
 
-import src.util.ConsoleColors;
+import util.ConsoleColors;
 
 import java.util.Arrays;
 import java.util.Objects;

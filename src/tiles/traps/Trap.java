@@ -1,7 +1,7 @@
-package src.tiles.traps;
+package tiles.traps;
 
-import src.entities.Entity;
-import src.tiles.Tile;
+import entities.Entity;
+import tiles.Tile;
 
 public abstract class Trap extends Tile {
 

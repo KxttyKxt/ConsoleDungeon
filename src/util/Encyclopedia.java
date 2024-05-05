@@ -1,4 +1,4 @@
-package src.util;
+package util;
 
 public class Encyclopedia {
     public static StringBuilder getHelpType(String input) {

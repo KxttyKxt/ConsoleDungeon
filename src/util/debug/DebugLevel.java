@@ -1,16 +1,16 @@
-package src.util.debug;
+package util.debug;
 
-import src.items.items.Coins;
-import src.items.items.Seeds;
-import src.items.items.Sword;
-import src.items.items.Trinket;
-import src.levels.Level;
-import src.entities.entities.Dummy;
-import src.entities.entities.Pumpkin;
-import src.tiles.tiles.Door;
-import src.tiles.tiles.Statue;
-import src.tiles.tiles.Tallgrass;
-import src.tiles.tiles.Wall;
+import items.items.Coins;
+import items.items.Seeds;
+import items.items.Sword;
+import items.items.Trinket;
+import levels.Level;
+import entities.entities.Dummy;
+import entities.entities.Pumpkin;
+import tiles.tiles.Door;
+import tiles.tiles.Statue;
+import tiles.tiles.Tallgrass;
+import tiles.tiles.Wall;
 
 public class DebugLevel extends Level {
     public DebugLevel() {

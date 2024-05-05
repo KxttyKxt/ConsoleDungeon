@@ -1,6 +1,6 @@
-package src.util.debug;
+package util.debug;
 
-import src.core.Manager;
+import core.Manager;
 
 import java.util.Scanner;
 

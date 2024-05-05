@@ -1,4 +1,4 @@
-package src.items;
+package items;
 
 public abstract class Stackable extends Item{
     protected int amount;

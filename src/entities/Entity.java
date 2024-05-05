@@ -1,6 +1,6 @@
-package src.entities;
-import src.core.GameObject;
-import src.items.Item;
+package entities;
+import core.GameObject;
+import items.Item;
 
 import java.util.Objects;
 

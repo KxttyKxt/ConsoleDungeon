@@ -1,7 +1,7 @@
-package src.items.items;
+package items.items;
 
-import src.items.Item;
-import src.util.ConsoleColors;
+import items.Item;
+import util.ConsoleColors;
 
 public class Sword extends Item {
     public Sword(int[] position) {

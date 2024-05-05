@@ -1,5 +1,5 @@
-package src.items;
-import src.core.GameObject;
+package items;
+import core.GameObject;
 
 public abstract class Item extends GameObject {
 

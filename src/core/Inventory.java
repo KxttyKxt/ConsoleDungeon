@@ -1,9 +1,9 @@
-package src.core;
+package core;
 
-import src.items.Item;
-import src.items.Stackable;
-import src.items.items.*;
-import src.util.debug.Verbose;
+import items.Item;
+import items.Stackable;
+import items.items.*;
+import util.debug.Verbose;
 
 import java.util.ArrayList;
 

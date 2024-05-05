@@ -1,7 +1,7 @@
-package src.tiles.traps;
+package tiles.traps;
 
-import src.entities.Entity;
-import src.util.ConsoleColors;
+import entities.Entity;
+import util.ConsoleColors;
 
 public class SpikeTrap extends Trap{
     public SpikeTrap(boolean discovered, int[] position) {

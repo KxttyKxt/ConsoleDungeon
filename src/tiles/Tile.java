@@ -1,6 +1,6 @@
-package src.tiles;
+package tiles;
 
-import src.core.GameObject;
+import core.GameObject;
 
 import java.util.Objects;
 

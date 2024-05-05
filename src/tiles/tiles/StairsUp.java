@@ -1,7 +1,7 @@
-package src.tiles.tiles;
+package tiles.tiles;
 
-import src.tiles.Tile;
-import src.util.ConsoleColors;
+import tiles.Tile;
+import util.ConsoleColors;
 
 public class StairsUp extends Tile {
     public StairsUp(int[] position) {

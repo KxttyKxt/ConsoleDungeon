@@ -1,13 +1,13 @@
-package src.levels;
+package levels;
 
-import src.entities.Entity;
-import src.items.Item;
-import src.items.Stackable;
-import src.tiles.tiles.StairsDown;
-import src.tiles.tiles.StairsUp;
-import src.tiles.Tile;
-import src.util.*;
-import src.util.debug.Verbose;
+import entities.Entity;
+import items.Item;
+import items.Stackable;
+import tiles.tiles.StairsDown;
+import tiles.tiles.StairsUp;
+import tiles.Tile;
+import util.*;
+import util.debug.Verbose;
 
 import java.util.ArrayList;
 import java.util.Arrays;

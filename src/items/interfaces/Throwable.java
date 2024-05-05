@@ -1,4 +1,4 @@
-package src.items.interfaces;
+package items.interfaces;
 
 public interface Throwable {
 }

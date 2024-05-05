@@ -1,6 +1,6 @@
 @echo off
 cd..
-cd TGDRoutput
+cd ConsoleDungeonOutput
 java -jar Debug/Debug.jar
 pause
 exit

@@ -1,6 +1,6 @@
-package src.util.debug;
+package util.debug;
 
-import src.core.Manager;
+import core.Manager;
 
 import java.awt.*;
 import java.io.File;
@@ -12,13 +12,15 @@ public class IDEDebug {
         Scanner consoleScanner = new Scanner(System.in);
         Verbose.toggleVerbose();
 
-        if (Desktop.isDesktopSupported() && new File("src/util/debug/runCLIdebug.bat").exists()) {
+        System.out.printf("Run latest Debug.jar in cmd.exe? [y] [n]%n>> ");
+
+        if (Desktop.isDesktopSupported() && new File("src/util/debug/runCLIdebug.bat").exists() && consoleScanner.nextLine().equals("y")) {
             Desktop.getDesktop().open(new File("src/util/debug/runCLIdebug.bat"));
             Verbose.log("Desktop opened Debug.jar in cmd.exe", false);
             System.exit(0);
         }
 
-        Verbose.log("Running debug in IDE. This will be unstable!", true);
+        Verbose.log(String.format("Running debug in IDE. This will be unstable!%n    - Files and FileWriters will not work%n    - Console may not appear the same as cmd.exe%n    - Colors and BRIGHT colors will appear swapped."), true);
 
         boolean debug = false;
         System.out.printf("Would you like to use the debug level? [y] [n]%n>> ");

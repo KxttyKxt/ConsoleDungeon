@@ -1,6 +1,6 @@
-package src.util.debug;
+package util.debug;
 
-import src.util.ConsoleColors;
+import util.ConsoleColors;
 
 import java.util.Scanner;
 

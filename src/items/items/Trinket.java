@@ -1,8 +1,8 @@
-package src.items.items;
+package items.items;
 
-import src.core.GameObject;
-import src.items.Item;
-import src.util.ConsoleColors;
+import core.GameObject;
+import items.Item;
+import util.ConsoleColors;
 
 import java.util.Arrays;
 import java.util.Objects;

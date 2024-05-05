@@ -1,8 +1,8 @@
-package src.levels;
+package levels;
 
-import src.entities.Entity;
-import src.items.Item;
-import src.tiles.Tile;
+import entities.Entity;
+import items.Item;
+import tiles.Tile;
 
 import java.util.ArrayList;
 

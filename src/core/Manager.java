@@ -1,16 +1,16 @@
-package src.core;
+package core;
 
-import src.entities.Entity;
-import src.entities.Player;
-import src.items.Item;
-import src.items.Stackable;
-import src.items.items.Coins;
-import src.levels.Level;
-import src.tiles.tiles.StairsUp;
-import src.util.ConsoleColors;
-import src.util.debug.DebugLevel;
-import src.util.Encyclopedia;
-import src.util.debug.Verbose;
+import entities.Entity;
+import entities.Player;
+import items.Item;
+import items.Stackable;
+import items.items.Coins;
+import levels.Level;
+import tiles.tiles.StairsUp;
+import util.ConsoleColors;
+import util.debug.DebugLevel;
+import util.Encyclopedia;
+import util.debug.Verbose;
 
 import java.awt.*;
 import java.io.*;

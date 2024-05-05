@@ -1,9 +1,9 @@
-package src.entities.entities;
+package entities.entities;
 
-import src.entities.Entity;
-import src.items.Item;
-import src.items.items.Coins;
-import src.util.ConsoleColors;
+import entities.Entity;
+import items.Item;
+import items.items.Coins;
+import util.ConsoleColors;
 
 public class Pumpkin extends Entity {
     public Pumpkin(int[] position) {

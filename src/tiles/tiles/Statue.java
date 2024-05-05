@@ -1,7 +1,7 @@
-package src.tiles.tiles;
+package tiles.tiles;
 
-import src.tiles.Tile;
-import src.util.ConsoleColors;
+import tiles.Tile;
+import util.ConsoleColors;
 
 public class Statue extends Tile {
     public Statue(int[] position) {

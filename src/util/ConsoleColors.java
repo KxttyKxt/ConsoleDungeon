@@ -1,20 +1,20 @@
 /*
  * This software is licensed under the LPGLv3.
  */
-package src.util;
+package util;
 
 /**
- * This is a class to help printing colored text in the console
+ * This is a class to help print colored text in the console
  * 2021.04.18
- * This software is licensed under the LGPLv3
- * @author Christian van Langendonck
  * <p>
- * @TGDRNote I (kxttykxt) have made this class Static so that I need not create a new object inside every class of my own.
+ * I (kxttykxt) have made this class Static so that I need not create a new object inside every class of my own.
  * I have also removed the majority of methods, as many were strictly object-related and therefore redundant.
  * <p>
+ * This software is licensed under the LGPLv3
+ * @author Christian van Langendonck
  * [{@code See Also:} is things I have added as well.]
- * @see src.entities.Player
- * @see src.entities.entities.Pumpkin
+ * @see entities.Player
+ * @see entities.entities.Pumpkin
  */
 public class ConsoleColors {
 

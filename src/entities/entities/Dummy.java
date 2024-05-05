@@ -1,8 +1,8 @@
-package src.entities.entities;
+package entities.entities;
 
-import src.entities.Entity;
-import src.items.Item;
-import src.util.ConsoleColors;
+import entities.Entity;
+import items.Item;
+import util.ConsoleColors;
 
 public class Dummy extends Entity {
     public Dummy(int[] position) {
