@@ -102,7 +102,8 @@ public class ConsoleColors {
      * reset the formatting is appended to the end of the new String. If String
      * color is NULL, or if it contains an invalid ANSI code, no formatting will
      * be applied.
-     * @TGDRNote I overloaded the above method to apply more text formatting after instead of the reset code.
+     * <p>
+     * [I overloaded the above method to apply more text formatting after instead of the reset code.]
      * @param bgColor ANSI String with the background color
      * @param textColor ANSI String with the text color
      * @param str Text String to apply color styles
@@ -122,10 +123,12 @@ public class ConsoleColors {
 
     /**
      * Prints a key for what all the color (background) codes look like.
-     * @TGDRNote I made this myself smile
+     * <p>
+     * I made this myself.
      */
     public static void main(String[] args) {
         StringBuilder toPrint = new StringBuilder();
+        toPrint.append(String.format("%n< Don't see colors? Instead are there gibberish symbols preceding each phrase? >%n< Find out how to enable ANSI codes in your terminal. >%n%n"));
         toPrint.append(TEXT_RESET).append(String.format("%-27s", "[Reset Text]"));
 
         toPrint.append("\n\n");
@@ -174,9 +177,11 @@ public class ConsoleColors {
         toPrint.append(TEXT_BRIGHT_BG_BLUE).append(String.format("%-27s", "[Bright Blue Background] "));
         toPrint.append(TEXT_BRIGHT_BG_PURPLE).append(String.format("%-27s", "[Bright Purple Background] "));
         toPrint.append(TEXT_BRIGHT_BG_CYAN).append(String.format("%-27s", "[Bright Cyan Background] "));
-        toPrint.append(TEXT_BRIGHT_BG_WHITE).append(TEXT_BLACK).append(String.format("%-27s", "[Bright White Background]"));
+        toPrint.append(TEXT_BRIGHT_BG_WHITE).append(TEXT_BLACK).append(String.format("%-27s", "[Bright White Background]")).append(TEXT_RESET);
 
-        toPrint.append(TEXT_RESET).append(String.format("%n%nANSI codes (as strings) in each section are %s | %s | %s | %s | %s characters long respectively.",
+        toPrint.append("\n");
+
+        toPrint.append(String.format("%n%nANSI codes (as strings) in each section are %s | %s | %s | %s | %s characters long respectively.",
                         TEXT_RESET.length(),
                         TEXT_WHITE.length(),
                         TEXT_BRIGHT_WHITE.length(),
@@ -187,5 +192,19 @@ public class ConsoleColors {
         // Copy-pasting it gives me "".
 
         System.out.println(toPrint);
+
+        System.out.println();
+        System.out.println();
+
+        System.out.println("Additionally, here are the first 2,048 ASCII characters. See which ones your console supports!");
+        System.out.println();
+
+        for (int c = 0; c < 2048; c++) {
+            System.out.print(((char)c) + " ");
+            if ((c+1) % 64 == 0)
+                System.out.println();
+        }
+
+        System.out.println();
     }
 }
