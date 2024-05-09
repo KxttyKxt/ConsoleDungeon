@@ -93,7 +93,7 @@ public class Manager {
      */
     private static boolean controlPanel() {
 
-        String input = consoleScanner.nextLine().toLowerCase(Locale.ROOT);
+        String input = consoleScanner.nextLine().toLowerCase(Locale.ROOT).trim();
 
         // -=-=- hard control commands -=-=- (i.e., those with no parsing beyond a single word)
         switch (input) {
